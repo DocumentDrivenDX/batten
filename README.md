@@ -1,18 +1,17 @@
 # Batten
 
-**Batten** is an application software development kit (SDK) in the Novirhyza
-family. Its intended scope connects data structure design, actions, and user
-interface delivery within a deliberately constrained technology space, so app
-authors can focus on their application while deployment and integration concerns
-are handled around them.
+Batten is an application software development kit (SDK) in the Novirhyza family.
+Authors define native data structures, operations, workflows, jobs, and interfaces.
+A public host contract handles admission, execution, integration, and delivery
+through explicitly bounded platform modules.
 
-The project starts from the stated direction of a cleanroom effort based on UMF,
-Tether, Weft, and Arras. The exact reuse boundary and platform responsibilities
-remain open for requirements.
+The proposed portable core has no ontology-specific capability. An ontology
+provider is one Batten module, backed by Arras. UMF, Weft, Tether, and other
+platform libraries are dependencies supplied by the platform.
 
-This repository contains the HELIX bootstrap and initial product direction.
-There is no application implementation or selected runtime yet.
+Start with the [review packet](docs/helix/README.md), including the product
+requirements, boundary audit, and proposed module/distribution split. Migration
+planning and product code follow the owner's review.
 
-Start with [the project index](docs/helix/README.md). Provide further requirements
-in conversation; use HELIX Frame to reconcile them with the captured intent before
-authoring requirements and designs.
+Dual licensed under [MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE).
+Copyright Synaptiq.

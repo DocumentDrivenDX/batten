@@ -1,35 +1,54 @@
-# Batten project index
+# Batten review packet
 
-Batten is ready for additional requirements. The bootstrap records direction,
-research context, and unresolved decisions; it makes no implementation claim.
+Batten is an independently implemented application SDK with native platform
+dependencies and a public host API. This packet is ready for scope and boundary
+review; the owner review gate precedes migration planning and product code.
 
-## Start here
+## Read in this order
 
-1. [Product vision](00-discover/product-vision.md) — intended user outcome.
-2. [Intent and intake](00-discover/intent-and-intake.md) — accepted direction,
-   open questions, and the handoff to Frame.
-3. [Foundation survey](00-discover/research/foundations.md) — scoped observations
-   from UMF, Tether, Weft, and Arras.
-4. [Convex](00-discover/research/convex.md) and
-   [MCP Apps](00-discover/research/mcp-apps.md) — adjacent prior art.
-5. [Project concerns](01-frame/concerns.md) — applicable baseline and deferred
-   technology selection.
+1. [Product vision](00-discover/product-vision.md) and
+   [intent](00-discover/intent-and-intake.md).
+2. [PRD](01-frame/prd.md): complete specified scope, grouped into stable requirements.
+3. [Boundary audit](00-discover/current-state-inventory-boundaries.md): classifications,
+   import graph, observed coupling, and evidence limits.
+4. [Proposed architecture and module split](02-design/architecture.md): purpose,
+   public API, platform dependencies, and permitted/forbidden imports for each module.
+5. [Feature registry](01-frame/feature-registry.md) and [concerns](01-frame/concerns.md).
+6. [Decision points](01-frame/decision-points.md): questions needing the owner's judgment.
 
-## Activities
+## Public contracts
 
-| Directory | Purpose | Bootstrap disposition |
-|-----------|---------|-----------------------|
-| `00-discover/` | Intent, evidence, product direction | Initial capture |
-| `01-frame/` | Requirements, scope, features, stories | Concerns only; awaiting requirements |
-| `02-design/` | Architecture, decisions, contracts | Awaiting framed scope |
-| `03-test/` | Verification strategy | Awaiting requirements and design |
-| `04-build/` | Implementation plans and execution evidence | Awaiting scope |
-| `05-deploy/` | Delivery and operating artifacts | Awaiting delivery responsibilities |
-| `06-iterate/` | Feedback and subsequent changes | Available when needed |
+- [CONTRACT-001: host API](02-design/contracts/CONTRACT-001-public-host-api.md).
+- [CONTRACT-002: boundary and quality gates](02-design/contracts/CONTRACT-002-boundaries-and-quality.md).
 
-## Next action
+## Decisions
 
-Use HELIX **Frame** when the owner supplies requirements. Read the intent record,
-retain unresolved questions, and author only the downstream artifacts supported
-by those requirements. Build-tool and source-code setup follows selected scope
-and design. The installed HELIX plugin owns the methodology catalog.
+- [ADR-001: platform modules and neutral core](02-design/adr/ADR-001-platform-modules-and-neutral-core.md).
+- [ADR-002: native UMF](02-design/adr/ADR-002-native-umf-platform-dependency.md).
+- [ADR-003: distributions](02-design/adr/ADR-003-platform-wheel-distribution.md).
+- [ADR-004: public asynchronous host](02-design/adr/ADR-004-public-async-host-api.md).
+- [ADR-005: SDK series/cohorts](02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md).
+- [ADR-006: typed files](02-design/adr/ADR-006-typed-file-configuration.md).
+- [ADR-007: quality/test ratchets](02-design/adr/ADR-007-quality-and-test-ratchets.md).
+
+## Audit and provenance
+
+The public census contains anonymous module IDs. The source-specific graph,
+line locations, read-only source receipt, consumer census, and requirement
+crosswalk are delivered separately as a private local audit packet. They are
+excluded from this repository; public Batten documents carry their own identities
+and no dependency on the reference application.
+
+Prior-art research remains in `00-discover/research/`. It informs direction;
+the current owner rulings and PRD govern scope. The installed HELIX plugin owns
+the methodology catalog; `.helix.yml` scopes artifacts to `docs/helix/`.
+
+## Work and review
+
+Work items are project-scoped ddx beads; the installed CLI keeps its canonical
+store outside Git. The [review export](01-frame/work-items.jsonl) contains the
+owner review gate and eight dependent scope epics, all with execution authorization
+off. Feature scope is recorded without an implementation sequence; dependent
+implementation work requires the owner review.
+The next authorized packet, after review, is the migration/consumer transition
+plan. Executable checker scaffolding must precede its dependent source features.

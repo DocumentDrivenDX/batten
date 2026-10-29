@@ -1,0 +1,224 @@
+module_id,classification,role,physical_lines
+M001,contract,declarations/ports/wire,145
+M002,contract,declarations/ports/wire,79
+M003,packaging/CLI,author tooling,247
+M004,contract,declarations/ports/wire,179
+M005,contract,declarations/ports/wire,154
+M006,contract,declarations/ports/wire,160
+M007,platform adapter (Databricks),job runtime/definition,231
+M008,packaging/CLI,author tooling,272
+M009,packaging/CLI,author tooling,106
+M010,packaging/CLI,author tooling,275
+M011,contract,declarations/ports/wire,180
+M012,contract,declarations/ports/wire,78
+M013,packaging/CLI,author tooling,21
+M014,packaging/CLI,author tooling,40
+M015,packaging/CLI,author tooling,77
+M016,packaging/CLI,author tooling,102
+M017,packaging/CLI,author tooling,34
+M018,contract,declarations/ports/wire,157
+M019,contract,declarations/ports/wire,208
+M020,contract,declarations/ports/wire,295
+M021,contract,declarations/ports/wire,96
+M022,packaging/CLI,author tooling,115
+M023,contract,declarations/ports/wire,128
+M024,contract,declarations/ports/wire,351
+M025,packaging/CLI,author tooling,238
+M026,contract,declarations/ports/wire,201
+M027,contract,declarations/ports/wire,158
+M028,contract,declarations/ports/wire,294
+M029,contract,declarations/ports/wire,183
+M030,contract,declarations/ports/wire,38
+M031,packaging/CLI,author tooling,43
+M032,packaging/CLI,author tooling,117
+M033,packaging/CLI,author tooling,173
+M034,packaging/CLI,author tooling,341
+M035,packaging/CLI,author tooling,124
+M036,packaging/CLI,author tooling,110
+M037,packaging/CLI,author tooling,186
+M038,packaging/CLI,author tooling,352
+M039,packaging/CLI,author tooling,108
+M040,contract,declarations/ports/wire,124
+M041,contract,declarations/ports/wire,41
+M042,contract,declarations/ports/wire,65
+M043,contract,declarations/ports/wire,435
+M044,contract,declarations/ports/wire,164
+M045,platform adapter (Databricks),job runtime/definition,40
+M046,platform adapter (Databricks),job runtime/definition,211
+M047,platform adapter (Databricks),job runtime/definition,122
+M048,contract,declarations/ports/wire,108
+M049,contract,declarations/ports/wire,177
+M050,contract,declarations/ports/wire,254
+M051,contract,declarations/ports/wire,337
+M052,contract,declarations/ports/wire,183
+M053,contract,declarations/ports/wire,265
+M054,packaging/CLI,author tooling,399
+M055,contract,declarations/ports/wire,494
+M056,contract,declarations/ports/wire,479
+M057,contract,declarations/ports/wire,154
+M058,contract,declarations/ports/wire,179
+M059,contract,declarations/ports/wire,352
+M060,testing,offline doubles,112
+M061,testing,offline doubles,92
+M062,testing,offline doubles,70
+M063,testing,offline doubles,124
+M064,testing,offline doubles,262
+M065,testing,offline doubles,175
+M066,testing,offline doubles,47
+M067,testing,offline doubles,182
+M068,testing,offline doubles,106
+M069,testing,offline doubles,193
+M070,testing,offline doubles,333
+M071,testing,offline doubles,176
+M072,testing,offline doubles,40
+M073,testing,offline doubles,146
+M074,testing,offline doubles,276
+M075,testing,offline doubles,123
+M076,contract,declarations/ports/wire,176
+M077,tables (UMF),compiler/planner/containment,104
+M078,tables (UMF),compiler/planner/containment,193
+M079,tables (UMF),compiler/planner/containment,123
+M080,tables (UMF),compiler/planner/containment,185
+M081,tables (UMF),compiler/planner/containment,89
+M082,tables (UMF),compiler/planner/containment,92
+M083,tables (UMF),compiler/planner/containment,395
+M084,tables (UMF),compiler/planner/containment,241
+M085,tables (UMF),compiler/planner/containment,273
+M086,tables (UMF),compiler/planner/containment,134
+M087,tables (UMF),compiler/planner/containment,102
+M088,tables (UMF),compiler/planner/containment,473
+M089,tables (UMF),compiler/planner/containment,338
+M090,tables (UMF),compiler/planner/containment,349
+M091,tables (UMF),compiler/planner/containment,48
+M092,tables (UMF),compiler/planner/containment,434
+M093,tables (UMF),compiler/planner/containment,383
+M094,tables (UMF),compiler/planner/containment,163
+M095,contract,declarations/ports/wire,57
+M096,contract,declarations/ports/wire,101
+M097,packaging/CLI,author tooling,275
+M098,worker/isolation,worker client,38
+M099,worker/isolation,worker client,18
+M100,worker/isolation,worker client,86
+M101,worker/isolation,worker client,189
+M102,worker/isolation,worker client,167
+M103,worker/isolation,worker client,147
+M104,worker/isolation,worker client,72
+M105,worker/isolation,worker client,72
+M106,worker/isolation,worker client,63
+M107,worker/isolation,worker client,119
+M108,worker/isolation,worker client,150
+M109,worker/isolation,worker client,118
+M110,worker/isolation,worker client,193
+M111,worker/isolation,worker client,145
+M112,worker/isolation,worker client,87
+M113,worker/isolation,worker client,148
+M114,worker/isolation,worker client,44
+M115,worker/isolation,worker client,87
+M116,worker/isolation,worker client,164
+M117,contract,declarations/ports/wire,216
+M118,host-dev,composition/lifecycle,13
+M119,host-dev,composition/lifecycle,7
+M120,host-dev,composition/lifecycle,80
+M121,host-dev,composition/lifecycle,134
+M122,host-dev,composition/lifecycle,156
+M123,host-dev,composition/lifecycle,94
+M124,host-dev,composition/lifecycle,104
+M125,host-dev,composition/lifecycle,80
+M126,host-dev,composition/lifecycle,50
+M127,host-dev,composition/lifecycle,146
+M128,host-dev,composition/lifecycle,149
+M129,host-dev,composition/lifecycle,180
+M130,host-dev,composition/lifecycle,62
+M131,host-dev,composition/lifecycle,49
+M132,host-dev,composition/lifecycle,138
+M133,host-dev,composition/lifecycle,89
+M134,host-dev,composition/lifecycle,49
+M135,host-dev,composition/lifecycle,139
+M136,host-dev,composition/lifecycle,348
+M137,host-dev,composition/lifecycle,200
+M138,contract,host contract implementation/orchestration,173
+M139,worker/isolation,host broker/supervisor,484
+M140,worker/isolation,host broker/supervisor,215
+M141,worker/isolation,host broker/supervisor,149
+M142,worker/isolation,host broker/supervisor,160
+M143,contract,host contract implementation/orchestration,430
+M144,contract,host contract implementation/orchestration,152
+M145,platform adapter (Lakebase/Postgres),database execution/state,161
+M146,platform adapter (Lakebase/Postgres),database execution/state,386
+M147,platform adapter (Databricks),platform integration,88
+M148,platform adapter (Databricks),platform integration,331
+M149,platform adapter (Databricks),platform integration,51
+M150,platform adapter (Databricks),platform integration,153
+M151,platform adapter (Lakebase/Postgres),database execution/state,94
+M152,contract,host contract implementation/orchestration,244
+M153,contract,host contract implementation/orchestration,9
+M154,worker/isolation,host broker/supervisor,225
+M155,contract,host contract implementation/orchestration,320
+M156,platform adapter (Databricks),platform integration,271
+M157,platform adapter (Databricks),platform integration,173
+M158,contract,host contract implementation/orchestration,312
+M159,worker/isolation,host broker/supervisor,229
+M160,contract,host contract implementation/orchestration,170
+M161,platform adapter (Lakebase/Postgres),database execution/state,171
+M162,platform adapter (Lakebase/Postgres),database execution/state,276
+M163,platform adapter (Lakebase/Postgres),database execution/state,447
+M164,platform adapter (Lakebase/Postgres),database execution/state,325
+M165,platform adapter (Lakebase/Postgres),database execution/state,265
+M166,platform adapter (Databricks),platform integration,57
+M167,packaging/CLI,admission/artifacts,220
+M168,platform adapter (Databricks),platform integration,278
+M169,platform adapter (Lakebase/Postgres),database execution/state,431
+M170,platform adapter (model gateway),model execution,303
+M171,platform adapter (Lakebase/Postgres),database execution/state,106
+M172,contract,host contract implementation/orchestration,380
+M173,contract,host contract implementation/orchestration,320
+M174,contract,host contract implementation/orchestration,234
+M175,platform adapter (Lakebase/Postgres),database execution/state,216
+M176,contract,host contract implementation/orchestration,66
+M177,platform adapter (Lakebase/Postgres),database execution/state,152
+M178,contract,host contract implementation/orchestration,64
+M179,contract,host contract implementation/orchestration,132
+M180,contract,host contract implementation/orchestration,176
+M181,platform adapter (Lakebase/Postgres),database execution/state,405
+M182,contract,host contract implementation/orchestration,262
+M183,worker/isolation,host broker/supervisor,419
+M184,worker/isolation,host broker/supervisor,389
+M185,worker/isolation,host broker/supervisor,88
+M186,contract,host contract implementation/orchestration,88
+M187,contract,host contract implementation/orchestration,87
+M188,contract,host contract implementation/orchestration,412
+M189,packaging/CLI,admission/artifacts,121
+M190,platform adapter (Lakebase/Postgres),database execution/state,280
+M191,contract,host contract implementation/orchestration,113
+M192,platform adapter (Lakebase/Postgres),database execution/state,235
+M193,contract,host contract implementation/orchestration,146
+M194,contract,host contract implementation/orchestration,221
+M195,contract,host contract implementation/orchestration,375
+M196,platform adapter (Lakebase/Postgres),database execution/state,346
+M197,contract,host contract implementation/orchestration,289
+M198,platform adapter (Lakebase/Postgres),database execution/state,194
+M199,platform adapter (Databricks),platform integration,124
+M200,platform adapter (Databricks),platform integration,190
+M201,platform adapter (Databricks),platform integration,261
+M202,contract,host contract implementation/orchestration,394
+M203,platform adapter (Lakebase/Postgres),database execution/state,264
+M204,platform adapter (Lakebase/Postgres),database execution/state,428
+M205,platform adapter (Lakebase/Postgres),database execution/state,122
+M206,contract,host contract implementation/orchestration,132
+M207,contract,host contract implementation/orchestration,136
+M208,platform adapter (Databricks),platform integration,208
+M209,contract,host contract implementation/orchestration,236
+M210,packaging/CLI,admission/artifacts,148
+M211,contract,host contract implementation/orchestration,500
+M212,packaging/CLI,admission/artifacts,231
+M213,contract,host contract implementation/orchestration,313
+M214,contract,host contract implementation/orchestration,162
+M215,contract,host contract implementation/orchestration,198
+M216,contract,host contract implementation/orchestration,115
+M217,platform adapter (Lakebase/Postgres),database execution/state,108
+M218,contract,host contract implementation/orchestration,191
+M219,contract,host contract implementation/orchestration,245
+M220,packaging/CLI,admission/artifacts,119
+M221,contract,host contract implementation/orchestration,487
+M222,worker/isolation,host broker/supervisor,428
+M223,contract,host contract implementation/orchestration,107

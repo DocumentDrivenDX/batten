@@ -1,0 +1,29 @@
+{
+  "modules": 223,
+  "import_edges": 2359,
+  "dynamic_import_candidates": 10,
+  "direct_reaches": 11,
+  "categories": {
+    "contract": 75,
+    "packaging/CLI": 27,
+    "platform adapter (Databricks)": 16,
+    "testing": 16,
+    "tables (UMF)": 18,
+    "worker/isolation": 29,
+    "host-dev": 20,
+    "platform adapter (Lakebase/Postgres)": 21,
+    "platform adapter (model gateway)": 1
+  },
+  "consumer_references": 90,
+  "dynamic_import_sites": 8,
+  "non_import_loader_false_positives": 2,
+  "static_import_edges": 2359,
+  "graph_edges_including_dynamic_and_discovery": 2367,
+  "static_strong_components": 3,
+  "static_strong_component_sizes": [
+    6,
+    2,
+    3
+  ],
+  "browser_script_resources": 1
+}

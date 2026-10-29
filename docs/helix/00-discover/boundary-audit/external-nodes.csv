@@ -1,0 +1,157 @@
+module_id,classification
+X001,standard library or external package
+X002,standard library or external package
+X003,standard library or external package
+X004,standard library or external package
+X005,standard library or external package
+X006,standard library or external package
+X007,standard library or external package
+X008,standard library or external package
+X009,standard library or external package
+X010,standard library or external package
+X011,standard library or external package
+X012,standard library or external package
+X013,standard library or external package
+X014,standard library or external package
+X015,standard library or external package
+X016,standard library or external package
+X017,standard library or external package
+X018,standard library or external package
+X019,standard library or external package
+X020,standard library or external package
+X021,standard library or external package
+X022,standard library or external package
+X023,standard library or external package
+X024,standard library or external package
+X025,standard library or external package
+X026,standard library or external package
+X027,standard library or external package
+X028,standard library or external package
+X029,standard library or external package
+X030,standard library or external package
+X031,standard library or external package
+X032,standard library or external package
+X033,standard library or external package
+X034,standard library or external package
+X035,standard library or external package
+X036,standard library or external package
+X037,standard library or external package
+X038,standard library or external package
+X039,standard library or external package
+X040,standard library or external package
+X041,standard library or external package
+X042,standard library or external package
+X043,standard library or external package
+X044,standard library or external package
+X045,standard library or external package
+X046,standard library or external package
+X047,standard library or external package
+X048,standard library or external package
+X049,standard library or external package
+X050,standard library or external package
+X051,standard library or external package
+X052,standard library or external package
+X053,reference-host outside selected modules
+X054,reference-host outside selected modules
+X055,reference-host outside selected modules
+X056,reference-host outside selected modules
+X057,reference-host outside selected modules
+X058,reference-host outside selected modules
+X059,reference-host outside selected modules
+X060,reference-host outside selected modules
+X061,reference-host outside selected modules
+X062,reference-host outside selected modules
+X063,reference-host outside selected modules
+X064,reference-host outside selected modules
+X065,reference-host outside selected modules
+X066,reference-host outside selected modules
+X067,reference-host outside selected modules
+X068,reference-host outside selected modules
+X069,reference-host outside selected modules
+X070,reference-host outside selected modules
+X071,reference-host outside selected modules
+X072,reference-host outside selected modules
+X073,reference-host outside selected modules
+X074,reference-host outside selected modules
+X075,reference-host outside selected modules
+X076,reference-host outside selected modules
+X077,reference-host outside selected modules
+X078,reference-host outside selected modules
+X079,reference-host outside selected modules
+X080,reference-host outside selected modules
+X081,reference-host outside selected modules
+X082,reference-host outside selected modules
+X083,reference-host outside selected modules
+X084,reference-host outside selected modules
+X085,reference-host outside selected modules
+X086,reference-host outside selected modules
+X087,reference-host outside selected modules
+X088,reference-host outside selected modules
+X089,reference-host outside selected modules
+X090,reference-host outside selected modules
+X091,reference-host outside selected modules
+X092,reference-host outside selected modules
+X093,reference-host outside selected modules
+X094,reference-host outside selected modules
+X095,reference-host outside selected modules
+X096,reference-host outside selected modules
+X097,reference-host outside selected modules
+X098,reference-host outside selected modules
+X099,reference-host outside selected modules
+X100,reference-host outside selected modules
+X101,reference-host outside selected modules
+X102,reference-host outside selected modules
+X103,reference-host outside selected modules
+X104,reference-host outside selected modules
+X105,reference-host outside selected modules
+X106,reference-host outside selected modules
+X107,reference-host outside selected modules
+X108,reference-host outside selected modules
+X109,reference-host outside selected modules
+X110,reference-host outside selected modules
+X111,reference-host outside selected modules
+X112,standard library or external package
+X113,standard library or external package
+X114,standard library or external package
+X115,standard library or external package
+X116,standard library or external package
+X117,standard library or external package
+X118,standard library or external package
+X119,standard library or external package
+X120,standard library or external package
+X121,standard library or external package
+X122,standard library or external package
+X123,standard library or external package
+X124,standard library or external package
+X125,standard library or external package
+X126,standard library or external package
+X127,standard library or external package
+X128,standard library or external package
+X129,standard library or external package
+X130,standard library or external package
+X131,standard library or external package
+X132,standard library or external package
+X133,standard library or external package
+X134,standard library or external package
+X135,standard library or external package
+X136,standard library or external package
+X137,standard library or external package
+X138,standard library or external package
+X139,standard library or external package
+X140,standard library or external package
+X141,standard library or external package
+X142,standard library or external package
+X143,standard library or external package
+X144,standard library or external package
+X145,standard library or external package
+X146,standard library or external package
+X147,standard library or external package
+X148,standard library or external package
+X149,standard library or external package
+D001,computed runtime target; observation required
+D002,computed runtime target; observation required
+D004,literal dynamic target
+D005,computed runtime target; observation required
+D006,computed runtime target; observation required
+D007,computed runtime target; observation required
+D008,computed runtime target; observation required

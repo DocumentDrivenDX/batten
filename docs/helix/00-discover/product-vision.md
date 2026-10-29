@@ -18,72 +18,73 @@ ddx:
 
 ## Mission Statement
 
-Batten helps application builders design data structures, act on them, and deliver
-a user interface within a constrained technology space, with deployment and
-integration handled around their application.
+Batten lets application builders define data, actions, and interfaces on a
+constrained platform, while a reusable host handles integration and delivery.
 
 ## Positioning
 
-For developers building applications with UMF, Tether, Weft, and Arras, Batten is
-an application software development kit (SDK) that brings modeling, behavior,
-and interface delivery into a coherent authoring experience.
+For Python plugin authors and the teams embedding their applications, Batten is
+an application software development kit (SDK) with explicit platform modules and
+one public host boundary. The alternative is assembling platform libraries and
+private host wiring for each application.
 
-The initial alternative is assembling these libraries and a UI host independently.
-[Adjacent prior art](research/convex.md) shows how a coordinated data/function/client
-model can reduce setup work. Batten's proposed distinction is a constrained
-application experience grounded in the named Novirhyza foundations. Demand for
-that distinction remains an assumption to test with the first workflow.
+UMF supplies modeling and typed access, Weft supplies query compilation, Arras
+supplies ontology interfaces, and Tether supplies agent execution. Batten connects
+those platform capabilities to a coherent application-authoring experience.
 
 ## Vision
 
-An application builder expresses the structures and behavior their app needs,
-connects an interface, and delivers a usable application through a defined host
-boundary. The surrounding tools carry the integration and delivery work that
-would otherwise be repeated for each app.
+A builder models application data, declares its operations, connects an interface,
+and runs the same application through development and deployed hosts. Each module
+has one platform responsibility, a documented public surface, and enforced
+dependency rules. A host embeds Batten without exposing its private internals.
 
-**North Star**: Reduce the app-specific integration work required to take a
-modeled workflow through an action to a usable interface, measured on real apps.
+**North Star**: Reduce application-specific integration work from a declared
+workflow to a working interface, measured against independent assembly.
 
 ## User Experience
 
-Illustrative scenario, awaiting the owner's first workflow: a developer models
-tasks and their relationships, defines an action to complete a task, and connects
-a task list and completion control. They validate the workflow and deliver the
-interface through Batten's supported host. They can identify what Batten handles
-and what their application must supply.
+A developer defines a fabricated task board using native UMF documents, typed
+reads, and declared actions. They attach a screen, a chat tool, and a scheduled
+summary to those operations, then run it locally with fabricated identities and
+PostgreSQL 18. The host enforces permissions and row scope and displays its audit
+outcomes. The developer builds an application artifact that the deployed host
+can admit through its published contract.
 
 ## Target Market
 
 | Attribute | Description |
 |-----------|-------------|
-| Who | Initial audience assumption: developers composing the four named foundations into data-oriented apps. First users and workflow remain open. |
-| Pain | Each application can require repeated technology selection, wiring, and delivery work. Owner-stated problem; prevalence is unmeasured. |
-| Current Solution | Assemble UMF, Tether, Weft, Arras, and an application host independently. |
-| Why They Switch | Hypothesis: a constrained authoring path reduces integration effort enough to justify its limits. |
+| Who | Python developers building trusted first-party data applications; host teams providing their execution environment. |
+| Pain | Development tooling and applications can depend on private host construction, identity, configuration, and database helpers. |
+| Current Solution | Compose modeling, query, action, agent, and UI capabilities with application-specific host integration. |
+| Why They Switch | A stable public host contract and platform modules let them change applications without repeatedly rebuilding that wiring. |
 
 ## Key Value Propositions
 
 | Value Proposition | Customer Benefit |
 |-------------------|------------------|
-| A deliberately constrained technology space | Builders spend less effort selecting and assembling infrastructure. |
-| Connected data design, actions, and UI authoring | Builders carry an application concept through to an interactive workflow. |
-| Delivery and integration handled around the application | Builders can focus on application behavior within an explicit responsibility boundary. |
+| Native platform capabilities | Authors use the platform's supported semantics without maintaining duplicate compilers or engines. |
+| Explicit module and permission boundaries | Authors and host owners can see what an application depends on and may reach. |
+| Shared development and deployed host contract | Local work exercises the same admission and execution behavior that deployment consumes. |
+| Independent application delivery | A reviewed application update can be admitted without rebuilding unrelated applications. |
 
 ## Success Definition
 
-Strategic learning indicators guide refinement; numeric targets await requirements
-and a baseline workflow. They establish no release or customer-adoption gates.
+| Indicator | Measurement |
+|-----------|-------------|
+| Authoring effort | Observe time and manual steps from a native model to a working fabricated workflow. |
+| Integration effort | Count host-specific glue and private import dependencies required by a second host. |
+| Contract clarity | Record compatibility refusals and workarounds encountered by real application authors. |
 
-| Metric | Measurement |
-|--------|-------------|
-| Time to first usable workflow | Observe elapsed authoring and setup time for the first real app. |
-| App-specific integration effort | Compare custom integration code and manual setup with independent assembly. |
-| Constraint usefulness | Record which supported choices help builders and which force workarounds. |
+The owner supplies numeric targets after baseline workflows are measured.
+These learning indicators establish no customer-adoption gate.
 
 ## Why Now
 
-The owner has selected the four foundations as the basis for a new application
-SDK. The [foundation survey](research/foundations.md) identifies relevant modeling,
-query, action, interface, and agent-session surfaces, alongside unresolved host
-responsibilities. This supports investigating their composition; it establishes
-neither complete integration readiness nor a market timing claim.
+The [boundary survey](current-state-inventory-boundaries.md) identifies concrete
+coupling between an existing development host and its application, alongside
+compiler, worker, testing, and packaging responsibilities in one SDK. The owner
+has chosen a cleanroom implementation with native platform dependencies. That
+creates a defined opportunity to establish public boundaries before more
+applications depend on private wiring.
