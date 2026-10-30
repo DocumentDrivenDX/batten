@@ -18,7 +18,7 @@
     "SDK implementation",
     "installed/runtime/native/deployed evidence"
   ],
-  "hosting": "Loopback preview only. No hosting configuration changed.",
+  "hosting": "GitHub Pages publication uses the repository workflow; live delivery is verified separately from local microsite QA.",
   "inputs": [
     {
       "path": "docs/helix/site/build.py",
@@ -63,6 +63,14 @@
     {
       "path": ".helix.yml",
       "sha256": "d40f14904cd12b1a9eb42b9072977dcc1c1c1798e47d9bef2dde7fee3bef70ed"
+    },
+    {
+      "path": "docs/helix/site/verify.py",
+      "sha256": "25085922d4677d2b9e48aab47b7e2452a89d4b6ca74b2d14134a4e7ed9586e62"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "eaa3f8f4c84e332ad2a74da17f6c722ded602ee89f2134eca065eda86ad3267a"
     }
   ]
 }

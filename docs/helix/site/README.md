@@ -29,4 +29,24 @@ The installed HELIX plugin owns the publishing catalog. No catalog is vendored.
 The custom static assembly uses `build.py`; do not hand-edit generated HTML.
 The site's module/host controls illustrate the design and make no service calls.
 
-No hosting service or GitHub Pages configuration is changed by this build.
+## GitHub Pages
+
+The public site is https://documentdrivendx.github.io/batten/. The repository
+uses GitHub Actions as its Pages publishing source.
+
+The Pages workflow builds with Python 3.12 and verifies generated routes, local
+assets, fragments and project-prefix-safe links. Official actions are pinned by
+commit SHA. Pull requests build without deploying; successful pushes to `main`
+publish through the `github-pages` environment using the job-scoped Pages/OIDC
+permissions. No deployment credential is stored in the repository.
+
+Run the publication check locally after building:
+
+```sh
+python3 docs/helix/site/verify.py
+```
+
+To retry publication, rerun the Pages workflow for the reviewed `main` revision.
+To restore an earlier site, revert the reviewed source change and let the same
+workflow rebuild it. A release archive also preserves its exact static output.
+The standalone build command itself does not modify hosting configuration.

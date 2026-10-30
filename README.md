@@ -9,6 +9,8 @@ The proposed portable core has no ontology-specific capability. An ontology
 provider is one Batten module, backed by Arras. UMF, Weft, Tether, and other
 platform libraries are dependencies supplied by the platform.
 
+Visit the [Batten microsite](https://documentdrivendx.github.io/batten/).
+
 Explore the [microsite source and local preview instructions](docs/helix/site/README.md)
 or read the [application overview](docs/helix/guide/developer/index.md).
 The microsite explains the design; an installable SDK runtime is not yet implemented.
