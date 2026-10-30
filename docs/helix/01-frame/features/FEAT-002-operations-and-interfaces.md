@@ -18,7 +18,7 @@ ddx:
 **Priority:** P0
 **Owner:** Erik LaBianca
 **Covered PRD Subsystem(s):** Operations and interfaces
-**Covered PRD Requirements:** FR-8, FR-9, FR-39–41
+**Covered PRD Requirements:** FR-8, FR-9, FR-39–41, FR-47
 **Cross-Subsystem Rationale:** One capability: expose the same governed operation through application interfaces.
 
 ## Overview
@@ -117,6 +117,17 @@ than appearing successful or causing silent retries.
 The owner selected ux-builder integration. Exact public APIs and release cohort
 remain a bounded upstream compatibility proof, not a settled runtime import claim.
 Batten must not run the latest starter automatically or alter another project's tooling.
+
+## Semantic verification obligation
+
+FR-47 applies to every default fully declarative UI-and-hook composition.
+Every interaction and hook must expose testable meaning after use-case refinement,
+with complete CLI functionality and automatically generated property-based
+end-to-end suites. CLI-only server checks cannot replace actual renderer behavior.
+Candidate platform bindings must pass the same semantic conformance contract;
+unsupported required meaning, missing coverage or changed outcomes blocks
+qualification. Local procedural implementations require explicit test contracts
+and must not inherit automatic coverage claims merely by occupying a semantic slot.
 
 ## Dependencies
 

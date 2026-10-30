@@ -5,7 +5,7 @@
 <!-- helix:source docs/helix/02-design/adr/ADR-004-public-async-host-api.md sha256:7e563f0b689d1140 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-006-typed-file-configuration.md sha256:d693d339350ec93e -->
 
-<!-- helix:source docs/helix/01-frame/prd.md sha256:44209bdd519038ed -->
+<!-- helix:source docs/helix/01-frame/prd.md sha256:e3d11b5c3fe76599 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 
 # Choose a host

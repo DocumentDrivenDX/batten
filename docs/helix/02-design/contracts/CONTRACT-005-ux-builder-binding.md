@@ -166,6 +166,21 @@ approved platform extension MAY supply new primitives or renderers through publi
 interfaces; it MUST NOT weaken operation authorization or native semantics.
 
 
+### Automatic UI and hook conformance
+
+FR-47 requires every default fully declarative UI-and-hook implementation to
+support complete CLI functionality and automatic property-based end-to-end
+verification. Effective upstream control semantics, application bindings and
+use-case refinements MUST provide the expected transitions and hook outcomes.
+Generated tests MUST exercise actual qualified renderers and host operation
+boundaries, including validation, navigation, cancellation, confirmation and
+uncertain-outcome recovery. CLI access MUST expose all semantic functionality;
+it MUST NOT bypass authorization or replace renderer/focus/accessibility evidence.
+Migration MUST rerun the same semantic properties against candidate platform
+bindings. Missing behavior, unsupported mappings or semantic mismatch MUST block
+qualification rather than silently degrade or skip. Procedural controls/hooks
+need explicit semantic test contracts before receiving automatic coverage claims.
+
 ## Precedence and Compatibility
 
 Upstream artifacts remain the authority for their own shape and meaning. Batten's

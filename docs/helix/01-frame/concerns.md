@@ -93,3 +93,12 @@ exporter/protocol versions and capture/query schemas require a focused integrati
 contract and cohort qualification before dependent source work. Host operators
 own audit retention/access and capture-failure policy; unknown native support
 cannot weaken the required Batten-side attribution or become a support claim.
+
+## Semantic verification direction
+
+Owner direction, 2026-10-29 (FR-47): exposed intent plus explicit use-case
+refinements must drive complete CLI functionality and automatic property-based
+end-to-end tests for every default fully declarative UI/hook composition.
+Platform migration qualification must reuse those semantic properties. Behavioral
+coverage remains complete while shared generators and parameter tables preserve
+the decreasing test-function ceiling; no new testing dependency is selected.

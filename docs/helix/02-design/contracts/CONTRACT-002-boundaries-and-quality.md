@@ -238,3 +238,83 @@ An AST-based project checker is the proposed import-linter equivalent. Its
 scaffold must prove real positive and negative controls before it can be called
 enforced. The reference audit script is an analysis aid outside the product,
 not Batten's future checker or a reusable implementation imported from the reference.
+
+### Semantic conformance obligations
+
+FR-47 qualification MUST cover every default fully declarative construct and
+every required behavior in a fully declarative UI-and-hook composition, after
+use-case refinements. Complete functionality MUST be exposed through CLI adapters.
+Tooling MUST generate property-based end-to-end suites automatically without
+per-application handwritten scenarios. Required semantic coverage MUST include
+transitions, validation, authorization, confirmation, cancellation, effects,
+uncertainty and recovery wherever declared. Real renderer behavior MUST be tested
+through its actual client; CLI operation parity alone MUST NOT qualify a UI.
+
+The expected semantic model MUST remain distinct from the implementation under
+test. Negative controls MUST demonstrate that a wrong transition, lost refinement
+or changed hook effect fails. Invalid declarations or missing semantic oracles,
+CLI mappings, generator support or required coverage MUST refuse qualification;
+unsupported cases MUST NOT be skipped into a passing result. Every default
+construct remains required scope even if its adapter is not yet implemented.
+
+Evidence MUST bind application, refinements, upstream semantic definitions,
+generator/oracle version, platform cohort and evidence policy, and retain replay
+seeds, execution traces, minimized failing examples, coverage and exploration
+bounds. A passing bounded run MUST NOT be described as proof for every unbounded
+execution. The same semantic properties MUST qualify a new platform; an adapter
+MUST NOT weaken the oracle to make migration pass. Generated cases MUST share
+behavior runners under the existing function-count ceiling. Hook code outside
+qualified declarative semantics MUST supply explicit contracts/oracles before
+claiming automatic conformance. Wire formats, CLI commands and generator APIs
+remain downstream contracts; no schema field or testing library is selected here.
+
+## Precedence and Compatibility
+
+The owner's review gate postpones executable scaffold changes until review;
+it does not waive the gate before dependent feature work. ADR-007 governs policy.
+The first reviewed measured baseline is the sole initial-budget exception.
+Thereafter a change to the policy itself requires an explicit owner ruling.
+
+Static analysis and installed-artifact observations are separate evidence layers.
+Neither proves arbitrary runtime code isolation. Support claims identify the
+versions, operating system, subset, and native/browser/deployed observations used.
+
+## Error Semantics
+
+| Condition | Error / Outcome | Retry | Recovery Expectation |
+|-----------|------------------|-------|----------------------|
+| Forbidden import/transitive edge | Nonzero; source, line, target and violated contract | After fix | Move behavior to its owner or inject a public service. |
+| Private export, cycle, unclassified source | Nonzero; exact module/path and rule | After fix | Repair boundary; no blanket baseline exception. |
+| Dynamic target lacks evidence | Nonzero readiness result for affected loader path | After qualification | Record owned target policy and installed-artifact observations. |
+| Shape limit or suppression | Nonzero; measured unit and allowed ceiling | After split | Split by responsibility; never raise ceiling. |
+| Test count grows or baseline increases | Nonzero; before/after counts and scoped sources | After consolidation | Preserve behavior coverage; owner resolves genuine policy conflicts. |
+| Missing baseline/rules/base | Nonzero; missing input named | After setup | Supply local approved baseline; do not skip or fabricate. |
+
+## Application control dependency boundary
+
+CONTRACT-003/005 govern local Python/TypeScript controls. Closure checks MUST
+cover their source imports and generated bundles, including dynamic/remote loads
+and vendored libraries. Local code may import language standard facilities and
+explicitly supplied public platform APIs; mere transitive installation does not
+expose a supported application API. Unapproved additions MUST fail admission
+without fetching or executing code. Approved exceptional platform extensions
+retain isolated dependency ownership and the same global quality ceilings.
+
+
+## Examples
+
+```text
+Allowed: batten.arras -> batten.contracts
+Allowed: batten.arras -> public Arras API in the selected cohort
+Forbidden: batten.runtime -> batten.arras
+Forbidden: batten.dev -> private consuming-host factory
+Forbidden: batten.lakebase -> batten.postgres private connection helper
+Allowed: composition injects Lakebase authority into public PostgresServices
+```
+
+## Non-Normative Notes
+
+An AST-based project checker is the proposed import-linter equivalent. Its
+scaffold must prove real positive and negative controls before it can be called
+enforced. The reference audit script is an analysis aid outside the product,
+not Batten's future checker or a reusable implementation imported from the reference.

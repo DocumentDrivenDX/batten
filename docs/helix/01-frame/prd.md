@@ -65,6 +65,10 @@ local database checks, and deployed behavior.
    ownership and attribution, and integrate through governed graph API contracts
    and future defined mechanisms.
 
+8. Application semantics and use-case refinements drive complete CLI access and
+   automatically generated property-based end-to-end conformance suites for every
+   fully declarative UI-and-hook composition, including platform migration.
+
 ### Success Metrics
 
 | Metric | Target | Measurement Method |
@@ -72,6 +76,7 @@ local database checks, and deployed behavior.
 | App-specific integration effort | Baseline and target supplied by Erik LaBianca | Compare custom wiring for a fabricated application across hosts. |
 | Developer iteration effort | Baseline and target supplied by Erik LaBianca | Observe build/admit/update steps and elapsed time. |
 | Boundary independence | No private host dependency | Import census and installed-artifact qualification. |
+| Declarative conformance | Every default construct and fully declarative UI/hook composition has automatic CLI and end-to-end qualification | Generate suites from effective semantics; replay against candidate platforms and reject mismatches or missing coverage. |
 | Application package setup | No application-level pip/npm install | Exercise application build/admission/start against a complete runtime without package-registry access. |
 | Upgrade qualification | All affected required behavior has current evidence before rollout | Compare exact candidate and accepted cohorts against application assertions, coverage and protocol compatibility. |
 | Shared fleet scale | Hundreds of applications; exact load mix and service budgets to be qualified | Measure shared-service cost, contention, fairness, isolation and recovery using fabricated applications. |
@@ -376,6 +381,87 @@ No additional capability is assigned this priority by the owner.
   Direct private imports, raw shared connections and undeclared side channels
   cannot substitute for integration. UMF/Arras retain native semantic ownership;
   portable core remains ontology-neutral.
+
+### Subsystem: Semantic application verification
+
+- **FR-47** — Every default fully declarative Batten construct must expose its
+  complete functionality through the CLI, including observable UI state,
+  navigation, validation, confirmation, cancellation, hooks, effects and recovery.
+  Batten must automatically generate property-based end-to-end suites from the
+  author's desired semantics and effective use-case refinements. Every fully
+  declarative UI-and-hook composition must be conclusively and automatically
+  tested against that contract without per-application handwritten tests.
+  The same properties must qualify new runtime/platform bindings and block
+  migration on semantic mismatch, missing required coverage or unsupported meaning.
+  Results must identify exact declarations, refinements, platform cohort, model,
+  generation/replay inputs, coverage and exploration bounds. A bounded property
+  run is evidence within that scope, not a proof for unbounded executions.
+  Arbitrary procedural hooks require explicit contracts/oracles; their behavior
+  must not be guessed or silently labeled fully declarative.
+
+## Acceptance Test Sketches
+
+Each row covers the named P0 requirements; these are verification sketches, not
+test functions or permission to write code before the review gate.
+
+| Requirement | Scenario | Input | Expected Output |
+|-------------|----------|-------|-----------------|
+| FR-1 | Declare independent component combinations | Fabricated table-only and UI/tool applications | Both validate without a host-private type. |
+| FR-2 | Resolve configuration | Layered files, fallback environment, unknown key | Defined precedence, immutable settings, safe key-only refusal. |
+| FR-3 | Admit an artifact | Compatible wheel, altered file, newer SDK, conflicting declaration | Valid wheel admitted; invalid cases execute no plugin code. |
+| FR-4 | Admit routes | Own namespace and escaped namespace | Own route admitted; escaped route refused. |
+| FR-5 | Exercise access boundaries | Permitted user, stranger, missing actor, admin mismatch | Only authorized outcome occurs; refusals are recorded. |
+| FR-6 | List applications | Enabled/disabled, approved/unapproved, admin/user | Listing and UI agree with effective access. |
+| FR-7 | Fail a port | Hidden object, invalid parameters, timeout | Stable safe outcome with no private payload. |
+| FR-8 | Open screen/view and download | Approved resource, altered bytes, unlisted operation | Host navigation and permitted calls work; altered/unlisted resources fail closed. |
+| FR-9 | Call one operation across surfaces | Same declared input through route/tool/view/event | Same authorized behavior; model-write approval is respected. |
+| FR-10 | Choose and page warehouse | Offered and unoffered choices for fabricated callers | Choice persists; grants still decide rows; no choice elevates access. |
+| FR-11 | Read and change ontology | Own/foreign module, batch, cursor, receipt | Own permitted changes and consistent reads; foreign mutation refused. |
+| FR-12 | Evolve native tables | Reviewed migration phases, interruption, changed applied digest | Correct catalog and resumable phases; altered history refused. |
+| FR-13 | Execute under principals | Person, delegated run, batch, ordinary schema change | Effective identity audited; unauthorized DDL and fallback refused. |
+| FR-14 | Exercise row scopes | Fabricated owners, groups, associations, parent, batch | Exactly declared visibility and write rights, including default denial. |
+| FR-15 | Use a capability | Request/grant/deployment combinations | Only effective approved capability executes. |
+| FR-16 | Page and batch typed access | Bounded native declarations and invalid/oversized requests | Correct page/batch outcome or explicit backpressure, with worker parity. |
+| FR-17 | Invoke exceptional SQL | Approved person call, forbidden statement, job call | Guarded person DML succeeds; forbidden and job paths refuse. |
+| FR-18 | Cross worker boundary | Wrong owner, revoked capability, denied gate, timeout | No unauthorized execution; bounded cleanup and safe failure. |
+| FR-19 | Fire recurring work | Concurrent ticks, backlog, missed time, cancellation | No duplicate fire; fairness/limits hold and cancellation settles correctly. |
+| FR-20 | Confirm and revoke access | Changed confirmation fields or removed entitlement | Stale confirmation cannot run; loss suspends and informs owner. |
+| FR-21 | Govern external job | Declared job, changed definition, external run, unavailable lineage | Verified deployment and traceable accounting; drift uncertainty is explicit. |
+| FR-22 | Trigger and inspect runs | Declared/foreign jobs and events | Authorized run observable; foreign and impersonating calls refused. |
+| FR-23 | Check dependency closure | Baked-in cohort and undeclared/vendored library | Supported artifact accepted without fetching; outside cohort refused. |
+| FR-24 | Revoke and remove | Active artifact, dependent module, stale plan | Revocation closes access; data removal requires current unblocked confirmation. |
+| FR-25 | Resolve secret reference | Declared and undeclared names | Authorized resolution only; no value in representation or audit. |
+| FR-26 | Exercise resources | Scoped files/search and bounded model calls | Authorized bounded outcomes, safe refusal and accurate attribution. |
+| FR-27 | Inspect diagnostic output | Calls, refusals, limits, deliberately lost capture | Declared safe events and explicit capture gaps. |
+| FR-28 | Inspect grants | In-place, missing, unresolved, unreadable requirements | Accurate read-only report; no implicit grant. |
+| FR-29 | Check negative controls | Forbidden import, wrong admin declaration, stale docs | Actual checks fail with actionable locations. |
+| FR-30 | Compare evidence layers | Same behavior through double and installed/native adapter | Parity tested; each support claim names its actual evidence. |
+| FR-31 | Run the author guide | Empty fabricated project through local host and MCP | Documented workflow works from installed artifacts alone. |
+| FR-32 | Embed and shut down | Borrowed and owned services, cancellation | Public lifecycle manages only its owned resources and reports cleanup. |
+| FR-33 | Qualify consumers | Installed project and hosted declaration | No private dependency; preserved outcomes across both repositories. |
+| FR-34 | Select a headless module closure | Only core and a reviewed provider installed | No UI/platform package imported outside selection; closure conflicts refuse. |
+| FR-35 | Exchange application intent | Native model/action references plus unfamiliar extension content | Original meaning retained; relevant unknown semantics block eligibility. |
+| FR-36 | Change host profile | One review application under local and embedded profiles | Same application digest; different explicit bindings; unsupported placement refuses. |
+| FR-37 | Assess before execution | Missing/ambiguous provider, cycle, wrong version | Safe deterministic findings; no provider/application import or service effect. |
+| FR-38 | Admit a saga component | Exact UMF declaration with absent or qualified executor | Explicit refusal or upstream-preserving binding; no fallback engine. |
+| FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
+| FR-40 | Compose then customize a review journey | Wizard/form/collection with a local detailed editor; undeclared library import | Local code works within supplied APIs; extra dependency refuses without a platform exception. |
+| FR-41 | Present the same review journey on web and terminal | Shared interactions; one browser-only custom control | Supported surfaces preserve meaning; terminal admission refuses the unsupported required control before effects. |
+| FR-42 | Qualify a runtime upgrade | Compatible/breaking cohort, changed app evidence, incompatible durable state | Required exact evidence qualifies; impacted apps are named and unsafe recovery is refused. |
+| FR-43 | Share services across a fabricated fleet | Hundreds of applications, bounded load, an abusive/failing app and revoked owner | Qualified budgets/fairness and scope hold; measured limits and failure domains are reported. |
+| FR-44 | Integrate via graph API | Authorized interaction, foreign target, revoked grant and changed interface | Only declared authorized interactions execute; affected dependents are identified without private access. |
+| FR-47 | Generate and migrate a declarative UI/hook application | Refined wizard/form/collection, declarative hooks, changed platform semantics and unsupported behavior | Automatic CLI and real-client suites exercise all declared behavior; mismatches and coverage gaps block qualification with replayable failures. |
+| FR-47 | Generate and migrate a declarative UI/hook application | Refined wizard/form/collection, declarative hooks, changed platform semantics and unsupported behavior | Automatic CLI and real-client suites exercise all declared behavior; mismatches and coverage gaps block qualification with replayable failures. |
+
+## Technical Context
+
+Proposed defaults and platform ownership are in the architecture, concerns,
+ADRs, and contracts. The Python consumer floor is 3.11; PostgreSQL support is
+18 only. Exact platform dependency releases require a qualification cohort before
+implementation support claims. Browser client code targets browser JavaScript;
+its TypeScript/Bun build tools remain outside the browser runtime.
+
+## Constraints, Assumptions, Dependencies
 
 ## Acceptance Test Sketches
 

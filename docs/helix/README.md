@@ -134,3 +134,11 @@ filesystem implementation under [TD-006](02-design/technical-designs/TD-006-loca
 [CONTRACT-100](02-design/contracts/CONTRACT-100-storage-provider-host.md) and the
 [implementation plan](04-build/implementation-plan.md). Earlier review holds
 continue to apply to unrelated migration and platform implementations.
+
+## Automatic semantic testing
+
+Author intent and explicit refinements must drive complete CLI functionality and
+automatically generated property-based end-to-end suites for every fully declarative
+UI-and-hook composition. [FR-47](01-frame/prd.md) and the [SEM allocation](03-test/test-plan.md)
+make a decisive semantic conformance result a prerequisite for platform migration.
+Unsupported required meaning or missing coverage cannot pass qualification.

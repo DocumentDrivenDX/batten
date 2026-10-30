@@ -130,3 +130,14 @@ separate writable profile is explicitly contracted. Exact matches, immutable
 bindings and explicit provider selection are design defaults, not live evidence.
 This authorizes specs, native model and verification allocation; source code,
 migrations, production changes, commits and pushes remain separately gated.
+
+## Semantic testing and platform migration direction
+
+Source: owner direction in this conversation, 2026-10-29. Batten must expose
+application intent and use-case refinements as testable semantics. Every default
+fully declarative construct, including composed UI and declarative hooks, must
+expose its complete functionality through the CLI and automatically produce
+property-based end-to-end tests. Every fully declarative UI-and-hook implementation
+must receive an automatic conformance verdict, reusable to qualify migration to
+new platforms. Missing semantics, oracles or execution coverage cannot silently
+pass. This direction authorizes specification and integration, not runtime code.

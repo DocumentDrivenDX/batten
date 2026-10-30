@@ -86,3 +86,14 @@ claims of mechanical enforcement based only on a document.
 
 Records stricter branch/test-file limits for code-shape-ceilings and the
 owner's stronger testing policy. The checks' implementation follows the review gate.
+
+## Semantic generation decision
+
+FR-47 requires automatic property-based end-to-end suites and complete CLI access
+for all default fully declarative constructs and UI/hook compositions. Author
+intent and effective refinements define the model; qualified adapters exercise
+each platform and renderer against its oracle. Reuse those properties for migration.
+Shared behavior runners and generated cases must preserve the decreasing function
+budget. There is no automatic growth exception. The property-testing framework,
+CLI/test-model protocols and evidence format need separate selection/contracts;
+this direction authorizes no package installation or runtime implementation.

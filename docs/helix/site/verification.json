@@ -42,23 +42,23 @@
     },
     {
       "path": "docs/helix/guide/developer/architecture.md",
-      "sha256": "4b9434f9f1883add0cc6e8792c19ab3a25412928b8864bf9e2d1b042e98442f1"
+      "sha256": "42e45f064b4801c3194684ffc9457daeb944fa8691ad4ebc45623903b101acb6"
     },
     {
       "path": "docs/helix/guide/developer/composition.md",
-      "sha256": "fe1e5dfcefb75634e05c170f90beee6b70b4544a81e59082fbabc0e11375094e"
+      "sha256": "f4f4500aac68b857eac8f023e9fbfa6759f61bb9f07aa1a0aedaab43b11d91f6"
     },
     {
       "path": "docs/helix/guide/developer/hosting.md",
-      "sha256": "560ad52a7e3dc4b5a847d225fd117be6e489daeaa8e234956c7d98082408ba41"
+      "sha256": "e0ef571441392a07f06fb2eeb545aa56ca19e2157d62db6491f4f2fa4e8d7eaf"
     },
     {
       "path": "docs/helix/guide/developer/index.md",
-      "sha256": "35315370e4a291c7b8458a87d8e989c28ccc1fc0ed133eca3e3a63363ad9a2c5"
+      "sha256": "268dfaaa75ac88b2004758f7a3158da3c56612f0d299f691ee6ef073334951fc"
     },
     {
       "path": "docs/helix/guide/developer/integrations.md",
-      "sha256": "cfdac79b988dd46bcbc624d3dc569bf9ad79eff304aace257a43034c2a360860"
+      "sha256": "2ffbc36dd68735eff034a859ac2709e1d6de28ddc6cdebd0b5fc0ca7594dd3a5"
     },
     {
       "path": ".helix.yml",

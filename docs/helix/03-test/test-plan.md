@@ -319,3 +319,40 @@ principal-scoped reads, async adaptation, provider identity and concurrent
 revocation require public integration evidence. A local graph double cannot
 qualify Unity Catalog, Lakebase, API or messaging behavior. No live registry,
 transport, capacity or operational change is authorized by this allocation.
+
+## Semantic application conformance allocation
+
+FR-47 is P0. Automatic conformance for every fully declarative UI-and-hook
+composition is required; default-construct support gaps cannot be treated as
+optional test exclusions. Use generated cases through shared public behavior
+runners; these rows allocate outcomes, not additional test functions.
+
+| Acceptance ID | Primary layer | Observable outcome |
+| --- | --- | --- |
+| SEM-01 | Semantic generator conformance | Every default construct and allowed refinement produces a complete behavior/CLI/property inventory; a missing definition, hook oracle or CLI mapping prevents qualification. |
+| SEM-02 | CLI/host end-to-end | Generated commands exercise every declared behavior, including UI navigation/state, hook effects, validation, denial, confirmation, cancellation and original-call recovery; no private-host bypass. |
+| SEM-03 | Real renderer/host/provider end-to-end | Automatically generated legal/illegal state sequences check semantic invariants and actual UI/hook outcomes, including focus/accessibility where relevant; no handwritten per-app cases are required. |
+| SEM-04 | Generator/oracle negative controls | Deliberately wrong transitions, ignored refinements and altered declarative hook effects produce reproducible minimized failures; implementation self-comparison cannot pass. |
+| SEM-05 | Cross-platform migration conformance | Exact app/refinements and properties run on accepted/candidate bindings; semantic drift, absent UI/hook behavior or missing required coverage blocks migration qualification. |
+| SEM-06 | Reproducibility/evidence integration | Replay pinned seeds/traces and shrunk counterexamples against exact artifacts/cohorts; changed semantics invalidate prior evidence and exploration limits remain explicit. |
+
+Generate from desired semantics after use-case refinement, preserving original
+UMF/ux-builder meaning and testing implementation through public execution paths.
+The default declarative hook set must supply deterministic contracts/oracles for
+observed effects; external nondeterminism requires controlled fixtures or qualified
+properties, never guessed exact outputs. Arbitrary procedural hooks need explicit
+test contracts and cannot silently inherit declarative completeness.
+
+Conclusive qualification means all required declared behaviors have adequate
+oracles, CLI mappings and real end-to-end coverage, with a decisive pass/fail
+verdict for the stated domain and exploration policy. Property-based sampling is
+not an exhaustive proof of unbounded behavior; finite modeled state spaces may
+also be explored exhaustively. Report coverage and bounds, never turn a missing
+case into success. Generation must preserve configured authority/resource limits,
+use fabricated inputs and controlled clocks, and retain uncertain effects without
+blind replay. No live platform migration or external effect is authorized here.
+
+Exact semantic model/refinement, generator/oracle, CLI and execution-report
+contracts, qualified renderer/platform adapters and the testing framework remain
+implementation prerequisites. No generated runtime suite has executed in this
+specification packet. Existing first-host and native evidence requirements remain.

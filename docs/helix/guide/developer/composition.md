@@ -2,11 +2,11 @@
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-009-service-discovery-and-binding.md sha256:53b8b2e0e2ef2dc3 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md sha256:ad49c3fcde9f276e -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-003-composition.md sha256:e8d72d7500e678b4 -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-003-composition.md sha256:82fd01c7c975cb5a -->
 <!-- helix:source docs/helix/01-frame/user-stories/US-001-assess-composition.md sha256:2b7f7c973b5a5fd4 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md sha256:ab9d3cdd3a48ecfd -->
 
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:ac1c72c5f2bc7448 -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:4b3b0e0324fa4e84 -->
 
 # Compose an application
 

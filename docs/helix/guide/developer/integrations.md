@@ -3,8 +3,8 @@
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-007-messaging.md sha256:f265082768032e42 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-006-object-storage.md sha256:7ba084a3e83a0976 -->
-<!-- helix:source docs/helix/02-design/architecture.md sha256:ffb0e445269fc317 -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md sha256:e258d27340318003 -->
+<!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md sha256:0008fd4ad87e294d -->
 <!-- helix:source docs/helix/02-design/adr/ADR-009-ux-builder-ownership.md sha256:d15b944955d35bc9 -->
 <!-- helix:source docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md sha256:ad49c3fcde9f276e -->
 <!-- helix:source docs/helix/02-design/adr/ADR-002-native-umf-platform-dependency.md sha256:19b600b856750646 -->

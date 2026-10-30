@@ -1,7 +1,7 @@
-<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/118d11d5bee90a6c -->
-<!-- helix:source docs/helix/00-discover/product-vision.md sha256:34b99ee7b0cd2742 -->
-<!-- helix:source docs/helix/01-frame/prd.md sha256:44209bdd519038ed -->
-<!-- helix:source docs/helix/02-design/architecture.md sha256:ffb0e445269fc317 -->
+<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/00e6b6682ef5b4ae -->
+<!-- helix:source docs/helix/00-discover/product-vision.md sha256:7a27692a25188d22 -->
+<!-- helix:source docs/helix/01-frame/prd.md sha256:e3d11b5c3fe76599 -->
+<!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 
 # Batten
 
@@ -48,3 +48,11 @@ A provider must satisfy the required interface and exact compatibility checks. A
 The repository contains requirements, contracts and a proposed architecture. The SDK runtime and installable packages are not implemented. The interactive explorer illustrates those contracts; it does not run or deploy an application.
 
 [Compose an application](composition.md), [choose a host](hosting.md), or read the [architecture](architecture.md).
+
+## Test the declared behavior
+
+Authors declare desired behavior and refine it for the application. Batten must expose every fully declarative construct through the CLI and automatically generate property-based end-to-end tests.
+
+That includes complete UI journeys and declarative hook outcomes. Generated sequences check declared invariants through the actual client, host and providers. Missing semantics or required coverage blocks qualification.
+
+The same properties must qualify a candidate platform before migration. Results retain exact inputs, replayable failures and exploration bounds. Arbitrary procedural hooks need explicit semantic test contracts.

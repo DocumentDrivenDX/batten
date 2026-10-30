@@ -127,3 +127,18 @@ compiler, worker, testing, and packaging responsibilities in one SDK. The owner
 has chosen a cleanroom implementation with native platform dependencies. That
 creates a defined opportunity to establish public boundaries before more
 applications depend on private wiring.
+
+## Test applications through their semantics
+
+Authors express desired behavior first, then refine it for the use case. Those
+semantics must provide executable expectations for every default fully declarative
+construct, including UI journeys and declarative hooks. The CLI exposes their
+complete functionality; Batten automatically builds property-based end-to-end
+suites from the effective declarations, without application-specific test authoring.
+
+Every fully declarative UI-and-hook composition must receive a decisive automatic
+conformance result against its declared semantics. The same semantic model and
+properties qualify candidate runtimes and platforms, detecting behavior drift
+before migration. Unknown or untested required meaning prevents qualification.
+Custom procedural code needs explicit semantic/test contracts; its behavior is
+not inferred from an inert handler reference.

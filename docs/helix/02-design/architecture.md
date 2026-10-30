@@ -413,3 +413,27 @@ confirmation. Message headers convey correlation, never operation authority.
 Future broker adapters must satisfy an explicit capability profile; no native
 offset/queue URL enters application APIs. UMF schemas define business payloads;
 no new messaging vocabulary or universal instance codec is assumed.
+
+## Semantic verification and migration
+
+Upstream model/action and ux-builder definitions own semantic meaning. Batten's
+author tooling must derive an executable test model from pinned intent, UI/hook
+composition and effective use-case refinements. It must generate CLI coverage and
+property-based end-to-end suites for every default fully declarative construct.
+The generator must remain outside pure admission assessment and portable runtime;
+no second UMF compiler or UI engine is introduced.
+
+The test model supplies permitted transitions, invariants and expected outcomes;
+qualified CLI and real renderer/host/provider adapters exercise implementations.
+Changing a refinement regenerates both inputs and expectations. An independent
+semantic oracle and known-broken adapter controls must detect a semantic defect;
+comparing an implementation only with itself cannot establish conformance.
+Generated properties replay across candidate platform bindings to gate migration.
+UI rendering and interaction still need real-client observations alongside CLI
+access to every semantic behavior. Missing required coverage prevents qualification.
+
+Results must bind exact application/model/refinement/cohort inputs and preserve
+seeds, generated traces, minimized counterexamples, coverage and exploration bounds.
+Fully declarative includes hooks whose behavior is expressed in the semantic model;
+an arbitrary code reference is insufficient. Exact upstream oracle/generator,
+CLI and evidence interfaces require contracts before dependent source work.

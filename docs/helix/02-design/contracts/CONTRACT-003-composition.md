@@ -212,3 +212,77 @@ pinned supported UMF core. Their payload roots select the matching schema
 qualified before implementation claims. Unknown payload members remain preserved;
 unknown relevant meaning blocks eligibility even when shape validation passes.
 No publication or rendering support is claimed by these declarations.
+
+### Effective semantics for verification
+
+FR-47 tooling MUST preserve exact author intent and use-case refinements when
+building the test model. Semantic definitions and hook targets MUST resolve to
+pinned public upstream meanings. A declarative hook MUST expose its effects,
+preconditions, transitions and outcomes to the qualified oracle; an inert code
+entry alone MUST NOT establish declarative completeness. Unknown required meaning
+MUST refuse semantic qualification while preserving source bytes. Test generation
+and execution MUST occur outside the effect-free `assess` boundary. The existing
+ValidationEvidence schema MUST NOT be treated as an execution/coverage report;
+exact test-model and report formats require companion contracts.
+
+## Precedence and Compatibility
+
+PRD FR-34–38 governs scope; the schema governs structure and this contract owns
+semantic rules. Unrecognized semantic versions do not fall back. ADR-005 governs
+SDK compatibility independently of payload, module and upstream versions.
+The portable runtime imports stdlib/contracts only; the owning UMF module supplies
+validated metadata. Plans must be reassessed when any bound artifact or evidence changes.
+
+## Error Semantics
+
+| Condition | Error / Outcome | Retry | Recovery Expectation |
+| --- | --- | --- | --- |
+| Missing target bytes or digest mismatch | `artifact_invalid` | After repair | Preserve originals; do not execute. |
+| Duplicate identity or malformed payload | `declaration_invalid` | After correction | Safe ID/path only. |
+| Missing, ambiguous or incompatible provider | `capability_unavailable`, `provider_ambiguous`, `capability_incompatible` | After selection/cohort repair | No implicit install or fallback. |
+| Cycle or placement mismatch | `component_cycle`, `placement_unsupported` | After profile repair | No eligible partial graph. |
+| Relevant unknown or incomplete validation | `semantics_unchecked` | After exact support supplied | Retain source content. |
+| Unsupported handler or dependency | `handler_unavailable`, `dependency_unapproved` | After reviewed admission | No code import to test it. |
+| Exceeded finite bound | `limit_exceeded` | After bounded input/profile change | No truncated eligible plan. |
+
+Findings sort by subject, path, then code using Unicode code-point order; duplicates
+collapse by that tuple. Diagnostics contain no input values, deployment addresses,
+SQL, raw exceptions, secret references or provider configuration bodies.
+
+## Examples
+
+```text
+review-queue requires records/1 and approval/1; UI is absent.
+The installed cohort offers one reviewed provider for each interface.
+Assessment returns the dependency order and the exact app/profile/cohort pins.
+Adding a second approval/1 provider without selecting one -> provider_ambiguous.
+Adding a required UMF saga without its executor -> capability_unavailable.
+```
+
+These illustrative IDs are fabricated. A profile claiming an interface is not
+native execution evidence. Structural examples are not released extension packages.
+
+## Schema Basis
+
+The authoritative local payload shape is
+[composition.schema.json](../schemas/composition.schema.json), proposed 0.1.0.
+It describes extension payloads and core metadata projections, not a replacement
+UMF envelope. Inspection used UMF core 0.10.0's `spec/metamodel/umf.yaml`,
+`spec/core/extension-package.schema.json`, `umf.actions` 0.1.0's schema/package,
+and the medical domain-pack metadata in the local public UMF project. The source
+receipt is [upstream-schema-basis.json](../schemas/upstream-schema-basis.json).
+
+Reuse: exact document/module/element identity, extension registration, unknown
+preservation, native action/handler references and independent semantic validity.
+Domain packs describe business data; they do not supply application module,
+host composition or UI-to-operation bindings. Those are the specific local gaps.
+The inspected extension registry does not establish a released saga vocabulary.
+No saga fields are introduced here.
+
+The initial proposed document-scoped vocabularies are `batten.application`,
+`batten.module`, `batten.host` and `batten.ui`, each at 0.1.0 against an explicitly
+pinned supported UMF core. Their payload roots select the matching schema
+`$defs` entry. Registration packages and native semantic validation must be
+qualified before implementation claims. Unknown payload members remain preserved;
+unknown relevant meaning blocks eligibility even when shape validation passes.
+No publication or rendering support is claimed by these declarations.

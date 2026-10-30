@@ -101,3 +101,13 @@ UMF/ux-builder maintainers supply the exact public release/API cohort; the host
 owner supplies resource limits, identity and transport qualification. Until then,
 required unsupported capabilities refuse. A descriptor, declared version or
 valid schema is not proof of native saga execution, UI quality or deployed hosting.
+
+## Semantic verification design inputs
+
+FR-47 settles automatic testing and CLI completeness for fully declarative UI and
+hooks as required scope. Upstream semantic owners must expose exact refinement,
+state-transition, invariant and effect meaning. Batten must contract the CLI,
+generator/oracle interface, replay/shrinking evidence and platform adapter coverage.
+Qualification policy must distinguish complete declared-behavior coverage from
+bounded state-space exploration. Missing contracts block affected implementation,
+not the requirement. Arbitrary procedural code requires an explicit semantic oracle.
