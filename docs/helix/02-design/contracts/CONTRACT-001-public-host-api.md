@@ -85,6 +85,25 @@ factories. Its own `run_project`, `stop_project`, and `project_status` interface
 supervise the project process and owned PostgreSQL 18 instance. Fabricated identity
 is explicit, loopback-only, and not accepted as deployed identity evidence.
 
+### Shared application execution
+
+PRD FR-43/44 require shared services without merged authority. `Host.admit` MUST
+check required application evidence under CONTRACT-002. `Host.invoke` MUST bind
+application/actor identity, declared capability and authorized target, rechecking
+current access for cross-application graph calls. A graph relationship MUST NOT
+confer a grant. Interactions MUST use reviewed public provider interfaces; no
+private object or raw shared database connection crosses the application boundary.
+
+Resolved limits MUST bound each application's and owner's concurrency and resource
+use; configured scheduling MUST preserve fairness. Revocation and application
+shutdown MUST preserve other applications' borrowed services and allocations.
+Host-owned diagnostics MUST attribute admission, invocation, refusal and capture
+loss to safe application/artifact/cohort identities. Required telemetry MUST NOT
+be disabled by application settings. Exact telemetry failure policy, resource
+accounting and graph-operation surfaces require contracts before source work.
+These requirements do not promise hostile-code isolation or measured fleet capacity.
+
+
 ### Replacements for development-host coupling
 
 | Responsibility | Public owner |

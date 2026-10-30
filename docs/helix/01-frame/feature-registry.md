@@ -26,11 +26,11 @@ follow the owner's scope review rather than empty placeholder files.
 | FEAT-002 | Operations and interfaces | One operation across surfaces, including semantic controls, local implementations and renderer bindings. | P0 | Erik LaBianca | PRD FR-8–9, FR-39–41 | 2026-10-29 |
 | FEAT-003 | Native data and identity | Native UMF, typed access, lifecycle, row policy, principal separation. | P0 | Erik LaBianca | PRD FR-10–17 | 2026-10-29 |
 | FEAT-004 | Workers and background execution | Owner-scoped execution, scheduling, confirmation, jobs and events. | P0 | Erik LaBianca | PRD FR-18–22 | 2026-10-29 |
-| FEAT-005 | Artifact delivery and lifecycle | Wheels, dependency admission, approval, revocation, extensions, removal. | P0 | Erik LaBianca | PRD FR-23–24 | 2026-10-29 |
-| FEAT-006 | Platform resources and diagnostics | Secrets, files, search, models, audit, telemetry, grants. | P0 | Erik LaBianca | PRD FR-25–28 | 2026-10-29 |
-| FEAT-007 | Author tooling and qualification | Doubles, conformance, executable docs, development host and MCP. | P0 | Erik LaBianca | PRD FR-29–31 | 2026-10-29 |
+| FEAT-005 | Artifact delivery and lifecycle | Complete runtime delivery, admission, fleet upgrade qualification, revocation and recovery. | P0 | Erik LaBianca | PRD FR-23–24, FR-42 | 2026-10-29 |
+| FEAT-006 | Platform resources and diagnostics | Secrets, files, search, models, enforced audit/telemetry and grants. | P0 | Erik LaBianca | PRD FR-25–28 | 2026-10-29 |
+| FEAT-007 | Author tooling and qualification | Semantic CLI coverage, automatic property-based end-to-end suites, migration qualification and author tooling. | P0 | Erik LaBianca | PRD FR-29–31, FR-47 | 2026-10-29 |
 | FEAT-008 | Host embedding and compatibility | Public host API and independent consumer/dependency closures. | P0 | Erik LaBianca | PRD FR-32–33 | 2026-10-29 |
-| FEAT-009 | Composition and hosting | Selectable modules, UMF application composition, host profiles, effect-free assessment and saga bindings. | P0 | Erik LaBianca | PRD FR-34–38 | 2026-10-29 |
+| FEAT-009 | Composition and hosting | Selectable modules, profiles, shared fleet hosting and governed graph integration. | P0 | Erik LaBianca | PRD FR-34–38, FR-43–44 | 2026-10-29 |
 
 ## Dependencies
 

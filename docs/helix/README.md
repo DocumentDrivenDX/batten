@@ -1,5 +1,24 @@
 # Batten review packet
 
+## Fleet operating goal
+
+Batten targets hundreds of integrated applications sharing a complete qualified
+runtime and deep declarative services. Platform-owned dependency upgrades use
+required application assertions, behavioral coverage and host-enforced telemetry.
+Applications need no pip/npm installation and integrate through governed graph
+API capabilities and future defined mechanisms. See the [vision](00-discover/product-vision.md),
+[PRD fleet requirements](01-frame/prd.md), [cohort decision](02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md)
+and [verification allocation](03-test/test-plan.md). Capacity and upgrade safety
+require qualification; this alignment does not authorize product code or rollout.
+
+## Automatic semantic testing
+
+Author intent and explicit refinements must drive complete CLI functionality and
+automatically generated property-based end-to-end suites for every fully declarative
+UI-and-hook composition. [FR-47](01-frame/prd.md) and the [SEM allocation](03-test/test-plan.md)
+make a decisive semantic conformance result a prerequisite for platform migration.
+Unsupported required meaning or missing coverage cannot pass qualification.
+
 ## Composition and hosting packet
 
 The owner-selected next design slice treats Batten as a core-and-extensions SDK

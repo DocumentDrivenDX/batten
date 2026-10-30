@@ -1,6 +1,6 @@
 {
   "scope": "Batten documentation microsite only; no SDK/native/deployed support claim",
-  "guide": "Six source-stamped explanations, independently evaluated by microsite_reader_review",
+  "guide": "Six source-stamped explanations independently evaluated by fleet_alignment_reader for fleet and semantic testing goals.",
   "checks": [
     "strict guide source/link/prose check",
     "documentor reviewed-body stamps",
@@ -22,7 +22,7 @@
   "inputs": [
     {
       "path": "docs/helix/site/build.py",
-      "sha256": "da0b3d4e453d4856ca0b029c78e22499374e5736ffe865ae373f03337896f75f"
+      "sha256": "80247b9f89d54da986946089acc4e66c3801de35acbcea02b9003e3d826b431e"
     },
     {
       "path": "docs/helix/site/assets/favicon.svg",
@@ -38,27 +38,27 @@
     },
     {
       "path": "docs/helix/guide/developer/about.md",
-      "sha256": "8592335c59a05feff21f870d4fb21d58da1d97bab69fe95aa19b9f7cdfad1fe1"
+      "sha256": "7d5ea6ba02ced278f117a4fd1d04ef761e3d09dcfc19f1aa505d55b61fe653c0"
     },
     {
       "path": "docs/helix/guide/developer/architecture.md",
-      "sha256": "c9a09c6b58c07093c7cdbd7b96909f387325e14572fd84124459dd551bb33202"
+      "sha256": "04d69a7aa7564579c912f255686b9602f4a92dc73cd41e9f5cde144180e7cb2e"
     },
     {
       "path": "docs/helix/guide/developer/composition.md",
-      "sha256": "00216b3f1acd14d63433a6185de2096f394117ff343bea57773662d2fabde385"
+      "sha256": "387ed2dd9346c41189efe1a50aa3bdd37fe12940d1451d9996fe2079e901fa27"
     },
     {
       "path": "docs/helix/guide/developer/hosting.md",
-      "sha256": "adf83b4efb5bd150ddfde3636c0f69aabb4540711eb6fc884de6da4f041a75ec"
+      "sha256": "b543703cedbc0919cdab50cf40e8edf69828b034350b5b0867a7c597ced37de6"
     },
     {
       "path": "docs/helix/guide/developer/index.md",
-      "sha256": "4eec33685c792931f2d47a7082850f8a264d2986f63da4141cc2ea85019fc817"
+      "sha256": "a6a616260bd9ded4cb16fefddf7349746722d330bb19f716105726d535ac4920"
     },
     {
       "path": "docs/helix/guide/developer/integrations.md",
-      "sha256": "01ad2eb2ec009bf3666297049aabf0d78165d3fe182acd6ee2687d0d1b8c1f77"
+      "sha256": "b7aeff515338457961e2a364a986d92382fde896355c64930effa3b0e557d550"
     },
     {
       "path": ".helix.yml",
@@ -72,5 +72,6 @@
       "path": ".github/workflows/pages.yml",
       "sha256": "eaa3f8f4c84e332ad2a74da17f6c722ded602ee89f2134eca065eda86ad3267a"
     }
-  ]
+  ],
+  "revision_checks": "Fleet and semantic verification goals: changed governed artifacts validated with preserved frontmatter; all six guide pages independently evaluated; strict source/link/prose, full documentor and static build/link checks passed. Browser observations above belong to prior publication; no new SDK, generated property-based runtime suite, fleet-capacity, browser or platform-migration evidence is claimed."
 }

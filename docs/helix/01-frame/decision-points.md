@@ -22,6 +22,32 @@ These questions preserve source-marked open decisions without inventing outcomes
 - Application capability selection, host environment and execution placement
   are independent axes. The owner authorized their specification and ddx work items.
 
+- The complete packaged runtime removes application-level dependency installation;
+  platform owners qualify dependency upgrades across application evidence.
+- Telemetry, assertions and behavioral test coverage are required platform gates.
+- Shared infrastructure targets hundreds of applications; graph API and future
+  defined mechanisms govern integration without implicit grants.
+
+## Fleet design and evidence questions
+
+The product direction is settled. Platform/host owners must define qualification
+policy, required telemetry and its bounded failure behavior, evidence exchange,
+workload mix, budgets and service objectives. Upstream graph API operations,
+delegation and interface/dependency profiles need exact contracts and qualification.
+Runtime artifact format and rollout/recovery controls also need downstream design.
+These are open implementation inputs; the fleet goals do not await another
+product-scope decision and do not authorize rollout, migrations or product code.
+
+## Semantic verification design inputs
+
+FR-47 settles automatic testing and CLI completeness for fully declarative UI and
+hooks as required scope. Upstream semantic owners must expose exact refinement,
+state-transition, invariant and effect meaning. Batten must contract the CLI,
+generator/oracle interface, replay/shrinking evidence and platform adapter coverage.
+Qualification policy must distinguish complete declared-behavior coverage from
+bounded state-space exploration. Missing contracts block affected implementation,
+not the requirement. Arbitrary procedural code requires an explicit semantic oracle.
+
 ## Questions requiring the owner
 
 | ID | Decision | Recommendation for review | Affected scope | Owner |

@@ -17,7 +17,13 @@ kind: product
 
 ## Summary
 
-Batten is an open-source application SDK in the Novirhyza family. Authors compose native UMF declarations for data and behavior, with typed
+Batten is an open-source application SDK and packaged runtime in the Novirhyza family.
+It targets hundreds of integrated applications on shared infrastructure, with
+platform-owned dependency evolution, enforced observability and behavioral
+verification. Deep declarative services reduce both initial integration and
+ongoing fleet operating cost. This is intended behavior requiring qualification.
+
+Authors compose native UMF declarations for data and behavior, with typed
 procedural hooks and ux-builder interfaces. They select capabilities independently
 of hosting environments and execution placement.
 Host teams embed a public runtime contract that applies admission, identity,
@@ -51,6 +57,17 @@ local database checks, and deployed behavior.
 3. Platform dependencies and permission responsibilities stay explicit and checkable.
 4. Every specified capability receives implementation and qualification; an old
    reference implementation's absence or limitation does not silently reduce scope.
+5. Application authors consume a complete qualified runtime without pip/npm
+   installation; platform owners qualify dependency upgrades across applications.
+6. Required telemetry, assertions and behavioral test coverage provide enforceable
+   evidence for admission, operation and candidate runtime upgrades.
+7. Hundreds of applications share services with explicit resource limits,
+   ownership and attribution, and integrate through governed graph API contracts
+   and future defined mechanisms.
+
+8. Application semantics and use-case refinements drive complete CLI access and
+   automatically generated property-based end-to-end conformance suites for every
+   fully declarative UI-and-hook composition, including platform migration.
 
 ### Success Metrics
 
@@ -59,6 +76,11 @@ local database checks, and deployed behavior.
 | App-specific integration effort | Baseline and target supplied by Erik LaBianca | Compare custom wiring for a fabricated application across hosts. |
 | Developer iteration effort | Baseline and target supplied by Erik LaBianca | Observe build/admit/update steps and elapsed time. |
 | Boundary independence | No private host dependency | Import census and installed-artifact qualification. |
+| Declarative conformance | Every default construct and fully declarative UI/hook composition has automatic CLI and end-to-end qualification | Generate suites from effective semantics; replay against candidate platforms and reject mismatches or missing coverage. |
+| Application package setup | No application-level pip/npm install | Exercise application build/admission/start against a complete runtime without package-registry access. |
+| Upgrade qualification | All affected required behavior has current evidence before rollout | Compare exact candidate and accepted cohorts against application assertions, coverage and protocol compatibility. |
+| Shared fleet scale | Hundreds of applications; exact load mix and service budgets to be qualified | Measure shared-service cost, contention, fairness, isolation and recovery using fabricated applications. |
+| Governed integration | Declared, authorized interfaces only | Exercise graph API access, revocation and dependency change; future mechanisms require their own contracts. |
 
 ### Non-Goals
 
@@ -211,7 +233,9 @@ No additional capability is assigned this priority by the owner.
   dependency cohort before plugin code executes. New third-party dependencies
   are exceptional platform changes requiring owner approval and host admission;
   runtime dependency resolution
-  and vendored platform libraries are refused.
+  and vendored platform libraries are refused. The platform delivers the complete
+  qualified runtime, including selected Python/browser dependencies and services;
+  application build, admission and start must not require pip/npm installation.
 - **FR-24** — Hosts admit installed and stored artifacts under explicit approval
   policies, support shared and owner-scoped admission, and revoke or roll back by
   artifact identity. Packaged extensions expose reviewed public surfaces and
@@ -229,6 +253,9 @@ No additional capability is assigned this priority by the owner.
 - **FR-27** — Namespaced audit and declared telemetry cover admission and execution
   across all surfaces. They carry safe identifiers/counts/outcomes, report capture
   limits, and distinguish offline, native, browser, and deployed evidence.
+  Required telemetry is a host-enforced admission/execution obligation, not an
+  optional application opt-in. Capture loss is observable and cannot silently
+  become passing evidence.
 - **FR-28** — Authors declare required platform grants; operators inspect their
   resolved status and apply them through the platform owner. Applications do not
   acquire grant authority by declaring a requirement.
@@ -237,6 +264,11 @@ No additional capability is assigned this priority by the owner.
 
 - **FR-29** — Shared conformance checks validate declarations, gates, resources,
   artifacts, platform boundaries, compatibility, and documentation against observable behavior.
+  Hosts require application assertions and test evidence covering declared behavior,
+  bound to artifact identity and the qualified cohort. Missing, failing or stale
+  required evidence refuses admission or upgrade qualification. Behavioral coverage
+  and the decreasing test-function budget are independent requirements; no numeric
+  code-coverage threshold is implied.
 - **FR-30** — Offline doubles and public-boundary test hosts let applications test
   without the embedding application. Distinct integration tests qualify real
   PostgreSQL 18, workers, browsers, and deployed adapters; doubles do not confer native support.
@@ -275,6 +307,48 @@ No additional capability is assigned this priority by the owner.
   executor capabilities. Batten exposes scoped invocation, observation and recovery
   bindings while preserving UMF outcomes and uncertainty. Missing upstream support
   blocks the affected component rather than invoking a Batten-specific fallback.
+
+### Subsystem: Fleet operation and evolution
+
+- **FR-42** — Platform owners qualify candidate dependency/runtime cohorts against
+  affected application assertions, behavioral coverage, required telemetry and
+  interface compatibility before rollout. Evidence binds exact application and
+  runtime artifacts; changed inputs invalidate prior qualification. Operators can
+  identify impacted applications, withhold an incompatible upgrade and retain a
+  qualified cohort. Recovery must respect durable-state compatibility; a code
+  rollback does not imply data/schema rollback.
+
+- **FR-43** — The runtime supports a target fleet of hundreds of applications on
+  shared infrastructure through declarative services, with per-application and
+  owner attribution, authorization, bounded concurrency/resource use, fairness
+  and lifecycle control. One application's excess use, revocation or failure
+  must not bypass another's scope or silently consume its allocation. Exact
+  workload, capacity, failure-domain limits and service budgets require qualification.
+
+- **FR-44** — Applications integrate through declared graph API capabilities and
+  future explicitly contracted mechanisms. Every interaction checks authenticated
+  caller or explicit application authority, target access and current grants;
+  graph relationships alone confer no authority. Dependencies and interface
+  versions inform upgrade impact assessment; direct private imports, raw shared
+  database access and undeclared side channels cannot substitute for integration.
+  Batten uses upstream graph semantics through its provider boundary.
+
+### Subsystem: Semantic application verification
+
+- **FR-47** — Every default fully declarative Batten construct must expose its
+  complete functionality through the CLI, including observable UI state,
+  navigation, validation, confirmation, cancellation, hooks, effects and recovery.
+  Batten must automatically generate property-based end-to-end suites from the
+  author's desired semantics and effective use-case refinements. Every fully
+  declarative UI-and-hook composition must be conclusively and automatically
+  tested against that contract without per-application handwritten tests.
+  The same properties must qualify new runtime/platform bindings and block
+  migration on semantic mismatch, missing required coverage or unsupported meaning.
+  Results must identify exact declarations, refinements, platform cohort, model,
+  generation/replay inputs, coverage and exploration bounds. A bounded property
+  run is evidence within that scope, not a proof for unbounded executions.
+  Arbitrary procedural hooks require explicit contracts/oracles; their behavior
+  must not be guessed or silently labeled fully declarative.
 
 ## Acceptance Test Sketches
 
@@ -324,6 +398,10 @@ test functions or permission to write code before the review gate.
 | FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
 | FR-40 | Compose then customize a review journey | Wizard/form/collection with a local detailed editor; undeclared library import | Local code works within supplied APIs; extra dependency refuses without a platform exception. |
 | FR-41 | Present the same review journey on web and terminal | Shared interactions; one browser-only custom control | Supported surfaces preserve meaning; terminal admission refuses the unsupported required control before effects. |
+| FR-42 | Qualify a runtime upgrade | Compatible/breaking cohort, changed app evidence, incompatible durable state | Required exact evidence qualifies; impacted apps are named and unsafe recovery is refused. |
+| FR-43 | Share services across a fabricated fleet | Hundreds of applications, bounded load, an abusive/failing app and revoked owner | Qualified budgets/fairness and scope hold; measured limits and failure domains are reported. |
+| FR-44 | Integrate via graph API | Authorized interaction, foreign target, revoked grant and changed interface | Only declared authorized interactions execute; affected dependents are identified without private access. |
+| FR-47 | Generate and migrate a declarative UI/hook application | Refined wizard/form/collection, declarative hooks, changed platform semantics and unsupported behavior | Automatic CLI and real-client suites exercise all declared behavior; mismatches and coverage gaps block qualification with replayable failures. |
 
 ## Technical Context
 
@@ -386,11 +464,28 @@ APIs require pinned integration proofs; Erik LaBianca and upstream maintainers
 supply the first supported cohort. Deployment availability and service-level
 targets are unmeasured and remain operator-owned.
 
+## Fleet qualification dependencies
+
+The owner selected the packaged-runtime, enforced-evidence and shared-fleet goals.
+Platform owners must supply supported cohort artifacts and upgrade evidence policy;
+host operators must define workloads, telemetry failure policy, resource budgets
+and service objectives for capacity qualification. Upstream maintainers and host
+owners must identify exact graph API operations, authority/delegation and interface
+compatibility profiles before integration implementation. Future mechanisms stay
+unselected. Semantic verification requires exact upstream semantic definitions, refinement rules,
+generator/oracle contracts and CLI/renderer adapters before source implementation.
+Default-construct gaps block their promised automatic qualification; they do not
+reduce required scope. No property-testing library is selected by this alignment.
+None of these design obligations is a live service claim.
+
 ## Success Criteria
 
 Every FR has an exercising acceptance path, qualified on the platform cohort it
 claims. Every source module is classified and every target module has an enforced
 import/public-surface contract. Installed SDK and development-host artifacts work
 without a private source checkout. Consumer outcomes stay unchanged across both
-repositories. The actual checks, rather than documentation alone, prove boundary,
+repositories. Application delivery requires no dependency installation.
+Candidate cohorts pass required application evidence before rollout; shared-fleet
+capacity and graph integration claims name their measured workload, provider and
+authority scope. The actual checks, rather than documentation alone, prove boundary,
 shape, and test-count ratchets before dependent feature implementation.

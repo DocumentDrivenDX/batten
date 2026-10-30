@@ -56,6 +56,14 @@ modules built into a host are resolved at host build time. Plugin admission chec
 both allowed dependency names and version constraints against that installed cohort;
 it never fetches dependencies or treats a name-only match as compatibility.
 
+Platform owners assemble these artifacts and their resolved dependencies into a
+complete qualified runtime. Application build, admission and start consume it
+without pip/npm installation or registry resolution. This includes supplied
+browser assets; optional modules remain selectable during platform assembly.
+The platform owns dependency upgrades and their cross-application qualification.
+Exact runtime transport/container/archive format remains a later packaging design;
+this decision does not select a new deployment technology.
+
 Provisional risk: namespace packaging and cohort release automation add work.
 An installed-artifact proof must demonstrate independent imports and wheel-only
 development hosting before a distribution support claim.

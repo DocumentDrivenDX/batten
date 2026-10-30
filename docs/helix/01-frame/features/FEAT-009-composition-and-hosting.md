@@ -18,7 +18,7 @@ ddx:
 **Priority:** P0
 **Owner:** Erik LaBianca
 **Covered PRD Subsystem(s):** Composition and hosting
-**Covered PRD Requirements:** FR-34–38
+**Covered PRD Requirements:** FR-34–38, FR-43–44
 **Cross-Subsystem Rationale:** One capability: assess and bind an application to an explicitly selected host/provider closure.
 
 ## Overview
@@ -34,6 +34,10 @@ An author declares a fabricated AI review queue once. An operator can explain
 its dependencies, select a headless or UI-enabled installation, and choose local,
 standalone or embedded hosting without rewriting its business meaning.
 Unsupported combinations are visible before application code or services start.
+The platform supplies the complete selected runtime cohort, allowing hundreds of
+applications to share declarative services with explicit limits and attribution.
+Applications integrate through declared graph API capabilities and future defined
+interfaces; the shared deployment does not grant access between them.
 
 ## Problem Statement
 
@@ -81,13 +85,24 @@ mandatory and hides lifetime/authority differences between hosts.
   and embedded profiles. Separated-worker support must name qualified transport,
   custody and recovery evidence independently of profile syntax.
 
+- **CMP-15:** Application delivery must consume the complete qualified runtime
+  without pip/npm installation, consistent with FR-23/42 qualification.
+- **CMP-16:** Shared hosting must enforce per-application/owner scope, resource
+  limits, concurrency, fairness, attribution and independent lifecycle control.
+  The target is hundreds of applications; support claims require measured workloads.
+- **CMP-17:** Graph API interactions must name declared capabilities and authorized
+  targets, recheck current grants, and expose interface/dependency identities for
+  upgrade assessment. Relationships must not become grants or private data access.
+  Future integration mechanisms require separate exact contracts.
+
 ### Non-Functional Requirements
 
 Assessment must be deterministic for identical immutable inputs and have no
 provider/application import, service start, network or environment-read effects.
 Unknown content must survive exchange without unreported loss. Native and
 browser claims require their own evidence. Erik LaBianca and host owners supply
-numeric runtime/size budgets; no fabricated capacity or timing target is selected.
+numeric runtime/size budgets. Hundreds of applications is the owner's scale
+objective; measured capacity, workload assumptions and timing budgets remain open.
 
 ## User Stories
 

@@ -155,6 +155,58 @@ blind retries. Tests await observable state, events, or controlled clocks rather
 than sleeping. The behavior-to-acceptance mapping follows any consolidation.
 No positive-growth trailer automatically authorizes exceeding the ceiling.
 
+### Application and cohort evidence obligations
+
+For PRD FR-27/29/42, admission and upgrade qualification MUST require assertions
+and test evidence for declared application behavior. Evidence MUST bind exact
+application artifact, runtime cohort, required interfaces and effective evidence
+policy. Missing, failing, stale or mismatched required evidence MUST refuse the
+affected admission or qualification; metadata presence alone MUST NOT count as a
+passing assertion. A changed runtime dependency MUST invalidate its prior evidence.
+
+Candidate-cohort qualification MUST identify affected applications and declared
+integration dependents, exercise their required behavior against the candidate,
+and verify required telemetry capture and compatibility. It MUST preserve separate
+installed/native/browser/deployed evidence scopes. Runtime telemetry enforcement
+MUST remain host-owned; an application MUST NOT opt out of required capture.
+Capture loss MUST be visible and MUST NOT be reported as a successful observation.
+
+The behavior-to-assertion mapping MUST survive test consolidation. Behavioral
+coverage and the decreasing function-count ceiling MUST both hold; this contract
+sets no percentage threshold or growth exception. Evidence wire format, telemetry
+catalog, bounded sink-failure policy and upgrade control API remain unselected
+and MUST be contracted before their implementation. These obligations do not
+add fields to CONTRACT-003's structural composition schema.
+
+### Semantic conformance obligations
+
+FR-47 qualification MUST cover every default fully declarative construct and
+every required behavior in a fully declarative UI-and-hook composition, after
+use-case refinements. Complete functionality MUST be exposed through CLI adapters.
+Tooling MUST generate property-based end-to-end suites automatically without
+per-application handwritten scenarios. Required semantic coverage MUST include
+transitions, validation, authorization, confirmation, cancellation, effects,
+uncertainty and recovery wherever declared. Real renderer behavior MUST be tested
+through its actual client; CLI operation parity alone MUST NOT qualify a UI.
+
+The expected semantic model MUST remain distinct from the implementation under
+test. Negative controls MUST demonstrate that a wrong transition, lost refinement
+or changed hook effect fails. Invalid declarations or missing semantic oracles,
+CLI mappings, generator support or required coverage MUST refuse qualification;
+unsupported cases MUST NOT be skipped into a passing result. Every default
+construct remains required scope even if its adapter is not yet implemented.
+
+Evidence MUST bind application, refinements, upstream semantic definitions,
+generator/oracle version, platform cohort and evidence policy, and retain replay
+seeds, execution traces, minimized failing examples, coverage and exploration
+bounds. A passing bounded run MUST NOT be described as proof for every unbounded
+execution. The same semantic properties MUST qualify a new platform; an adapter
+MUST NOT weaken the oracle to make migration pass. Generated cases MUST share
+behavior runners under the existing function-count ceiling. Hook code outside
+qualified declarative semantics MUST supply explicit contracts/oracles before
+claiming automatic conformance. Wire formats, CLI commands and generator APIs
+remain downstream contracts; no schema field or testing library is selected here.
+
 ## Precedence and Compatibility
 
 The owner's review gate postpones executable scaffold changes until review;

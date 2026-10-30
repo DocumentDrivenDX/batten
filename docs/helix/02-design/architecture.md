@@ -20,7 +20,7 @@ ddx:
 
 Batten has a platform-neutral application core and independently installed
 platform modules. This is the proposal for the owner's first review. It covers
-PRD FR-1–41. The composition/hosting packet elaborates the owner-selected
+PRD FR-1–44 and FR-47. The composition/hosting packet elaborates the owner-selected
 next design slice; migration and product code still require build authorization. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
 precedes this target model.
 
@@ -34,6 +34,69 @@ An ontology provider is a Batten platform module, just as a table or model
 provider is. Application data and ontology schema remain native upstream meaning;
 the core preserves their opaque versioned declarations and invokes the owning
 module's validator. A required component with no suitable provider is refused.
+
+## Packaged runtime and fleet responsibilities
+
+The platform assembles selected module wheels, browser artifacts and their exact
+upstream dependencies into a complete qualified runtime. Applications consume
+that runtime without pip/npm installation. Independent module distribution is a
+platform assembly boundary; it does not delegate dependency resolution to each app.
+Deep declarative services and bounded public APIs reduce the behavioral variation
+that fleet-wide upgrades must qualify.
+
+Packaging owns cohort and application artifact identity; qualification tooling
+checks affected application assertions, behavior coverage and required telemetry
+against each candidate cohort. Admission verifies that required evidence matches
+exact artifacts and host policy. Hosts enforce telemetry and capability use at
+execution boundaries. Missing evidence or unobservable required outcomes cannot
+silently qualify an upgrade. ADR-005 and CONTRACT-002 define these obligations;
+exact evidence exchange and rollout automation require downstream contracts.
+
+Shared hosts target hundreds of applications using common platform services.
+Generic runtime/worker coordination enforces application and owner limits,
+concurrency, fairness, revocation and lifecycle; providers enforce native resource
+scope. Host diagnostics attribute outcomes and resource use to each application,
+artifact and cohort. Operators own workload budgets and measured failure domains;
+shared-process containment is for trusted first-party code and does not promise
+hostile-code isolation or immunity to a process-wide failure.
+
+Cross-application integration uses declared graph API capabilities through the
+Arras provider and future separately contracted mechanisms. Core treats those
+capabilities generically. Native graph meaning remains upstream-owned; verified
+caller/application authority, target access and current grants decide every use.
+Declared interfaces and dependency identities support upgrade impact assessment.
+No application obtains another's private objects, schema access or authority merely
+because both share a host or are connected in the graph. Exact upstream API and
+delegation profiles need qualification before source work.
+
+Cohort rollout must preserve application and durable-state compatibility. Retaining
+an accepted runtime allows upgrade withholding; reverting code cannot reverse
+schema changes or completed external effects. Migration and production rollout
+remain separately authorized operations.
+
+## Semantic verification and migration
+
+Upstream model/action and ux-builder definitions own semantic meaning. Batten's
+author tooling must derive an executable test model from pinned intent, UI/hook
+composition and effective use-case refinements. It must generate CLI coverage and
+property-based end-to-end suites for every default fully declarative construct.
+The generator must remain outside pure admission assessment and portable runtime;
+no second UMF compiler or UI engine is introduced.
+
+The test model supplies permitted transitions, invariants and expected outcomes;
+qualified CLI and real renderer/host/provider adapters exercise implementations.
+Changing a refinement regenerates both inputs and expectations. An independent
+semantic oracle and known-broken adapter controls must detect a semantic defect;
+comparing an implementation only with itself cannot establish conformance.
+Generated properties replay across candidate platform bindings to gate migration.
+UI rendering and interaction still need real-client observations alongside CLI
+access to every semantic behavior. Missing required coverage prevents qualification.
+
+Results must bind exact application/model/refinement/cohort inputs and preserve
+seeds, generated traces, minimized counterexamples, coverage and exploration bounds.
+Fully declarative includes hooks whose behavior is expressed in the semantic model;
+an arbitrary code reference is insufficient. Exact upstream oracle/generator,
+CLI and evidence interfaces require contracts before dependent source work.
 
 ## Level 1: System Context
 
