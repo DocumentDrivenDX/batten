@@ -1,5 +1,27 @@
 # Batten review packet
 
+## Composition and hosting packet
+
+The owner-selected next design slice treats Batten as a core-and-extensions SDK
+for declarative AI applications. UMF owns saga semantics; ux-builder owns UX
+artifacts and design tooling. This packet prepares source work without authorizing
+implementation, migration or deployment.
+
+1. [FEAT-009: composition and hosting](01-frame/features/FEAT-009-composition-and-hosting.md).
+2. [FEAT-002: operations and ux-builder](01-frame/features/FEAT-002-operations-and-interfaces.md).
+3. [CONTRACT-003: module/application composition](02-design/contracts/CONTRACT-003-composition.md).
+4. [CONTRACT-004: host profiles](02-design/contracts/CONTRACT-004-host-profiles.md).
+5. [CONTRACT-005: ux-builder binding](02-design/contracts/CONTRACT-005-ux-builder-binding.md).
+6. [ADR-008: independent axes](02-design/adr/ADR-008-independent-composition-axes.md) and
+   [ADR-009: UX ownership](02-design/adr/ADR-009-ux-builder-ownership.md).
+7. [Verification allocation](03-test/test-plan.md) and [work items](01-frame/work-items.jsonl).
+
+US-001 through US-004 in `01-frame/user-stories/` define the fabricated review
+queue across local and embedded hosts. The structural payload schema is an
+authoring artifact; registered UMF packages, runtime validators and real service
+behavior require implementation and qualification.
+
+
 Batten is an independently implemented application SDK with native platform
 dependencies and a public host API. This packet is ready for scope and boundary
 review; the owner review gate precedes migration planning and product code.
@@ -47,8 +69,10 @@ the methodology catalog; `.helix.yml` scopes artifacts to `docs/helix/`.
 
 Work items are project-scoped ddx beads; the installed CLI keeps its canonical
 store outside Git. The [review export](01-frame/work-items.jsonl) contains the
-owner review gate and eight dependent scope epics, all with execution authorization
-off. Feature scope is recorded without an implementation sequence; dependent
+owner review gate, original scope epics and the composition/hosting work items,
+all with execution authorization off. Feature scope is recorded without an implementation sequence; dependent
 implementation work requires the owner review.
-The next authorized packet, after review, is the migration/consumer transition
-plan. Executable checker scaffolding must precede its dependent source features.
+The current owner instruction authorizes the composition/hosting specification
+packet and tracking. Migration remains separate. Before source work, review the
+contracts and dependency proofs, establish the real quality scaffold, then build
+the assessor, host binding and UX slice. No existing open policy is silently settled.

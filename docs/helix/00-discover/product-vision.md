@@ -18,8 +18,9 @@ ddx:
 
 ## Mission Statement
 
-Batten lets application builders define data, actions, and interfaces on a
-constrained platform, while a reusable host handles integration and delivery.
+Batten is a core-and-extensions SDK for declarative AI application development.
+Builders compose UMF declarations with typed procedural hooks, choose platform
+modules, and deliver interfaces through reusable hosts and ux-builder integration.
 
 ## Positioning
 
@@ -29,8 +30,10 @@ one public host boundary. The alternative is assembling platform libraries and
 private host wiring for each application.
 
 UMF supplies modeling and typed access, Weft supplies query compilation, Arras
-supplies ontology interfaces, and Tether supplies agent execution. Batten connects
-those platform capabilities to a coherent application-authoring experience.
+supplies ontology interfaces, and Tether supplies agent execution. UMF owns saga
+semantics; Batten binds qualified executors without defining a second saga language.
+ux-builder owns UI design, components and themes. Batten connects declarations,
+typed clients and hosting without duplicating those platform responsibilities.
 
 ## Vision
 

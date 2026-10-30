@@ -20,8 +20,8 @@ ddx:
 
 Batten has a platform-neutral application core and independently installed
 platform modules. This is the proposal for the owner's first review. It covers
-PRD FR-1–33; detailed feature stories, migration sequencing, and product code
-follow that review. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
+PRD FR-1–39. The composition/hosting packet elaborates the owner-selected
+next design slice; migration and product code still require build authorization. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
 precedes this target model.
 
 **Pure core has zero ontology-specific capabilities.** Its capabilities are:
@@ -44,6 +44,8 @@ module's validator. A required component with no suitable provider is refused.
 | UMF and Weft | Platform library | Native schemas, compiler, typed access, query compilation | Public versioned library APIs |
 | Arras | Platform library | Ontology provider and native reader/action semantics | Public library API |
 | Tether | Platform library | Agent execution and durable session semantics | Public async API |
+| UMF saga vocabulary/executors | Upstream semantics | Saga declaration and qualification; Batten supplies binding only | Exact qualified upstream profile |
+| ux-builder | UI platform | Design-first artifacts, components, tokens and audits | Optional public adapter and pinned artifacts |
 | Databricks, Lakebase, model gateway | Platform services | Governed data, storage, external jobs, models | Owning adapter APIs |
 | Browser and MCP client | User surface | Reach declared operations and resources | Host bridge/MCP |
 
@@ -53,6 +55,7 @@ module's validator. A required component with no suitable provider is refused.
 |-----------|------------|------------------|---------------|
 | Embedding host | Python 3.11+; optional FastAPI/ASGI | Composition, admission, dispatch, lifecycle | Public core API and injected ports |
 | Worker | Python 3.11+; OS process containment | Owner-scoped application execution | Bounded capability-scoped messages |
+| Optional ux-builder adapter | Preserve upstream design artifacts; bind controls/context through portable client | CONTRACT-005 | Public browser client and pinned public ux-builder packages | Core Python imports, copied design system/blueprint, shell internals |
 | Browser client | Browser JavaScript; TypeScript build via Bun | Permission-contained screen/view bridge | Host-owned messages and operation calls |
 | Local development supervisor | Python 3.11+; uv; PostgreSQL 18 helper | Installed-artifact author workflow and cleanup | Public host/platform APIs only |
 | Application state | PostgreSQL 18 or Lakebase PostgreSQL 18 | Tables, durable schedules and lifecycle state | Owned native adapter |
@@ -92,6 +95,8 @@ public-surface checks, and failure rules are in CONTRACT-002.
 | `batten.runtime` | Generic admission, permission decisions, dispatch, dependency lifecycle, queue coordination, confirmation, audit policy | `create_host`, `Host`, `HostServices`, CONTRACT-001 | C and stdlib | Every adapter, testing/tooling, ontology-aware code, concrete HTTP/DB/model types |
 | `batten.packaging` | Wheel metadata, artifact verification, digest, dependency checks, CLI, explain/docs | `inspect_artifact`, `verify_artifact`, author command surface | C, stdlib, `packaging`; uv/pytest as explicit build/test tools | Runtime construction, platform adapters, legacy source imports, runtime package installation |
 | `batten.testing` | Portable doubles, outcome recorders, reusable public-port conformance | `TestHost`, doubles and conformance runners | C, R, stdlib; pytest only at test-runner boundary | Production adapters, host internals, compiler or SQL simulation claiming native equivalence |
+| `batten.umf` | Native application/module/UI UMF validation, metadata projection, typed procedural and saga-reference binding | CONTRACT-003 validation adapter; upstream native targets | C and public UMF APIs | Copied envelope/action/saga compiler, concrete saga engine, host internals |
+| `batten.hosting` | Typed profile resolution, trusted factory composition, ownership/placement binding | CONTRACT-004 `start_plan` | C, R; selected public factories injected; settings dependencies at composition | Eager unselected providers, private host discovery, automatic installs |
 | `batten.tables` | Native UMF component binding, upstream compiler/typed-access integration | `TableComponent`, `TableProvider`, native artifact validation | C and public UMF/Weft APIs | Copied compiler/planner/parser/RLS emitter, native driver, legacy-format adapter |
 | `batten.workers` | Transport, signed authority/owner envelope, process supervision, limits and shutdown | `WorkerExecutor`, `WorkerPolicy`, lifecycle interface | C, R, stdlib/OS interfaces | Host app internals, database credentials, platform SDKs, automatic service construction |
 | `batten.postgres` | PostgreSQL 18 execution, owned/borrowed sessions, identity/pools, durable state and native migration execution | `PostgresServices`, `ConnectionSource`, explicit maintenance API | C, stdlib, `psycopg` | Databricks/gateway SDKs, upstream compiler duplication, UI, host app internals |
@@ -105,7 +110,9 @@ public-surface checks, and failure rules are in CONTRACT-002.
 | `batten.dev` | Local composition, typed file config, fake identity, PostgreSQL lifecycle, supervisor/logging | `run_project`, `stop_project`, `project_status` | Public APIs of the preceding modules; uvicorn, Pydantic Settings, PostgreSQL 18 helper | Any private API, importing a consuming application, source-checkout discovery, new environment names |
 | Browser client | Frame calls, navigation/focus, views and downloads; optional host-side bridge implementation | `AppHost` and host bridge API | Browser APIs; TypeScript/Bun/Playwright for build/verification only | Python objects, shell internals, runtime Bun/Node APIs, arbitrary network credentials |
 
-**Integration Owners**: UMF/Weft → `batten.tables`; PostgreSQL →
+**Integration Owners**: UMF application/saga metadata → `batten.umf`;
+ux-builder → optional browser adapter; typed host profiles → `batten.hosting`;
+UMF/Weft → `batten.tables`; PostgreSQL →
 `batten.postgres`; Lakebase authority → `batten.lakebase`; Databricks resources →
 `batten.databricks`; models → `batten.gateway`; ontology → `batten.arras`;
 agent sessions → `batten.tether`. Each translates provider representations at
@@ -139,6 +146,22 @@ that an import gate already executes; dependent source work requires that gate.
 
 The SDK does not provision operator infrastructure. No deployment, remote creation,
 dependency installation, or operational credential access is part of this review.
+
+## Composition and host profiles
+
+CONTRACT-003 separates immutable application requirements, installed module
+metadata and effect-free assessment. CONTRACT-004 binds the result to local,
+standalone or embedded hosting with independent in-process, child-process or
+qualified remote-worker placement. Providers/resources are selected explicitly;
+application intent does not change between profiles. Remote placement remains
+unsupported until its transport and recovery obligations are qualified.
+
+The public browser client is portable. CONTRACT-005’s optional ux-builder
+adapter preserves original blueprint/assets and maps controls to native targets.
+A headless closure imports no UI packages. `batten.umf` converts exact native
+validation results to core metadata; generic core does not parse ontology or saga
+semantics. `batten.hosting` builds services through a trusted catalog of selected
+public factories, after plan verification. No native saga engine is selected.
 
 ## Data Flow
 

@@ -1,0 +1,108 @@
+---
+ddx:
+  id: FEAT-002
+  type: feature-specification
+  activity: frame
+  authoring:
+    home: repo
+  links:
+    - id: batten.prd
+      kind: derived_from
+    - id: batten.concerns
+      kind: informed_by
+---
+
+# FEAT-002: Operations and ux-builder interfaces
+
+**Feature ID:** FEAT-002
+**Priority:** P0
+**Owner:** Erik LaBianca
+**Covered PRD Subsystem(s):** Operations and interfaces
+**Covered PRD Requirements:** FR-8, FR-9, FR-39
+**Cross-Subsystem Rationale:** One capability: expose the same governed operation through application interfaces.
+
+## Overview
+
+Applications must expose declared operations through host-contained UI and other
+surfaces. The ux-builder integration must reuse its design workflow, components,
+themes and audit tools while binding to native UMF meaning and Batten's public client.
+
+## Ideal Future State
+
+An author starts an application with ux-builder, designs the review journey and
+binds a screen to the same typed operation used by tools and routes. Host changes
+alter authentication and transport bindings without duplicating business logic.
+
+## Problem Statement
+
+Generic data-driven forms do not describe a complete review journey. Recreating
+ux-builder's blueprint, layout and tokens in Batten would produce competing
+sources of truth; binding generated UI directly to host internals would prevent portability.
+
+## Functional Areas
+
+| Area | Responsibility |
+| --- | --- |
+| Operation projection | Preserve FR-8/9 namespace, resource, gate, confirmation and adapter requirements. |
+| UX integration | Resolve UI bindings, host context and cross-profile browser outcomes. |
+
+## Requirements
+
+- **UI-01:** Digest-covered screens/routes/views/downloads must preserve the full
+  containment and declared-resource behavior in FR-8. Every surface must use the
+  typed operation, permission and confirmation obligations of FR-9.
+- **UI-02:** UI bindings must reference exact UMF model/action and Batten operation
+  identities. Labels and display names must not resolve execution targets.
+- **UI-03:** ux-builder must own blueprint structure, journeys, layout, tokens,
+  themes and component semantics. Batten must preserve its original artifacts
+  and add references/bindings rather than a second layout schema.
+- **UI-04:** The same public client must support local, standalone and embedded
+  hosts through explicit authenticated adapters. Server authorization remains
+  decisive for every call, download and protected resource.
+- **UI-05:** Controls must show loading, denial, input validation, success and
+  uncertain outcomes with accessible recovery. An uncertain write must not be
+  automatically reissued as a fresh business action.
+- **UI-06:** Navigation, focus, confirmation and downloads must use the supplied
+  host context without shell internals, raw credentials or ambient host discovery.
+- **UI-07:** Headless installations must omit UI and ux-builder dependencies.
+  A declared UI capability must refuse unsupported renderer/client combinations.
+- **UI-08:** Starter/design-first integration must use a pinned supported public
+  ux-builder cohort. Its build/lint/audit results and Batten's real browser/server
+  authorization evidence must remain separately observable.
+
+### Non-Functional Requirements
+
+Browser modules must execute without Bun/Node runtime globals. Cross-profile
+browser verification must cover the same authored review journey and server
+outcomes. Existing CONTRACT-002 shape/test policies apply; no UI timing or
+accessibility support claim is established by configuration alone.
+
+## User Stories
+
+[US-003: Review through ux-builder](../user-stories/US-003-ux-builder-review.md)
+owns the initial browser slice. Existing FR-8/9 adapter scope remains governed
+by the PRD and needs subsequent story allocation before its implementation.
+
+## Edge Cases and Error Handling
+
+Expired authorization must deny a stale visible control. Unknown blueprint
+content survives unchanged, but unsupported relevant binding meaning prevents
+eligibility. Failed downloads and uncertain writes must remain visible rather
+than appearing successful or causing silent retries.
+
+## Constraints and Assumptions
+
+The owner selected ux-builder integration. Exact public APIs and release cohort
+remain a bounded upstream compatibility proof, not a settled runtime import claim.
+Batten must not run the latest starter automatically or alter another project's tooling.
+
+## Dependencies
+
+FEAT-001/009; CONTRACT-001/003/005; ADR-009. The browser bridge remains independent
+of a particular host shell; the optional ux-builder adapter owns its UI dependencies.
+
+## Out of Scope
+
+A Batten design system, blueprint fork, automatic UX inference from record fields,
+client-owned authorization, publishing/deploying a generated application, and
+claiming ux-builder audit alone proves Batten's server integration.

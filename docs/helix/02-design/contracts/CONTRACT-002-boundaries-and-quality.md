@@ -47,6 +47,9 @@ standard-library imports are allowed unless another rule forbids an effect.
 | BND-R | `batten.runtime` | C | None |
 | BND-P | `batten.packaging` | C | `packaging`; build/test executables through explicit tool boundary |
 | BND-T | `batten.testing` | C, R | None in portable doubles; `pytest` only in runner adapter |
+| BND-N | `batten.umf` | C | Exact public UMF APIs in the selected cohort; no native engine reimplementation |
+| BND-HOST | `batten.hosting` | C, R | `pydantic`, `pydantic_settings`; selected public factories supplied through a closed trusted catalog |
+| BND-UX | Optional ux-builder browser adapter | Public browser-client API | Pinned public ux-builder packages; no Python/Bun/Node runtime or private host imports |
 | BND-U | `batten.tables` | C | Public `umf_core`, `umf_codegen`, `umf_access`, `weft` surfaces in selected cohort |
 | BND-W | `batten.workers` | C, R | None; OS capabilities qualified separately |
 | BND-G | `batten.postgres` | C | Public `psycopg` surfaces |

@@ -23,19 +23,21 @@ follow the owner's scope review rather than empty placeholder files.
 | ID | Name | Description | Priority | Owner | Source | Updated |
 |----|------|-------------|----------|-------|--------|---------|
 | FEAT-001 | Declaration and admission | Specification, settings, gate, namespace, listing, safe refusal. | P0 | Erik LaBianca | PRD FR-1–7 | 2026-10-29 |
-| FEAT-002 | Operations and interfaces | One operation across screens, views, tools, workflows, and downloads. | P0 | Erik LaBianca | PRD FR-8–9 | 2026-10-29 |
+| FEAT-002 | Operations and interfaces | One operation across surfaces, including the ux-builder binding boundary. | P0 | Erik LaBianca | PRD FR-8–9, FR-39 | 2026-10-29 |
 | FEAT-003 | Native data and identity | Native UMF, typed access, lifecycle, row policy, principal separation. | P0 | Erik LaBianca | PRD FR-10–17 | 2026-10-29 |
 | FEAT-004 | Workers and background execution | Owner-scoped execution, scheduling, confirmation, jobs and events. | P0 | Erik LaBianca | PRD FR-18–22 | 2026-10-29 |
 | FEAT-005 | Artifact delivery and lifecycle | Wheels, dependency admission, approval, revocation, extensions, removal. | P0 | Erik LaBianca | PRD FR-23–24 | 2026-10-29 |
 | FEAT-006 | Platform resources and diagnostics | Secrets, files, search, models, audit, telemetry, grants. | P0 | Erik LaBianca | PRD FR-25–28 | 2026-10-29 |
 | FEAT-007 | Author tooling and qualification | Doubles, conformance, executable docs, development host and MCP. | P0 | Erik LaBianca | PRD FR-29–31 | 2026-10-29 |
 | FEAT-008 | Host embedding and compatibility | Public host API and independent consumer/dependency closures. | P0 | Erik LaBianca | PRD FR-32–33 | 2026-10-29 |
+| FEAT-009 | Composition and hosting | Selectable modules, UMF application composition, host profiles, effect-free assessment and saga bindings. | P0 | Erik LaBianca | PRD FR-34–38 | 2026-10-29 |
 
 ## Dependencies
 
 | Feature | Depends On | Type | Notes |
 |---------|------------|------|-------|
-| FEAT-002 | FEAT-001 | Required | All surfaces use the same declared operation and gate. |
+| FEAT-009 | FEAT-001, FEAT-008 | Required | Composes admitted applications through the public host boundary. |
+| FEAT-002 | FEAT-001, FEAT-009 | Required | All surfaces use the same declared operation and gate. |
 | FEAT-003 | FEAT-001 | Required | Data requires effective actor and permission context. |
 | FEAT-004 | FEAT-001, FEAT-003 | Required | Workers/jobs preserve declared scope and identity. |
 | FEAT-005 | FEAT-001, FEAT-004 | Required | Admission and worker verification precede artifact execution. |

@@ -45,3 +45,13 @@ Review the product scope and module boundaries, especially the ontology-neutral
 core and generic provider lifecycle. After review, resolve affected policy
 questions and prepare the separate two-repository consumer transition plan with
 installed and hosted consumer forms and green checks at each slice.
+
+## Composition and hosting direction
+
+The owner authorized the next requirements/contracts/ddx packet following the
+core-and-extensions discussion. Native UMF is the declarative foundation, UMF
+owns saga semantics, and ux-builder supplies the UI design/tooling integration.
+Selectable modules, host profiles and execution placement are independent. This
+authorization advances design and tracking; it does not authorize source code,
+migration, deployment, commits or pushes. The original consumer-transition
+requirements remain in scope for their later separately reviewed plan.

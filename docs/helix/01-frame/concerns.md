@@ -31,11 +31,15 @@ decisions. Selection sources distinguish rulings from proposed defaults.
 | browser-client | project-local; assumption/default, ADR-001 | ui | Screens and views need a browser bridge, not Python host objects. | Browser-compatible JavaScript; TypeScript/Bun build tools outside runtime; no shell imports; Chromium/Playwright qualification. |
 | typed-file-configuration | project-local; operator-override, ADR-006 | all | Files are authoritative; no new environment variables. | Immutable typed settings, explicit layers, injected identity/services, redacted diagnostics. |
 | cleanroom-public-artifacts | project-local; operator-override | all | Batten is independently implemented and openly distributable. | MIT OR Apache-2.0, copyright Synaptiq; no private source/history, client identities, credentials, or operational data. |
+| ux-builder-integration | project-local; operator-override | ui, cli | Owner requires ux-builder integration without duplicating its design system. | Public blueprint/component/theme/audit surfaces; pinned cohort; native metadata references; browser evidence for local and embedded hosts. |
+| upstream-saga-semantics | project-local; operator-override | api, data | UMF owns saga meaning. | Exact declared executor pairing; preserve uncertainty; no Batten saga compiler or orchestrator selected. |
 
 The project-local concerns declare their scopes and practices here. They do not
 select a private design system, identity provider, or platform deployment topology.
-This is a library/host SDK: those exclusive slots remain host-owned. Frontend
-framework is also author/host-owned; the bridge itself uses browser APIs.
+This is a library/host SDK: identity and deployment slots remain host-owned.
+The portable bridge uses browser APIs; the optional ux-builder integration adopts
+its upstream-supported UI stack through a pinned cohort, without imposing that
+stack on headless installations or other hosts.
 
 ## Project Overrides
 

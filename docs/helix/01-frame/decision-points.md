@@ -1,7 +1,7 @@
 # Owner decision points
 
-The current review covers requirements, the boundary audit, and the proposed
-module split. Migration planning and product code require the owner's review.
+The current review covers requirements, the boundary audit, module boundaries,
+and the owner-authorized composition/hosting and ux-builder design packet. Migration planning and product code require the owner's review.
 These questions preserve source-marked open decisions without inventing outcomes.
 
 ## Resolved direction
@@ -16,6 +16,11 @@ These questions preserve source-marked open decisions without inventing outcomes
   licensing, and trusted first-party permission containment are fixed rulings.
 - The first reviewed behavioral suite establishes the measured test-count ceiling;
   afterward it only decreases.
+
+- UMF owns saga semantics; Batten binds exact supported declarations/executors.
+- ux-builder integration is explicit and optional; its design artifacts remain upstream-owned.
+- Application capability selection, host environment and execution placement
+  are independent axes. The owner authorized their specification and ddx work items.
 
 ## Questions requiring the owner
 
@@ -46,3 +51,11 @@ historical local checks for those observations.
 The source plan refers to decision labels whose definitions are absent in the
 provided file. Its domain-specific pipeline/evaluation policy is not silently
 re-framed as an SDK decision; the owner must supply any relevant missing intent.
+
+## Bounded integration proof dependencies
+
+These require evidence rather than a new policy ruling. Erik LaBianca and the
+UMF/ux-builder maintainers supply the exact public release/API cohort; the host
+owner supplies resource limits, identity and transport qualification. Until then,
+required unsupported capabilities refuse. A descriptor, declared version or
+valid schema is not proof of native saga execution, UI quality or deployed hosting.

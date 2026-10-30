@@ -30,6 +30,8 @@ Names below are proposals, not registry-availability or publication claims.
 | `novirhyza-batten-core` | `batten.contracts`, `batten.runtime` | Standard library |
 | `novirhyza-batten-tools` | `batten.packaging`, `batten.testing` | Core and artifact tooling; pytest at test-runner boundary |
 | `novirhyza-batten-workers` | `batten.workers` | Core and OS process APIs |
+| `novirhyza-batten-umf` | `batten.umf` | Core and public UMF validation/metadata APIs |
+| `novirhyza-batten-hosting` | `batten.hosting` | Core and typed-settings tools; provider factories injected |
 | `novirhyza-batten-tables` | `batten.tables` | Core and public UMF/Weft packages |
 | `novirhyza-batten-postgres` | `batten.postgres` | Core and psycopg |
 | `novirhyza-batten-lakebase` | `batten.lakebase` | Core and Databricks SDK for authority/endpoint integration |
@@ -43,6 +45,9 @@ Names below are proposals, not registry-availability or publication claims.
 
 The browser bridge has its own versioned artifact, proposed as
 `@novirhyza/batten-ui`; host and frame protocol compatibility is explicit.
+The optional ux-builder adapter is a separate browser artifact, proposed as
+`@novirhyza/batten-ux-builder`, depending on the portable client and the selected
+public ux-builder cohort. It adds no mandatory dependency to headless wheels.
 Extras may provide convenient installation groups referencing these wheels;
 they do not weaken the underlying module boundaries.
 

@@ -1,0 +1,54 @@
+{
+  "purpose": "Source inspection for Batten application/module/host/UI extension gaps; no native execution or publication claim",
+  "source_project": "UMF",
+  "head": "b12a489844f29947ee52115b90f4ccc5c8bc5032",
+  "core_version": "0.10.0",
+  "actions_version": "0.1.0",
+  "sources": [
+    {
+      "path": "spec/metamodel/umf.yaml",
+      "sha256": "1e406ee49b0c4c08b8eb996bb1fcb6e96fa8d6f4673f0877aa1800986b2dbbce"
+    },
+    {
+      "path": "spec/core/extension-package.schema.json",
+      "sha256": "ec2f2d0dec7edf563b3275fcfd5f96ed7789547aaba8b7cc534ddc411639428f"
+    },
+    {
+      "path": "spec/extensions/actions/schema.json",
+      "sha256": "0263c21ddd91347bf3afc2b7ab14b2c0943f1da5f5c493658cd105277f6d8d09"
+    },
+    {
+      "path": "spec/extensions/actions/package.json",
+      "sha256": "77006f8c094af31c4c1f5c95424ff15eb97da6de6e969f8b3a91150960f200b8"
+    },
+    {
+      "path": "spec/domain-packs/medical/pack.json",
+      "sha256": "0ca3d6d61f4eb5f2d242750e9fcac4a142b0e38f5e8214077be903e27f77b7ae"
+    }
+  ],
+  "reuse": [
+    "UMF document and extension registration",
+    "exact native identities and typed references",
+    "inert handler bindings",
+    "unknown preservation"
+  ],
+  "local_gaps": [
+    "module capability selection",
+    "application composition",
+    "host ownership and placement",
+    "UI operation binding"
+  ],
+  "saga": "Upstream-owned; no supported saga vocabulary/version inferred from inspection",
+  "ux_builder": {
+    "site": "https://documentdrivendx.github.io/ux-builder/",
+    "inspected_asset": "https://documentdrivendx.github.io/ux-builder/assets/home-RMgANiHi.js",
+    "sha256": "b8766febd6bdcb31bc9ce47efe4a943ef243eb296eb808e89f34a1183f8596fc",
+    "observed_documentation": [
+      "design-first starter",
+      "blueprint",
+      "public UI/tokens",
+      "audit"
+    ],
+    "limit": "Documentation inspection only; exact runtime APIs and supported package cohort require a separate proof."
+  }
+}

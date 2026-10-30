@@ -17,8 +17,9 @@ kind: product
 
 ## Summary
 
-Batten is an open-source application SDK in the Novirhyza family. Python authors
-declare native data models, operations, tools, workflows, jobs, and screens.
+Batten is an open-source application SDK in the Novirhyza family. Authors compose native UMF declarations for data and behavior, with typed
+procedural hooks and ux-builder interfaces. They select capabilities independently
+of hosting environments and execution placement.
 Host teams embed a public runtime contract that applies admission, identity,
 permissions, audit, and lifecycle consistently across those surfaces.
 
@@ -93,7 +94,8 @@ assessment. Source-specific consumer identities stay in the private audit packet
 
 The complete specified scope is required: declaration/admission, operations/UI,
 native data access, worker/background execution, artifact delivery, platform
-resources, author tooling, and host embedding. Every FR below is P0; grouping
+resources, author tooling, and host embedding. Selectable modules are optional per application; implementing their specified
+contracts remains required product scope. Every FR below is P0; grouping
 organizes ownership and does not create optional delivery tiers.
 
 ### Should Have (P1)
@@ -134,6 +136,12 @@ No additional capability is assigned this priority by the owner.
 - **FR-9** — One typed operation supplies its route, tool, screen, view, and event
   adapters. Ambiguous tool ownership or undeclared calls are refused. Human-started
   operations use declared confirmations; model-started writes require approval.
+
+- **FR-39** — UI applications integrate with ux-builder design artifacts and its
+  public component/theme/audit tooling. Stable bindings connect UI controls to UMF
+  metadata and Batten operations across local, standalone and embedded hosts.
+  Headless applications omit UI dependencies. Host authentication, confirmation
+  and resource containment apply equally to generated and custom screens.
 
 ### Subsystem: Native data and identity
 
@@ -233,6 +241,29 @@ No additional capability is assigned this priority by the owner.
   dependency closure. Host development uses public APIs only. Consumer transition
   must preserve visible behavior in both the SDK and consuming-host repositories.
 
+### Subsystem: Composition and hosting
+
+- **FR-34** — Authors and host operators select independently installed modules
+  with explicit capabilities, dependencies and compatibility. Unselected optional
+  modules introduce no eager imports or mandatory platform dependency.
+- **FR-35** — Authors compose application meaning through native UMF documents
+  and Batten-owned application extensions. Models, action types, saga semantics
+  and unknown content retain upstream authority; procedural hooks bind by reviewed
+  identity without declarations installing code or granting authority.
+- **FR-36** — Operators bind the same application to local, standalone and embedded
+  hosting independently of platform choices and execution placement. Profiles
+  describe identity, ownership, resources, selected providers and supported
+  placement; unavailable combinations refuse before effects. Separated workers
+  require independently qualified transport and recovery.
+- **FR-37** — Authors assess composition without starting services or executing
+  application/provider code. Results explain missing or ambiguous capabilities,
+  cycles, incompatibilities, unknown semantics and placement limits with safe
+  identifiers. An eligible plan is bound to exact inputs and is not runtime readiness.
+- **FR-38** — Saga-enabled applications use UMF-owned saga declarations and exact
+  executor capabilities. Batten exposes scoped invocation, observation and recovery
+  bindings while preserving UMF outcomes and uncertainty. Missing upstream support
+  blocks the affected component rather than invoking a Batten-specific fallback.
+
 ## Acceptance Test Sketches
 
 Each row covers the named P0 requirements; these are verification sketches, not
@@ -273,6 +304,12 @@ test functions or permission to write code before the review gate.
 | FR-31 | Run the author guide | Empty fabricated project through local host and MCP | Documented workflow works from installed artifacts alone. |
 | FR-32 | Embed and shut down | Borrowed and owned services, cancellation | Public lifecycle manages only its owned resources and reports cleanup. |
 | FR-33 | Qualify consumers | Installed project and hosted declaration | No private dependency; preserved outcomes across both repositories. |
+| FR-34 | Select a headless module closure | Only core and a reviewed provider installed | No UI/platform package imported outside selection; closure conflicts refuse. |
+| FR-35 | Exchange application intent | Native model/action references plus unfamiliar extension content | Original meaning retained; relevant unknown semantics block eligibility. |
+| FR-36 | Change host profile | One review application under local and embedded profiles | Same application digest; different explicit bindings; unsupported placement refuses. |
+| FR-37 | Assess before execution | Missing/ambiguous provider, cycle, wrong version | Safe deterministic findings; no provider/application import or service effect. |
+| FR-38 | Admit a saga component | Exact UMF declaration with absent or qualified executor | Explicit refusal or upstream-preserving binding; no fallback engine. |
+| FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
 
 ## Technical Context
 
@@ -324,6 +361,16 @@ unbound scoped data steps, and the first measured test budget. Platform operator
 own Lakebase and deployed identity qualification; those require observation rather
 than a policy guess. The private source plan's undefined decision references carry
 no inferred outcome.
+
+## Composition authority and open dependencies
+
+The owner authorized a composition-and-hosting design packet and ddx work items.
+This advances specification work; the original implementation/migration review
+gate remains until explicit build authorization. UMF owns saga semantics and
+ux-builder owns design artifacts. Exact dependency releases and upstream public
+APIs require pinned integration proofs; Erik LaBianca and upstream maintainers
+supply the first supported cohort. Deployment availability and service-level
+targets are unmeasured and remain operator-owned.
 
 ## Success Criteria
 
