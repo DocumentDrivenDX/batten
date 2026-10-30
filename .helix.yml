@@ -1,3 +1,44 @@
 flows:
   - id: helix
     root: docs/helix/
+publish:
+  schema: 1
+  traits: []
+  audiences: [developer]
+  profile: design-stage
+  out: docs/helix/guide
+  scope: docs/helix
+  skip: [developer/walkthrough, developer/developer-guide]
+  pages:
+    developer:
+      - id: composition
+        title: Compose an application
+        kind: explanation
+        task: Understand selectable capabilities and assessment before execution.
+        sources: [docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md, docs/helix/02-design/contracts/CONTRACT-003-composition.md]
+      - id: hosting
+        title: Choose a host
+        kind: explanation
+        task: Distinguish application intent, hosting environments and execution placement.
+        sources: [docs/helix/02-design/contracts/CONTRACT-004-host-profiles.md, docs/helix/02-design/adr/ADR-008-independent-composition-axes.md]
+      - id: integrations
+        title: Build on the platform
+        kind: explanation
+        task: Understand upstream ownership and the optional ux-builder boundary.
+        sources: [docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md, docs/helix/02-design/architecture.md]
+      - id: about
+        title: How this guide is made
+        kind: explanation
+        task: Understand source provenance, rendering and verification limits.
+        sources: [.helix.yml, docs/helix/site/build.py]
+  site:
+    title: Batten
+    description: Declarative AI applications. Deliberate platform choices.
+    repo_url: https://github.com/DocumentDrivenDX/batten
+    branch: main
+    target: static
+handling:
+  never_publish:
+    - credentials, tokens, private source audit identities, or operational data
+  patterns:
+    - '(?i)-----BEGIN [A-Z ]*PRIVATE KEY-----'

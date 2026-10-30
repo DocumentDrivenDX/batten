@@ -1,0 +1,68 @@
+{
+  "scope": "Batten documentation microsite only; no SDK/native/deployed support claim",
+  "guide": "Six source-stamped explanations, independently evaluated by microsite_reader_review",
+  "checks": [
+    "strict guide source/link/prose check",
+    "documentor reviewed-body stamps",
+    "Python stdlib build with source digest rejection",
+    "Chromium real browser checks on all six routes",
+    "local HTML links return success",
+    "module selection, host selection and placement notes",
+    "light/dark preference persistence",
+    "mobile menu and Escape focus return",
+    "no horizontal overflow at 320,390,768,1024,1440 CSS pixels",
+    "no uncaught browser errors"
+  ],
+  "assembly": "Custom stdlib static assembly; documentor handles provenance, reader stamps and guide checks. No generated architecture model exists; the visual follows the cited architecture.",
+  "missing_source_kinds": [
+    "SDK implementation",
+    "installed/runtime/native/deployed evidence"
+  ],
+  "hosting": "Loopback preview only. No hosting configuration changed.",
+  "inputs": [
+    {
+      "path": "docs/helix/site/build.py",
+      "sha256": "da0b3d4e453d4856ca0b029c78e22499374e5736ffe865ae373f03337896f75f"
+    },
+    {
+      "path": "docs/helix/site/assets/favicon.svg",
+      "sha256": "92e2c8ce628aa45a1e9d04e5d1c82fbbfb8c80800ffabe1cb03c08ddfca58f3e"
+    },
+    {
+      "path": "docs/helix/site/assets/site.css",
+      "sha256": "d5a0db3966b88126a8583ef91787936b9f08ccd46115ca796e9ffd3f66756636"
+    },
+    {
+      "path": "docs/helix/site/assets/site.js",
+      "sha256": "be01ba8b3a3898063704861336f88ace4559764224993182fe42309caf748f9a"
+    },
+    {
+      "path": "docs/helix/guide/developer/about.md",
+      "sha256": "8592335c59a05feff21f870d4fb21d58da1d97bab69fe95aa19b9f7cdfad1fe1"
+    },
+    {
+      "path": "docs/helix/guide/developer/architecture.md",
+      "sha256": "c9a09c6b58c07093c7cdbd7b96909f387325e14572fd84124459dd551bb33202"
+    },
+    {
+      "path": "docs/helix/guide/developer/composition.md",
+      "sha256": "00216b3f1acd14d63433a6185de2096f394117ff343bea57773662d2fabde385"
+    },
+    {
+      "path": "docs/helix/guide/developer/hosting.md",
+      "sha256": "adf83b4efb5bd150ddfde3636c0f69aabb4540711eb6fc884de6da4f041a75ec"
+    },
+    {
+      "path": "docs/helix/guide/developer/index.md",
+      "sha256": "4eec33685c792931f2d47a7082850f8a264d2986f63da4141cc2ea85019fc817"
+    },
+    {
+      "path": "docs/helix/guide/developer/integrations.md",
+      "sha256": "01ad2eb2ec009bf3666297049aabf0d78165d3fe182acd6ee2687d0d1b8c1f77"
+    },
+    {
+      "path": ".helix.yml",
+      "sha256": "d40f14904cd12b1a9eb42b9072977dcc1c1c1798e47d9bef2dde7fee3bef70ed"
+    }
+  ]
+}
