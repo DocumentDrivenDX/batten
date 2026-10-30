@@ -1,28 +1,21 @@
 {
   "scope": "Batten documentation microsite only; no SDK/native/deployed support claim",
-  "guide": "Six source-stamped explanations independently evaluated by fleet_alignment_reader against current cited sources for fleet-goal alignment.",
+  "guide": "Current explanations undergo an independent reader evaluation; source stamps and review receipts identify exact bodies.",
   "checks": [
-    "strict guide source/link/prose check",
-    "documentor reviewed-body stamps",
-    "Python stdlib build with source digest rejection",
-    "Chromium real browser checks on all six routes",
-    "local HTML links return success",
-    "module selection, host selection and placement notes",
-    "light/dark preference persistence",
-    "mobile menu and Escape focus return",
-    "no horizontal overflow at 320,390,768,1024,1440 CSS pixels",
-    "no uncaught browser errors"
+    "Current strict guide source/link/prose check",
+    "Current documentor reviewed-body stamps",
+    "Current stdlib static build and HTML link/anchor/prefix verification"
   ],
   "assembly": "Custom stdlib static assembly; documentor handles provenance, reader stamps and guide checks. No generated architecture model exists; the visual follows the cited architecture.",
   "missing_source_kinds": [
-    "SDK implementation",
-    "installed/runtime/native/deployed evidence"
+    "complete application runtime",
+    "native cloud/deployed evidence"
   ],
   "hosting": "GitHub Pages publication uses the repository workflow; live delivery is verified separately from local microsite QA.",
   "inputs": [
     {
       "path": "docs/helix/site/build.py",
-      "sha256": "80247b9f89d54da986946089acc4e66c3801de35acbcea02b9003e3d826b431e"
+      "sha256": "d8835dea82e82375ce48e6bd952994cc01438b7d0a1043eeefb0963ae975d84d"
     },
     {
       "path": "docs/helix/site/assets/favicon.svg",
@@ -38,11 +31,11 @@
     },
     {
       "path": "docs/helix/guide/developer/about.md",
-      "sha256": "8901252c6ea5752341c14e250af831d0b219beb92db822bb0b5b69bf64041ae5"
+      "sha256": "db70ae3d64a5fe38c08dd36059e62eff95ab4794e1d8a4a2afec4198810caeff"
     },
     {
       "path": "docs/helix/guide/developer/architecture.md",
-      "sha256": "42e45f064b4801c3194684ffc9457daeb944fa8691ad4ebc45623903b101acb6"
+      "sha256": "1e282cf49b8f7f39262c939c74c8e2adc56021c93126bac21434be71bb3bd369"
     },
     {
       "path": "docs/helix/guide/developer/composition.md",
@@ -54,11 +47,11 @@
     },
     {
       "path": "docs/helix/guide/developer/index.md",
-      "sha256": "268dfaaa75ac88b2004758f7a3158da3c56612f0d299f691ee6ef073334951fc"
+      "sha256": "844cdb058048be68f75582f761be682fcb60981ba6d9f732f8c1fe241f21e4b8"
     },
     {
       "path": "docs/helix/guide/developer/integrations.md",
-      "sha256": "2ffbc36dd68735eff034a859ac2709e1d6de28ddc6cdebd0b5fc0ca7594dd3a5"
+      "sha256": "a26aa45072273c04dcc6d79b8e5fb3614ab4d46ef6e5a8389d65f69311b2fe4b"
     },
     {
       "path": ".helix.yml",
@@ -66,12 +59,13 @@
     },
     {
       "path": "docs/helix/site/verify.py",
-      "sha256": "25085922d4677d2b9e48aab47b7e2452a89d4b6ca74b2d14134a4e7ed9586e62"
+      "sha256": "479af98b72b1bf760a1ffd1e357de4fd3af9a7cb2f9475bcab8f3423647f9b98"
     },
     {
       "path": ".github/workflows/pages.yml",
       "sha256": "eaa3f8f4c84e332ad2a74da17f6c722ded602ee89f2134eca065eda86ad3267a"
     }
   ],
-  "revision_checks": "Storage conditional/range/multipart and listing design: schema compilation and fabricated positive/negative shape cases passed. Governed artifact validation, independent six-page reader review and source checks passed after refreshing concurrent source changes; static assembly/link checks passed. Browser observations above belong to prior publication; no native backend, new browser or deployment evidence is claimed."
+  "revision_checks": "Storage conditional/range/multipart and listing design: schema compilation and fabricated positive/negative shape cases passed. Governed artifact validation, independent six-page reader review and source checks passed after refreshing concurrent source changes; static assembly/link checks passed. Browser observations above belong to prior publication; no native backend, new browser or deployment evidence is claimed.",
+  "prior_browser_observation": "Prior main-revision Chromium interaction and responsive observations are historical; they were not rerun for this local source slice."
 }

@@ -90,36 +90,68 @@ Provider `prepare` checks readiness under CONTRACT-001.
 
 ```python
 class ObjectStore(Protocol):
-    def open_read(self, key: str, *, offset: int = 0,
-                  length: int | None = None, condition: ReadCondition = Any(),
-                  expected_digest: Digest | None = None
-                  ) -> AsyncContextManager[ObjectRead]: ...
-    async def stat(self, key: str, *, condition: ReadCondition = Any()
-                   ) -> ObjectInfo: ...
-    async def write(self, key: str, source: bytes | AsyncIterable[bytes], *,
-                    condition: WriteCondition = Absent(),
-                    expected_digest: Digest | None = None) -> WriteReceipt: ...
-    async def delete(self, key: str, *, condition: ReadCondition = Any()
-                     ) -> DeleteReceipt: ...
-    async def list(self, *, prefix: str = "", recursive: bool = False,
-                   detail: Literal["keys", "basic"] = "keys",
-                   cursor: str | None = None, limit: int) -> ListPage: ...
-    async def begin_upload(self, key: str, *, condition: WriteCondition = Absent(),
-                           expected_digest: Digest | None = None) -> UploadInfo: ...
+    def open_read(
+        self,
+        key: str,
+        *,
+        offset: int = 0,
+        length: int | None = None,
+        condition: ReadCondition = Any(),
+        expected_digest: Digest | None = None,
+    ) -> AsyncContextManager[ObjectRead]: ...
+    async def stat(
+        self, key: str, *, condition: ReadCondition = Any()
+    ) -> ObjectInfo: ...
+    async def write(
+        self,
+        key: str,
+        source: bytes | AsyncIterable[bytes],
+        *,
+        condition: WriteCondition = Absent(),
+        expected_digest: Digest | None = None,
+    ) -> WriteReceipt: ...
+    async def delete(
+        self, key: str, *, condition: ReadCondition = Any()
+    ) -> DeleteReceipt: ...
+    async def list(
+        self,
+        *,
+        prefix: str = "",
+        recursive: bool = False,
+        detail: Literal["keys", "basic"] = "keys",
+        cursor: str | None = None,
+        limit: int,
+    ) -> ListPage: ...
+    async def begin_upload(
+        self,
+        key: str,
+        *,
+        condition: WriteCondition = Absent(),
+        expected_digest: Digest | None = None,
+    ) -> UploadInfo: ...
     async def upload_status(self, upload: UploadRef) -> UploadInfo: ...
-    async def write_part(self, upload: UploadRef, part_number: int,
-                         source: bytes | AsyncIterable[bytes], *,
-                         expected_digest: Digest | None = None) -> PartReceipt: ...
-    async def list_parts(self, upload: UploadRef, *, cursor: str | None = None,
-                         limit: int) -> PartPage: ...
-    async def complete_upload(self, upload: UploadRef,
-                              parts: Sequence[PartReceipt]) -> WriteReceipt: ...
+    async def write_part(
+        self,
+        upload: UploadRef,
+        part_number: int,
+        source: bytes | AsyncIterable[bytes],
+        *,
+        expected_digest: Digest | None = None,
+    ) -> PartReceipt: ...
+    async def list_parts(
+        self, upload: UploadRef, *, cursor: str | None = None, limit: int
+    ) -> PartPage: ...
+    async def complete_upload(
+        self, upload: UploadRef, parts: Sequence[PartReceipt]
+    ) -> WriteReceipt: ...
     async def abort_upload(self, upload: UploadRef) -> AbortReceipt: ...
+
 
 class ObjectRead(Protocol):
     info: ObjectInfo
     selection: ReadSelection
     verification: TransferVerification | None
+
     def __aiter__(self) -> AsyncIterator[bytes]: ...
     async def aclose(self) -> None: ...
 ```
@@ -440,17 +472,20 @@ Illustrative typed-hook use; `context` is supplied by the admitted invocation:
 
 ```python
 objects = for_resource(context, "attachments")
-receipt = await objects.write("reviews/demo/summary.txt", b"Fabricated review",
-                              condition=Absent())
+receipt = await objects.write(
+    "reviews/demo/summary.txt", b"Fabricated review", condition=Absent()
+)
 async with objects.open_read(receipt.info.key) as content:
     async for chunk in content:
         await approved_consumer.send(chunk)
-page = await objects.list(prefix="reviews/", recursive=False, detail="keys",
-                          limit=context.storage_page_limit)
+page = await objects.list(
+    prefix="reviews/", recursive=False, detail="keys", limit=context.storage_page_limit
+)
 info = await objects.stat(receipt.info.key)
 assert info.version is not None  # conditional capability required at admission
-await objects.write(info.key, b"Revised fabricated review",
-                    condition=Matches(info.version))
+await objects.write(
+    info.key, b"Revised fabricated review", condition=Matches(info.version)
+)
 ```
 
 The same app resource binds locally or to a Volumes root. Neither root is in the

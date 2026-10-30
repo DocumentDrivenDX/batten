@@ -6,3 +6,7 @@ node_modules/
 __pycache__/
 dist/
 coverage/
+.pytest_cache/
+.ruff_cache/
+build/
+*.egg-info/

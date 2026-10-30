@@ -1,0 +1,38 @@
+{
+  "batten.storage": [
+    "AbortReceipt",
+    "Absent",
+    "Any",
+    "Authority",
+    "Condition",
+    "DeleteReceipt",
+    "Digest",
+    "KeyEntry",
+    "Limits",
+    "ListEntry",
+    "ListPage",
+    "Matches",
+    "ObjectInfo",
+    "ObjectRead",
+    "ObjectStore",
+    "PartPage",
+    "PartReceipt",
+    "ProviderProfile",
+    "ReadCondition",
+    "ReadSelection",
+    "StorageContext",
+    "StorageError",
+    "TransferVerification",
+    "UploadInfo",
+    "UploadRef",
+    "WriteCondition",
+    "WriteReceipt",
+    "for_resource"
+  ],
+  "batten.storage.local": [
+    "LocalProvider",
+    "LocalStore",
+    "create_store",
+    "initialize"
+  ]
+}

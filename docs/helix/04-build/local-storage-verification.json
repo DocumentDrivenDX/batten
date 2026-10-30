@@ -1,0 +1,69 @@
+{
+  "scope": "Local object-storage source slice; no complete runtime, Databricks, OpenTelemetry receiver or deployment qualification",
+  "date": "2026-10-29",
+  "specification_main": "61f4ae1efedb393e339cac99f182bc9b57085907",
+  "source_branch": "codex/local-object-storage",
+  "source_state": "Implementation included with this evidence; use the enclosing Git revision for source identity",
+  "command": "uv run python scripts/quality.py",
+  "observed_platform": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.11.17"
+  },
+  "suite": {
+    "behavior_functions": 17,
+    "collected_cases": 20,
+    "result": "passed"
+  },
+  "checks": [
+    "import ownership, cycles, private imports and public export inventory",
+    "missing baseline and raised ceiling negative controls",
+    "Ruff shape/format and strict Pyright",
+    "ESLint browser source shape",
+    "native local async object/range/condition/list/upload behaviors",
+    "competing conditional writers across OS processes",
+    "clean installed-wheel imports without platform dependencies"
+  ],
+  "limitations": [
+    "Managed local POSIX namespace and cooperating writers only; no network-filesystem qualification",
+    "Atomic visibility does not establish power-loss durability",
+    "No performance target or throughput result supplied; owner Erik supplies workload and budgets",
+    "No package-registry publication, full Batten host, cloud backend or live telemetry receiver tested"
+  ],
+  "source_sha256": {
+    "bun.lock": "7f4213c5d88b97e730bf1c279c669e27931bf8d00c6c7d6dc60e5667e6bac8c6",
+    "packages/batten-storage/src/batten/storage/__init__.py": "10288d1ecf8afc9bf8e3dfa7514bc99adbbc179b46209677aab875ab23daa342",
+    "packages/batten-storage/src/batten/storage/_protocols.py": "09cb78e5eb8162d8b1b673e9e48630094c9289787357e4c0b3191e31c44383b1",
+    "packages/batten-storage/src/batten/storage/_values.py": "7ce140f4ae7c799ce42d29322a3f016079cf40f59484fd5c67db9a66edcb0849",
+    "packages/batten-storage/src/batten/storage/local/__init__.py": "87ba41bf18f959bdd99da89f7a96a0afbac2065ced106cf3a8abb409b179b3a3",
+    "packages/batten-storage/src/batten/storage/local/_budget.py": "588fbf8d3bfbec3adbc5e28cb9a17865248e5498ff191e3f8abcf47681caea0d",
+    "packages/batten-storage/src/batten/storage/local/_features.py": "4cae6bbc8e6e51bd7a72892c537cc65bf3c239c09d617045cd23b5715c821791",
+    "packages/batten-storage/src/batten/storage/local/_filesystem.py": "6ba91af8bb1f91fa2821e2898fa379b7275b0ee86bfbb65253c88b095262ece8",
+    "packages/batten-storage/src/batten/storage/local/_listing.py": "9edf013c61517100ef832c6c7c37856339ecd6f4dc2110baec200227a5977444",
+    "packages/batten-storage/src/batten/storage/local/_observations.py": "ceee394e77535f7a8cfbb93f2a88d504ccee978766baa461d7b2145215a009ca",
+    "packages/batten-storage/src/batten/storage/local/_pages.py": "b59b061277783568dc74305b0d390b29d8c537f4f62e503a12c2e14ea18ff683",
+    "packages/batten-storage/src/batten/storage/local/_part_pages.py": "df5e42777a961b81f22c06f38930a1f2d3e5b50749107ac978f9b5325e4d23ac",
+    "packages/batten-storage/src/batten/storage/local/_provider.py": "d00f4b27584e837a964402405fcd110b62b6c7c05fdaf7290e5bb1317971b1ca",
+    "packages/batten-storage/src/batten/storage/local/_reads.py": "a44ec31e188c46645f558a21f35c34267ed954b81e62a88cebb4b321d87811eb",
+    "packages/batten-storage/src/batten/storage/local/_scope.py": "9131d757ef863834f0799f02cb7d15cc2ac5576c9dd69535add8a09c001d7bfd",
+    "packages/batten-storage/src/batten/storage/local/_transfers.py": "a84011202f409de114cdfbf1e5ff3d104baa2b22e0cfe9c898c31ac0a322e7a7",
+    "packages/batten-storage/src/batten/storage/local/_upload_state.py": "8db68b695870143efe3536b072d1bcc1f93729eff4dced5d00ffaffd911ea787",
+    "packages/batten-storage/src/batten/storage/local/_uploads.py": "04cccf4360555e15cd37034bf983f48dcbca2ea73ef3a2e5fc8651c4e2867f97",
+    "pyproject.toml": "bfeec13918f7fe0b4e64da73abece31050f67eeec23d526b174729d6804b1680",
+    "scripts/boundary_checks.py": "13816ef34f8c6beef06f98007e6e9b99808b69e777bc75893370e12e3965c44d",
+    "scripts/boundary_model.py": "bdd4c17a23b8debd5dfe0df5ce10042bd770b1b28aa6d3b80503ec8c3104281c",
+    "scripts/check_boundaries.py": "65de7b940c407f99786353120b6d4685f4bb8dc18c97aca17b3b99e8116520f1",
+    "scripts/check_policy.py": "75744c463f0ee180c506a4fbe17a71fb5e7ded726b6454337c91f9786cdebf01",
+    "scripts/quality.py": "78317a67d8da640ebef0ab6d349b85715b9560c7f46f2026c7d6996745971a4b",
+    "tests/quality/test_gate.py": "24c3b7b90b490d2c9d94664183992a5cdfd45fbef351bc1c49f9649f60317431",
+    "tests/storage/conftest.py": "3419a2c2a1158f5a9bca2128f5cc561d7b2c9e884e054ca0a021e1bc34f29505",
+    "tests/storage/test_distribution.py": "9142c6c773b427683426a05b8cb48e982cde09f11b1b3589db6b66595c8bccad",
+    "tests/storage/test_expiry_cancellation.py": "17d7baf8e41aa2e440f2b7fef011b247e9778a5b342238ec94cf896954a8f838",
+    "tests/storage/test_listing_uploads.py": "2285a021b0d8e1a73407fff05daf8a4b7a19497f1f10afd52248453504a05a72",
+    "tests/storage/test_objects.py": "57223d3d256bfff4f6d921cf9440c5317dda74529d6a5f7759725becab0fe0a8",
+    "uv.lock": "1987b04f020fc144f677753f72417866cf3200a13e13dc497e87f0cfd20df1a9"
+  },
+  "quality_exit_code": 0,
+  "latest_verified_date": "2026-10-30"
+}

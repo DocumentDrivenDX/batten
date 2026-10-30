@@ -40,8 +40,8 @@ this provider does not qualify the complete runtime or Databricks cohort.
 | `LocalProvider.aclose()` | async | Revokes bound handles, closes reads/cursors and resources; preserves published objects and qualified resumable staging. |
 | `for_resource(context, resource)` | synchronous ObjectStore | Delegates to trusted `context.storage(resource)`; does not resolve credentials or construct adapters. |
 | `Authority.identity` | stable opaque string | Host binds actor, application, resource and profile revision into this identity; caller text is not authority. |
-| `Authority.check(operation, key)` | async | Raises denial on absent/revoked scope; key is relative, operation is CONTRACT-006 permission. Checks happen before existence and continued reads/pages/parts. |
-| `Authority.observe(code, effect, incident_id)` | async | Required host-owned safe outcome capture, including cancellation/uncertainty. Host closure supplies trusted attribution and correlation. No key, path or content is included. |
+| `Authority.check(operation, key, features)` | async | Raises denial on absent/revoked scope; key is relative, operation is CONTRACT-006 permission. Checks include exact required storage feature IDs before existence and continued reads/pages/parts. |
+| `Authority.observe(operation, code, effect, incident_id, metrics)` | async | Required host-owned safe outcome capture, including cancellation/uncertainty. Host closure supplies trusted attribution and correlation. No key, path or content is included. |
 | `ObjectStore.aclose()` | async | Revokes that request's handles and closes streams/cursors; never closes a borrowed provider. |
 
 `Limits` mirrors CONTRACT-006's schema with no implicit operational values.
@@ -58,6 +58,17 @@ atomic pointer records and a cross-process namespace lock. Pointer records own
 storage metadata only; they are not application records or a second model engine.
 Staging and cursor/session registries have finite host bounds. Provider restart
 invalidates cursors; restart-safe upload recovery requires persisted session state.
+At upload admission the authority is also consulted for optional resumability.
+A denial of that optional feature keeps the session invocation-local and requests
+abort at close; any other authority failure propagates. Reattachment checks the
+original identity/profile and current resume, condition and integrity features.
+
+Metrics are an immutable mapping containing observed duration_ms, worker_calls,
+bytes_read, bytes_written, scanned_entries, returned_items, cache_hits and
+retry_attempts. Local worker calls are not native API request counts;
+`native_requests` remains null for this filesystem profile. Byte counts cover
+provider transfer/staging I/O, not metadata or promised physical device traffic.
+Metrics are host-only; filtered counts never become application results.
 
 Observation failure MUST be visible and deny successful completion reporting.
 If bytes may already be published, observation failure retains `effect=unknown`.

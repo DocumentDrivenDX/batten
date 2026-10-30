@@ -1,7 +1,9 @@
-<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/00e6b6682ef5b4ae -->
+<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/d02609340a7aa763 -->
 <!-- helix:source docs/helix/00-discover/product-vision.md sha256:7a27692a25188d22 -->
 <!-- helix:source docs/helix/01-frame/prd.md sha256:e3d11b5c3fe76599 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
+
+<!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
 
 # Batten
 
@@ -43,9 +45,10 @@ Application requirements, hosting environments and execution placement are indep
 
 A provider must satisfy the required interface and exact compatibility checks. A missing capability produces a clear refusal before execution.
 
+
 ## Explore the design
 
-The repository contains requirements, contracts and a proposed architecture. The SDK runtime and installable packages are not implemented. The interactive explorer illustrates those contracts; it does not run or deploy an application.
+The repository contains requirements, contracts and a proposed architecture. The first source implementation supplies optional local object storage; its package is built and installed in isolated tests. The complete application runtime remains in design. The interactive explorer illustrates those contracts; it does not run or deploy an application.
 
 [Compose an application](composition.md), [choose a host](hosting.md), or read the [architecture](architecture.md).
 

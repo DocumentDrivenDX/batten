@@ -48,9 +48,22 @@ per-task billing meter. Verification and review are included in the authorized w
 ## Continuation Evidence
 
 Resume from git diff, this plan and actual gate/test output. Record safe evidence
-in local-storage-verification.md; tracker status stays in project ddx beads when
-updated. B-001 starts with the evolved uncommitted documentation packet. The first
-next action is spec validation and main integration; then build the gate first.
+in local-storage-verification.json; tracker status stays in project ddx beads when
+updated. B-001 completed with specification integration pushed to main at
+61f4ae1efedb393e339cac99f182bc9b57085907. B-002 through B-005 are implemented
+on codex/local-object-storage. The common recipe passed on the local macOS POSIX
+profile: 17 behavior functions, 20 collected cases, strict typing, shape/import
+checks and a clean wheel-only import observation. This reviewed initial suite
+establishes the measured ceiling of 17 functions; parameter cases do not increase
+that ceiling. Negative controls cover module/vendor/private/loader access, cycles,
+export drift, missing accepted baseline and increased test ceilings.
+
+Published data survived handle/provider restart. Separate OS processes competed
+on the same validator with one successful publication, while an existing reader
+retained its original generation. Feature revocation, partial reads, expiry,
+cancellation, active-part abort and post-publication observation loss were exercised.
+The implementation and evidence remain reviewable source; no product package
+registry publication or Databricks/native runtime integration is claimed.
 
 ## Validation Plan
 

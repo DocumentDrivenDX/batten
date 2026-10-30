@@ -90,7 +90,7 @@ the assessor, host binding and UX slice. No existing open policy is silently set
 
 ## Platform assets
 
-[CONTRACT-100](02-design/contracts/CONTRACT-100-platform-assets.md) and
+[CONTRACT-010](02-design/contracts/CONTRACT-010-platform-assets.md) and
 [ADR-012](02-design/adr/ADR-012-generic-platform-assets.md) define a generic optional
 platform wrapper for app-managed native packages and externally managed resource
 contracts. Databricks bundle syntax and Unity Catalog bindings stay in the provider.

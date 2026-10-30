@@ -13,11 +13,26 @@ Visit the [Batten microsite](https://documentdrivendx.github.io/batten/).
 
 Explore the [microsite source and local preview instructions](docs/helix/site/README.md)
 or read the [application overview](docs/helix/guide/developer/index.md).
-The microsite explains the design; an installable SDK runtime is not yet implemented.
+The microsite explains the design. The first source implementation is the optional
+[local object-storage package](packages/batten-storage/README.md); the complete
+application runtime remains in design.
 
 Start with the [review packet](docs/helix/README.md), including the product
-requirements, boundary audit, and proposed module/distribution split. Migration
-planning and product code follow the owner's review.
+requirements, boundary audit, and proposed module/distribution split. The owner has authorized the local storage implementation. Broader runtime
+implementation follows its governed contracts.
 
 Dual licensed under [MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE).
 Copyright Synaptiq.
+
+
+Development uses the locked uv workspace and Bun lint tooling:
+
+```sh
+uv sync --frozen --all-packages
+bun install --frozen-lockfile
+uv run python scripts/quality.py
+```
+
+The same command runs in CI; `just check` is an equivalent entry point. `just lint`
+provides the configured local pre-commit check. Product storage has no third-party
+runtime dependencies. Quality tools remain outside its wheel.

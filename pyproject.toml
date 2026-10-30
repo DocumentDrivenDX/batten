@@ -1,0 +1,45 @@
+[project]
+name = "batten-development"
+version = "0.1.0a1"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["ruff==0.17.3", "pyright==1.1.414", "pytest==9.2.0", "pytest-asyncio==1.4.1", "hatchling==1.33.0", "build==1.6.1"]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/batten-storage"]
+
+[tool.ruff]
+target-version = "py311"
+preview = true
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "C901", "PLR0911", "PLR0912", "PLR0915", "PLR0904"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-returns = 6
+max-branches = 9
+max-statements = 40
+max-public-methods = 15
+
+[tool.pyright]
+pythonVersion = "3.11"
+typeCheckingMode = "strict"
+include = ["packages", "scripts", "tests", "docs/helix/site"]
+venvPath = "."
+venv = ".venv"
+extraPaths = ["packages/batten-storage/src", "scripts", "docs/helix/site"]
+
+[tool.pytest.ini_options]
+pythonpath = ["packages/batten-storage/src", "scripts", "docs/helix/site"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

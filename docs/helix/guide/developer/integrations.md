@@ -1,8 +1,8 @@
-<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/80c026964778503c -->
+<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/b21a5fd0d3174315 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-009-service-discovery-and-binding.md sha256:53b8b2e0e2ef2dc3 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-007-messaging.md sha256:f265082768032e42 -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-006-object-storage.md sha256:7ba084a3e83a0976 -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-006-object-storage.md sha256:0f23dedf1edc7993 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md sha256:0008fd4ad87e294d -->
 <!-- helix:source docs/helix/02-design/adr/ADR-009-ux-builder-ownership.md sha256:d15b944955d35bc9 -->
@@ -10,6 +10,9 @@
 <!-- helix:source docs/helix/02-design/adr/ADR-002-native-umf-platform-dependency.md sha256:19b600b856750646 -->
 
 <!-- helix:source docs/helix/02-design/adr/ADR-012-generic-platform-assets.md sha256:1c38e89475ee2c90 -->
+
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-100-storage-provider-host.md sha256:e2825ccf8e5b413e -->
+<!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
 
 # Build on the platform
 
@@ -42,6 +45,11 @@ Write conditions can require an absent object or a matching version. Range reads
 Listing is shallow by default, with child prefixes and key-only results. Richer summaries use native listing metadata without a separate request for every object.
 
 Conditional updates, atomic visibility, integrity verification and resumability each require qualified support. An interrupted upload can leave an uncertain outcome; file bytes and metadata rows do not share a transaction.
+
+The first source implementation provides local object storage behind this boundary. A trusted host supplies identity, current permissions, feature grants, limits and outcome capture. Portable imports load no local or cloud backend.
+
+Local verification covers conditional publication, pinned range reads, bounded listing, integrity and upload recovery on a managed POSIX namespace. It does not establish Databricks behavior or a complete local application host.
+
 
 ## Publish and consume messages
 

@@ -1,0 +1,1 @@
+{"name":"batten-quality-tools","private":true,"scripts":{"lint":"eslint docs/helix/site/assets/site.js eslint.config.mjs"},"devDependencies":{"eslint":"^9.0.0"}}

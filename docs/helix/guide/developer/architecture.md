@@ -2,7 +2,7 @@
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-001-public-host-api.md sha256:496f18dd0d526258 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-001-platform-modules-and-neutral-core.md sha256:f845d229ffe50254 -->
-<!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:de51435c7c5bc7cd -->
+<!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:1dff431ab73dd907 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:4b3b0e0324fa4e84 -->
 <!-- helix:source docs/helix/03-test/test-plan.md sha256:3b4e83eec6fa7988 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:abdbdc7e0dc65782 -->

@@ -99,5 +99,7 @@ The proposal follows platform-adapter ownership and Python/uv packaging. It
 does not select a package registry or create any remote repository.
 
 Wheel construction uses Hatchling through the uv build toolchain. Hatchling is a
-build-only dependency; Ruff, strict Pyright and pytest remain development tools.
+build-only dependency; Ruff, strict Pyright, pytest, pytest-asyncio and the wheel
+build frontend remain development tools. pytest-asyncio executes the async public
+boundary behaviors without introducing an application event loop or framework.
 No application loads the build toolchain or installs dependencies at invocation.
