@@ -189,6 +189,44 @@
       "required": ["id", "operation", "inputs"],
       "additionalProperties": true
     },
+    "interaction": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "definition": {"$ref": "#/$defs/target"},
+        "bindings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "children": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "required": ["id", "definition", "bindings", "children"],
+      "additionalProperties": true
+    },
+    "localControl": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "language": {"enum": ["python", "typescript"]},
+        "entry": {"type": "string", "minLength": 1},
+        "surfaces": {"type": "array", "items": {"enum": ["browser", "terminal"]}},
+        "requires": {"type": "array", "items": {"$ref": "#/$defs/requirement"}}
+      },
+      "required": ["id", "artifact", "language", "entry", "surfaces", "requires"],
+      "additionalProperties": true
+    },
+    "renderer": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "surface": {"enum": ["browser", "terminal"]},
+        "assets": {"$ref": "#/$defs/artifact"},
+        "client": {"$ref": "#/$defs/pin"},
+        "interactions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "localControls": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "required": ["id", "version", "surface", "assets", "client", "interactions", "localControls"],
+      "additionalProperties": true
+    },
     "ui": {
       "type": "object",
       "properties": {
@@ -199,13 +237,15 @@
         "blueprint": {"$ref": "#/$defs/artifact"},
         "assets": {"$ref": "#/$defs/artifact"},
         "client": {"$ref": "#/$defs/pin"},
-        "controls": {
-          "type": "array",
-          "items": {"$ref": "#/$defs/control"}
-        }
+        "controls": {"type": "array", "items": {"$ref": "#/$defs/control"}},
+        "interactions": {"type": "array", "items": {"$ref": "#/$defs/interaction"}},
+        "localControls": {"type": "array", "items": {"$ref": "#/$defs/localControl"}},
+        "renderers": {"type": "array", "items": {"$ref": "#/$defs/renderer"}}
       },
-      "required": ["kind", "id", "version", "application", "blueprint", "assets", "client", "controls"],
-      "additionalProperties": true
+      "required": ["kind", "id", "version", "application", "controls"],
+      "additionalProperties": true,
+      "dependentRequired": {"interactions": ["localControls", "renderers"], "localControls": ["interactions", "renderers"], "renderers": ["interactions", "localControls"], "blueprint": ["assets", "client"], "assets": ["blueprint", "client"], "client": ["blueprint", "assets"]},
+      "anyOf": [{"required": ["blueprint", "assets", "client"]}, {"required": ["interactions", "localControls", "renderers"]}]
     },
     "limits": {
       "type": "object",

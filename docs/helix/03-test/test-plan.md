@@ -63,6 +63,28 @@ Story Test Scenarios name the planned observable assertions. Per-story test plan
 and technical designs must bind those scenarios to actual files/commands before
 source implementation. No planned test is represented as passing evidence.
 
+## Semantic controls and extension allocation
+
+US-003-AC8–14 expand the same fabricated review journey under FR-40/41.
+Allocation is planned evidence, not additional test functions or passing results.
+
+| Behavior | Primary layer | Observable evidence |
+| --- | --- | --- |
+| Composed wizard/form/collection state and commit policy (AC8/9) | Real renderer/client/server journey | Back/forward, invalid fields, stable row IDs, explicit cell/row/batch commit; conflicts and partial outcomes preserve native meaning. |
+| Detailed local code without added packages (AC9) | Installed/built artifact | Python and TypeScript cases exercise supplied APIs; closure evidence includes generated bundles. |
+| Web/terminal semantic equivalence (AC10) | Surface conformance against same server | Same declared edits, validation, cancellation/confirmation, denial and original uncertain invocation; independently exercise keyboard/focus/navigation. |
+| Missing renderer/control (AC11) | Contract assessment | Required browser-only editor refuses terminal before imports/effects; explicit qualified alternative is a separate case. |
+| Unapproved package closure (AC12) | Artifact build/admission | Table covers direct/transitive imports, bundled/vendor/remote/dynamic loads and installer attempts; no package fetch/import/install occurs during assessment. |
+| Approved exceptional extension (AC13) | Installed extension integration | Exact reviewed closure admitted; changed closure refuses; platform code still denied undeclared access. |
+| Instance cleanup and scope (AC14) | Renderer lifecycle integration | Teardown disposes observers and prevents actor/resource/revision state leakage. |
+
+Extend the existing review-state/recovery scenarios for custom controls rather
+than duplicate their authorization assertions. Terminal tooling and exact commands
+require a separately qualified runtime; browser evidence cannot substitute for it.
+The metadata schema validates reference shape only. Upstream semantic definitions,
+slot bindings, renderer coverage, cycles and closure provenance need semantic tests.
+
+
 ## Test Data Strategy
 
 Use a fabricated review queue with Review records, approve action, deterministic

@@ -20,7 +20,7 @@ ddx:
 
 Batten has a platform-neutral application core and independently installed
 platform modules. This is the proposal for the owner's first review. It covers
-PRD FR-1–39. The composition/hosting packet elaborates the owner-selected
+PRD FR-1–41. The composition/hosting packet elaborates the owner-selected
 next design slice; migration and product code still require build authorization. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
 precedes this target model.
 
@@ -162,6 +162,28 @@ A headless closure imports no UI packages. `batten.umf` converts exact native
 validation results to core metadata; generic core does not parse ontology or saga
 semantics. `batten.hosting` builds services through a trusted catalog of selected
 public factories, after plan verification. No native saga engine is selected.
+
+### Semantic interaction composition and local implementation
+
+The authoring progression is manifests/UMF/extensions, then local Python and/or
+TypeScript, then exceptional platform dependencies. CONTRACT-003 owns dependency
+admission and CONTRACT-005 owns control/renderer metadata. ux-builder owns semantic
+control definitions and composition slots; Batten binds their data/actions and
+preserves source artifacts. No second layout or workflow engine enters core.
+
+The operation/outcome boundary is independent of presentation. Browser and terminal
+clients implement separate scoped host contexts; the existing browser client keeps
+its runtime/import restrictions. Renderer selection adds an independent presentation
+choice to capability, hosting and placement. Terminal client packaging and runtime
+remain open until a qualified dependency-free implementation or approved platform
+extension is selected. No new framework is chosen here.
+
+Local detailed controls are application code, not privileged provider modules.
+They use supplied primitives, ordinary language facilities and explicitly exposed
+platform APIs. A new dependency changes the platform closure and needs explicit
+owner approval and host admission. Existing platform modules keep their reviewed
+dependencies. Headless applications import neither graphical nor terminal UI code.
+
 
 ## Data Flow
 

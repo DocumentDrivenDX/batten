@@ -142,6 +142,16 @@ No additional capability is assigned this priority by the owner.
   metadata and Batten operations across local, standalone and embedded hosts.
   Headless applications omit UI dependencies. Host authentication, confirmation
   and resource containment apply equally to generated and custom screens.
+- **FR-40** — Authors compose semantic wizards, grouped forms and editable
+  collections from manifests, UMF and extensions, then implement detailed local
+  controls in Python and/or TypeScript when needed. Ordinary customization adds
+  no third-party dependency. Extra packages require an explicitly approved
+  platform extension; declarations and local code cannot install them.
+- **FR-41** — Application interactions separate meaning from presentation so
+  qualified browser and terminal renderers can preserve validation, draft state,
+  commit boundaries, confirmation and operation outcomes. Custom controls declare
+  their supported surfaces; unsupported required interactions refuse explicitly.
+  Terminal support is a design target requiring separate qualification.
 
 ### Subsystem: Native data and identity
 
@@ -198,7 +208,9 @@ No additional capability is assigned this priority by the owner.
 
 - **FR-23** — Authors build self-describing wheels containing declarations,
   resources, digests, and tests. Hosts validate SDK series and the baked-in
-  dependency cohort before plugin code executes; runtime dependency resolution
+  dependency cohort before plugin code executes. New third-party dependencies
+  are exceptional platform changes requiring owner approval and host admission;
+  runtime dependency resolution
   and vendored platform libraries are refused.
 - **FR-24** — Hosts admit installed and stored artifacts under explicit approval
   policies, support shared and owner-scoped admission, and revoke or roll back by
@@ -310,6 +322,8 @@ test functions or permission to write code before the review gate.
 | FR-37 | Assess before execution | Missing/ambiguous provider, cycle, wrong version | Safe deterministic findings; no provider/application import or service effect. |
 | FR-38 | Admit a saga component | Exact UMF declaration with absent or qualified executor | Explicit refusal or upstream-preserving binding; no fallback engine. |
 | FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
+| FR-40 | Compose then customize a review journey | Wizard/form/collection with a local detailed editor; undeclared library import | Local code works within supplied APIs; extra dependency refuses without a platform exception. |
+| FR-41 | Present the same review journey on web and terminal | Shared interactions; one browser-only custom control | Supported surfaces preserve meaning; terminal admission refuses the unsupported required control before effects. |
 
 ## Technical Context
 

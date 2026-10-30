@@ -98,6 +98,32 @@ qualified executor capability. Batten preserves upstream results and recovery
 identity without synthesizing rollback, retries or completion. Until that
 pairing exists, the saga requirement refuses; unrelated applications can assess.
 
+### Application code and exceptional platform dependencies
+
+Manifests, UMF and UMF extensions MUST be the first authoring layer. Local
+Python/TypeScript hooks and controls MAY add detailed behavior using language
+standard facilities and the selected platform's public APIs. Here, pure
+Python/TypeScript means no added third-party dependency, not effect-free functions.
+Effects still require declared operations and scoped host services.
+
+Application-local code MUST be included in the digest-covered artifact inventory
+and referenced by inert admitted entry IDs. Assessment MUST NOT import that code.
+Authoring/build checks MUST inspect imports and bundled dependency provenance;
+host admission MUST verify the resulting closure and evidence against its cohort.
+An importable transitive package is not automatically an application public API.
+
+A new third-party dependency MUST be treated as a platform extension, even if
+bundled, vendored, fetched remotely or loaded dynamically. The owner MUST approve
+its need; the host MUST explicitly admit its exact direct/transitive closure,
+license/provenance, public API, capability/placement scope and compatibility
+qualification. Approval alone is not execution evidence. Existing approved platform
+modules remain selectable; this rule does not require reapproval of each use.
+No application, renderer or local hook may invoke package installation or widen
+its permissions. Unapproved closure uses `dependency_unapproved`; absent qualified
+capability uses the existing capability refusal. No extension package is selected
+by this design.
+
+
 ## Precedence and Compatibility
 
 PRD FR-34–38 governs scope; the schema governs structure and this contract owns

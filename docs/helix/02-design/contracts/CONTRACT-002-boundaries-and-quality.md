@@ -177,6 +177,17 @@ versions, operating system, subset, and native/browser/deployed observations use
 | Test count grows or baseline increases | Nonzero; before/after counts and scoped sources | After consolidation | Preserve behavior coverage; owner resolves genuine policy conflicts. |
 | Missing baseline/rules/base | Nonzero; missing input named | After setup | Supply local approved baseline; do not skip or fabricate. |
 
+## Application control dependency boundary
+
+CONTRACT-003/005 govern local Python/TypeScript controls. Closure checks MUST
+cover their source imports and generated bundles, including dynamic/remote loads
+and vendored libraries. Local code may import language standard facilities and
+explicitly supplied public platform APIs; mere transitive installation does not
+expose a supported application API. Unapproved additions MUST fail admission
+without fetching or executing code. Approved exceptional platform extensions
+retain isolated dependency ownership and the same global quality ceilings.
+
+
 ## Examples
 
 ```text

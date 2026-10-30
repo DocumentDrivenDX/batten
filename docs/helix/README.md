@@ -11,7 +11,7 @@ implementation, migration or deployment.
 2. [FEAT-002: operations and ux-builder](01-frame/features/FEAT-002-operations-and-interfaces.md).
 3. [CONTRACT-003: module/application composition](02-design/contracts/CONTRACT-003-composition.md).
 4. [CONTRACT-004: host profiles](02-design/contracts/CONTRACT-004-host-profiles.md).
-5. [CONTRACT-005: ux-builder binding](02-design/contracts/CONTRACT-005-ux-builder-binding.md).
+5. [CONTRACT-005: semantic controls, local implementations and renderer binding](02-design/contracts/CONTRACT-005-ux-builder-binding.md).
 6. [ADR-008: independent axes](02-design/adr/ADR-008-independent-composition-axes.md) and
    [ADR-009: UX ownership](02-design/adr/ADR-009-ux-builder-ownership.md).
 7. [Verification allocation](03-test/test-plan.md) and [work items](01-frame/work-items.jsonl).

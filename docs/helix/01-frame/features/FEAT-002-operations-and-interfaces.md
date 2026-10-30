@@ -18,7 +18,7 @@ ddx:
 **Priority:** P0
 **Owner:** Erik LaBianca
 **Covered PRD Subsystem(s):** Operations and interfaces
-**Covered PRD Requirements:** FR-8, FR-9, FR-39
+**Covered PRD Requirements:** FR-8, FR-9, FR-39–41
 **Cross-Subsystem Rationale:** One capability: expose the same governed operation through application interfaces.
 
 ## Overview
@@ -70,6 +70,22 @@ sources of truth; binding generated UI directly to host internals would prevent 
   ux-builder cohort. Its build/lint/audit results and Batten's real browser/server
   authorization evidence must remain separately observable.
 
+- **UI-09:** Authors start with declarative semantic controls, including wizard,
+  grouped form and editable collection, and compose nested controls without
+  rebuilding routine validation, state and recovery behavior.
+- **UI-10:** Detailed application-local Python/TypeScript implementations may
+  replace or fill declared control slots using supplied public APIs. Local code
+  must preserve the control's operation, state, validation and authority contract.
+- **UI-11:** Local customization must add no third-party packages, including
+  bundled, vendored, remote or dynamically loaded substitutes. A new package
+  requires an exceptional platform extension approved by the owner and admitted
+  by the host against an exact qualified dependency closure.
+- **UI-12:** Renderer selection is independent of hosting and placement. Browser
+  and terminal implementations may differ in navigation and layout but must
+  preserve declared semantic behavior. Each custom control declares its supported
+  surfaces; a required unsupported control refuses before invocation.
+
+
 ### Non-Functional Requirements
 
 Browser modules must execute without Bun/Node runtime globals. Cross-profile
@@ -82,6 +98,8 @@ accessibility support claim is established by configuration alone.
 [US-003: Review through ux-builder](../user-stories/US-003-ux-builder-review.md)
 owns the initial browser slice. Existing FR-8/9 adapter scope remains governed
 by the PRD and needs subsequent story allocation before its implementation.
+US-003 also allocates composition/custom-control and web/terminal comparison
+criteria. It establishes no released upstream component or terminal support claim.
 
 ## Edge Cases and Error Handling
 

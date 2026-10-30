@@ -21,10 +21,23 @@ ux-builder's blueprint. Host-specific screen wiring would defeat application por
 
 ## Decision
 
-Use an optional ux-builder adapter over Batten's portable public browser client.
+Use optional ux-builder renderer adapters over a presentation-independent
+operation/outcome boundary. The browser client is its first concrete binding;
+a terminal client is a separately qualified design target.
 ux-builder retains its original blueprint/design/component/theme/audit authority.
 Batten owns references from controls to native UMF fields/actions and host-context
 services under CONTRACT-005. Headless installations omit all UI dependencies.
+
+Authors progress from manifests and native UMF/extensions to application-local
+Python/TypeScript controls and hooks. Detailed local code is a normal extension
+path using the supplied platform APIs and primitives. New third-party libraries
+are exceptional platform extensions requiring explicit owner approval, a pinned
+qualified closure and host admission. No application-driven installation is allowed.
+
+ux-builder owns semantic control definitions, composition slots and presentation;
+Batten preserves references and binds them to native operations. Renderer choice
+is independent of hosting/placement. A browser-only control remains valid for
+its declared surface without implying a terminal implementation.
 
 ## Why We Chose This
 
@@ -53,10 +66,12 @@ assets, native types reconstructed from labels, eager UI dependencies or shell i
 
 Provisional risk: the published design-first flow and public outputs may require
 an upstream extension to expose stable operation bindings. The first cohort proof
-must establish the actual supported API. Adapter internals and package pins are
+must establish the actual supported API. Semantic control definitions, local
+implementation slots and terminal rendering may need upstream extensions; those
+APIs are unknown and must be qualified before dependent source work. Adapter internals and package pins are
 reversible; this does not block portable core or the effect-free assessor.
 
 ## Concern Impact
 
-Adopts the owner's ux-builder integration requirement within the existing browser
-boundary. It selects no second backend runtime and no deployed identity provider.
+Adopts the owner's ux-builder integration and constrained extension requirements
+across qualified presentation boundaries. It selects no second backend runtime and no deployed identity provider.

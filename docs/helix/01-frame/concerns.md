@@ -31,7 +31,7 @@ decisions. Selection sources distinguish rulings from proposed defaults.
 | browser-client | project-local; assumption/default, ADR-001 | ui | Screens and views need a browser bridge, not Python host objects. | Browser-compatible JavaScript; TypeScript/Bun build tools outside runtime; no shell imports; Chromium/Playwright qualification. |
 | typed-file-configuration | project-local; operator-override, ADR-006 | all | Files are authoritative; no new environment variables. | Immutable typed settings, explicit layers, injected identity/services, redacted diagnostics. |
 | cleanroom-public-artifacts | project-local; operator-override | all | Batten is independently implemented and openly distributable. | MIT OR Apache-2.0, copyright Synaptiq; no private source/history, client identities, credentials, or operational data. |
-| ux-builder-integration | project-local; operator-override | ui, cli | Owner requires ux-builder integration without duplicating its design system. | Public blueprint/component/theme/audit surfaces; pinned cohort; native metadata references; browser evidence for local and embedded hosts. |
+| ux-builder-integration | project-local; operator-override | ui, cli | Owner requires ux-builder integration without duplicating its design system. | Public semantic controls/slots and blueprint/component/theme/audit surfaces; local Python/TypeScript without added packages; exceptional platform dependencies; per-renderer evidence. |
 | upstream-saga-semantics | project-local; operator-override | api, data | UMF owns saga meaning. | Exact declared executor pairing; preserve uncertainty; no Batten saga compiler or orchestrator selected. |
 
 The project-local concerns declare their scopes and practices here. They do not

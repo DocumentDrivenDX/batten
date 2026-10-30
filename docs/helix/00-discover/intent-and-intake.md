@@ -55,3 +55,18 @@ Selectable modules, host profiles and execution placement are independent. This
 authorization advances design and tracking; it does not authorize source code,
 migration, deployment, commits or pushes. The original consumer-transition
 requirements remain in scope for their later separately reviewed plan.
+
+## Interaction composition and extension direction
+
+Source: owner direction, 2026-10-29. Start with declarative application manifests,
+UMF and UMF extensions. Supply high-level semantic controls through ux-builder,
+including wizards, grouped/scrollable forms and editable collections. Preserve
+composition and detailed application-local control implementations in Python
+and/or TypeScript. Local code is an ordinary escape hatch, not a platform exception.
+
+Adding third-party packages through pip/npm or equivalent dependency mechanisms
+is an exceptional platform extension. Using the already selected platform's public
+APIs does not add a dependency. Applications cannot expand the installed cohort.
+A terminal user interface (TUI) is a design target for the same application
+meaning; support must be qualified per control and renderer. This authorizes
+requirements/contracts/test allocation, retaining the existing source review gate.
