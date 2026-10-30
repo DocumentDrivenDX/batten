@@ -1,0 +1,78 @@
+{
+  "purpose": "Messaging schema reuse and gap inspection; no codec, broker or runtime qualification",
+  "source_project": "UMF",
+  "core_version": "0.10.0",
+  "extension_versions": {
+    "umf.actions": "0.1.0",
+    "umf.json-schema": "0.1.0",
+    "umf.protobuf": "0.1.0",
+    "umf.avro": "0.1.0"
+  },
+  "domain_pack": {
+    "id": "medical",
+    "version": "1.2.0"
+  },
+  "sources": [
+    {
+      "path": "spec/core/schema.json",
+      "sha256": "f0f936cf55ceaeecdf2caee11619fb6a20ba4a702bb9153f5ded572bd9b34b21"
+    },
+    {
+      "path": "spec/extensions/actions/schema.json",
+      "sha256": "0263c21ddd91347bf3afc2b7ab14b2c0943f1da5f5c493658cd105277f6d8d09"
+    },
+    {
+      "path": "spec/extensions/actions/package.json",
+      "sha256": "77006f8c094af31c4c1f5c95424ff15eb97da6de6e969f8b3a91150960f200b8"
+    },
+    {
+      "path": "spec/extensions/json-schema/schema.json",
+      "sha256": "f7d67498df51dd96c4b6d7358c20003aebc88ee282c61c5e0e3454b8008d6a00"
+    },
+    {
+      "path": "spec/extensions/json-schema/package.json",
+      "sha256": "32bac6cf2a6fcb6d0f4367084f7e358887e263969f0b1697145abb0b413c4582"
+    },
+    {
+      "path": "spec/extensions/protobuf/schema.json",
+      "sha256": "2c7034a9c8952180689e8e9c30b8dd736d2113e656cfc57267b40b66b7ab0cd9"
+    },
+    {
+      "path": "spec/extensions/protobuf/package.json",
+      "sha256": "ae68a6756e0e7901578ef93f13b6544c4eb2af011a3de8ed2e4d11ea3382f0cf"
+    },
+    {
+      "path": "spec/extensions/avro/schema.json",
+      "sha256": "d9570a9b78fc2370bf21050bffb7ef36f3cb210bb68c8607e4c5954d814bb229"
+    },
+    {
+      "path": "spec/extensions/avro/package.json",
+      "sha256": "39e6d5ec6bcb56e2e9d06dd74ef50b6a99ab71d7fe466e1f4d0d0d786ed08efe"
+    },
+    {
+      "path": "spec/extensions/typespec/schema.json",
+      "sha256": "c741591b67ef249570e520e3b224a883ff6db9245a8d9ac69667b701d4c0bb4c"
+    },
+    {
+      "path": "spec/domain-packs/medical/pack.json",
+      "sha256": "0ca3d6d61f4eb5f2d242750e9fcac4a142b0e38f5e8214077be903e27f77b7ae"
+    },
+    {
+      "path": "python/src/umf/__init__.py",
+      "sha256": "e9dca8a080364f76a1c370caabd95f35e36c011c6b27fd58a487cadf320aee9d"
+    }
+  ],
+  "reuse": [
+    "Original UMF artifact identities, extension semantics and unknown preservation",
+    "Existing JSON Schema, Protobuf and Avro schema definitions for business payloads",
+    "Native action declarations remain the sole authority for operation meaning",
+    "CONTRACT-003 application requirements and host resource bindings"
+  ],
+  "local_gap": "Inspected definitions do not specify channel topology, durable subscriptions, settlement receipts, leases, provider acceptance or codec service lifetimes. Local schema covers boundary values and references only. No new UMF messaging extension selected.",
+  "qualification_limits": [
+    "Schema import/export is not an instance encoder or validator guarantee",
+    "No universal lossless conversion among JSON, Protobuf and Avro",
+    "Inspected Python public exports do not establish a uniform instance codec API or a transaction issuer",
+    "No UMF single-store or saga support is inferred from PostgreSQL availability"
+  ]
+}

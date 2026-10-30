@@ -25,7 +25,7 @@ follow the owner's scope review rather than empty placeholder files.
 | FEAT-001 | Declaration and admission | Specification, settings, gate, namespace, listing, safe refusal. | P0 | Erik LaBianca | PRD FR-1–7 | 2026-10-29 |
 | FEAT-002 | Operations and interfaces | One operation across surfaces, including semantic controls, local implementations and renderer bindings. | P0 | Erik LaBianca | PRD FR-8–9, FR-39–41 | 2026-10-29 |
 | FEAT-003 | Native data and identity | Native UMF, typed access, lifecycle, row policy, principal separation. | P0 | Erik LaBianca | PRD FR-10–17 | 2026-10-29 |
-| FEAT-004 | Workers and background execution | Owner-scoped execution, scheduling, confirmation, jobs and events. | P0 | Erik LaBianca | PRD FR-18–22 | 2026-10-29 |
+| FEAT-004 | Workers and background execution | Owner-scoped execution, scheduling, confirmation, jobs, events and durable messaging. | P0 | Erik LaBianca | PRD FR-18–22, FR-45 | 2026-10-29 |
 | FEAT-005 | Artifact delivery and lifecycle | Wheels, dependency admission, approval, revocation, extensions, removal. | P0 | Erik LaBianca | PRD FR-23–24 | 2026-10-29 |
 | FEAT-006 | Platform resources and diagnostics | Secrets, files, search, models, audit, telemetry, grants. | P0 | Erik LaBianca | PRD FR-25–28 | 2026-10-29 |
 | FEAT-007 | Author tooling and qualification | Doubles, conformance, executable docs, development host and MCP. | P0 | Erik LaBianca | PRD FR-29–31 | 2026-10-29 |

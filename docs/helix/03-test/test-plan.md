@@ -121,3 +121,37 @@ Each required behavior has exercising, cited evidence, with canonical `@covers`
 IDs in eventual tests. Installed/native/browser observations retain separate
 cohort/scope. Shape/import/test ratchets run; unknown semantics remain explicit.
 This strategy allocates verification and makes no implementation completion claim.
+
+## Messaging acceptance allocation
+
+CONTRACT-007 and ADR-011 derive FR-45 and extend FR-19/20/22. Extend the existing
+host authorization/lifecycle matrices where they own the same invariant. These
+acceptance IDs allocate observable outcomes, not new test-function counts or an
+implementation sequence. PostgreSQL is the first native provider under test.
+
+| Acceptance ID | Required outcome | Primary evidence layer |
+| --- | --- | --- |
+| MSG-01 | Effect-free assessment checks topology, limits, exact codec/profile closure and required features; missing support refuses before provider I/O. | Portable admission contract |
+| MSG-02 | Queue consumers compete; each topic subscription receives its own logical delivery; acknowledgement affects only its subscription. | Native PostgreSQL public-provider conformance |
+| MSG-03 | Publish/delivery/dedup commit together; concurrent same-ID retries enqueue once, changed content conflicts, response loss reconciles within retained windows. | Native PostgreSQL competing-transaction conformance |
+| MSG-04 | Crash after claim, expired lease, stale receipt, response loss and retry/reject/ack conflicts retain correct outcomes; handlers execute outside claim transactions. | Native PostgreSQL fault/recovery conformance |
+| MSG-05 | Missing/foreign/revoked authority refuses without payload, receipt or existence disclosure; background identity cannot impersonate a producer; permission checks cover lookup and settlement. | Existing public host authorization matrix |
+| MSG-06 | Delay, visibility extension, bounded polling/batches, capacity, fairness, expiration and attempt exhaustion preserve configured budgets and retained terminal outcomes. | Native PostgreSQL scheduling/capacity conformance with controlled clock/faults |
+| MSG-07 | Encode/publish/decode preserve exact writer profile and bytes; invalid/unsupported native payloads refuse; unknown metadata, numeric/presence/union semantics do not silently change. | Exact UMF/native-codec conformance; JSON first, Protobuf/Avro separately |
+| MSG-08 | Same-store stage remains invisible before commit, rollback leaves no effects, wrong/closed/foreign context refuses, unknown commit preserves uncertainty. Without a qualified issuer, assessment refuses the feature. | Admission negative matrix; then exact executor/PostgreSQL integration |
+| MSG-09 | Restart, missed notifications, reconnect and borrower shutdown preserve durable messages and shared services; interrupted receive does not acknowledge. | Native lifecycle/restart conformance |
+| MSG-10 | An external effect followed by worker crash can redeliver; client idempotency prevents duplicate effect without claiming universal exactly-once behavior. | Public consumer/effect fault integration |
+| MSG-11 | Core/messaging import without native drivers or codecs; Postgres messaging extra imports only the selected closure; all source observes CONTRACT-002 ceilings. | Installed artifact boundary gate |
+| MSG-12 | Schema examples and boundary-negative values match authoritative definitions; semantic checks reject duplicate profile IDs, bad topology, bad base64, incompatible retention and changed profile meaning. | Schema validation plus portable settings contract |
+
+Future provider qualification reuses applicable rows and records every refusal,
+auxiliary durable store and semantic limitation. Kafka must prove safe settlement
+across partition commit frontiers/rebalances; SQS must tolerate duplicate active
+deliveries and qualify fan-out routing; NATS must qualify durable JetStream
+consumers and settlement confirmation. No broker equivalence follows from matching
+method names. Lakebase additionally needs direct-session, scale-to-zero/reconnect
+and restart evidence on its exact cohort.
+
+Use fabricated payloads and isolated approved databases. No production migration,
+role grant or service deployment is authorized by this allocation. Schema checks
+are separate from the unrun native provider and instance-codec qualification.

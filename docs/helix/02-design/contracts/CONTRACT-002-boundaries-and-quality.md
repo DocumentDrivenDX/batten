@@ -52,7 +52,8 @@ standard-library imports are allowed unless another rule forbids an effect.
 | BND-UX | Optional ux-builder browser adapter | Public browser-client API | Pinned public ux-builder packages; no Python/Bun/Node runtime or private host imports |
 | BND-U | `batten.tables` | C | Public `umf_core`, `umf_codegen`, `umf_access`, `weft` surfaces in selected cohort |
 | BND-W | `batten.workers` | C, R | None; OS capabilities qualified separately |
-| BND-G | `batten.postgres` | C | Public `psycopg` surfaces |
+| BND-G | `batten.postgres` | C, public `batten.messaging` for the messaging provider | Public `psycopg` surfaces |
+| BND-MSG | `batten.messaging` | C | None; codec and provider protocols injected |
 | BND-L | `batten.lakebase` | C | Public `databricks.sdk` authority/endpoint/role surfaces |
 | BND-D | `batten.databricks` | C | Public `databricks.sdk` resource surfaces |
 | BND-M | `batten.gateway` | C | `httpx` or a cohort-declared injected public gateway client |

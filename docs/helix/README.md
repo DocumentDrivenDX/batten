@@ -76,3 +76,12 @@ The current owner instruction authorizes the composition/hosting specification
 packet and tracking. Migration remains separate. Before source work, review the
 contracts and dependency proofs, establish the real quality scaffold, then build
 the assessor, host binding and UX slice. No existing open policy is silently settled.
+
+## Messaging interface
+
+[CONTRACT-007](02-design/contracts/CONTRACT-007-messaging.md) defines channels,
+durable subscriptions, payload profiles, settlement and recovery.
+[ADR-011](02-design/adr/ADR-011-postgres-first-messaging.md) selects PostgreSQL 18
+first, with explicitly qualified future broker adapters. Existing UMF schemas
+define business payloads; no new UMF messaging vocabulary is selected. TP-001's
+MSG allocation covers the design without claiming runtime or codec qualification.

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:batten:messaging-values:0.1.0",
+  "title": "Batten messaging boundary values",
+  "description": "Boundary values only; business payloads retain their pinned original UMF schema and encoding. Validate named definitions independently. Base64, time, limits, topology and provider semantics require contract checks.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/requirement"
+    },
+    {
+      "$ref": "#/$defs/postgresBinding"
+    },
+    {
+      "$ref": "#/$defs/outgoingMessage"
+    },
+    {
+      "$ref": "#/$defs/delivery"
+    },
+    {
+      "$ref": "#/$defs/publicationReceipt"
+    },
+    {
+      "$ref": "#/$defs/stagedPublication"
+    },
+    {
+      "$ref": "#/$defs/settlementReceipt"
+    },
+    {
+      "$ref": "#/$defs/leaseReceipt"
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ],
+  "$defs": {
+    "id": {"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "timestamp": {"type":"string","format":"date-time"},
+    "schemaArtifact": {"type":"object","properties":{"id":{"type":"string","minLength":1},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"}},"required":["id","sha256"],"additionalProperties":false},
+    "pin": {"type":"object","properties":{"id":{"type":"string","minLength":1},"version":{"type":"string","minLength":1}},"required":["id","version"],"additionalProperties":false},
+    "payloadProfile": {"type":"object","properties":{"id":{"$ref":"#/$defs/id"},"artifact":{"$ref":"#/$defs/schemaArtifact"},"selector":{"type":"string","minLength":1},"encoding":{"enum":["json-utf8","protobuf-binary","avro-binary"]},"codec":{"$ref":"#/$defs/pin"}},"required":["id","artifact","selector","encoding","codec"],"additionalProperties":false},
+    "encodedPayload": {"type":"object","properties":{"profile":{"$ref":"#/$defs/id"},"body_base64":{"type":"string","contentEncoding":"base64"}},"required":["profile","body_base64"],"additionalProperties":false},
+    "outgoingMessage": {"type":"object","properties":{"message_id":{"$ref":"#/$defs/id"},"payload":{"$ref":"#/$defs/encodedPayload"},"headers":{"type":"object","propertyNames":{"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},"additionalProperties":{"type":"string"}},"correlation_id":{"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},"causation_id":{"anyOf":[{"$ref":"#/$defs/id"},{"type":"null"}]}},"required":["message_id","payload","headers","correlation_id","causation_id"],"additionalProperties":false},
+    "publicationReceipt": {"type":"object","properties":{"message_id":{"$ref":"#/$defs/id"},"accepted_at":{"$ref":"#/$defs/timestamp"},"deduplicated":{"type":"boolean"},"dedup_until":{"anyOf":[{"$ref":"#/$defs/timestamp"},{"type":"null"}]}},"required":["message_id","accepted_at","deduplicated","dedup_until"],"additionalProperties":false},
+    "stagedPublication": {"type":"object","properties":{"message_id":{"$ref":"#/$defs/id"}},"required":["message_id"],"additionalProperties":false},
+    "delivery": {"type":"object","properties":{"message":{"$ref":"#/$defs/outgoingMessage"},"subscription":{"$ref":"#/$defs/id"},"delivery_id":{"$ref":"#/$defs/id"},"receipt":{"type":"string","minLength":1},"attempt":{"anyOf":[{"type":"integer","minimum":1},{"type":"null"}]},"published_at":{"$ref":"#/$defs/timestamp"},"visible_until":{"$ref":"#/$defs/timestamp"}},"required":["message","subscription","delivery_id","receipt","attempt","published_at","visible_until"],"additionalProperties":false},
+    "settlementReceipt": {"type":"object","properties":{"delivery_id":{"$ref":"#/$defs/id"},"state":{"enum":["acked","retry","rejected"]},"settled_at":{"$ref":"#/$defs/timestamp"}},"required":["delivery_id","state","settled_at"],"additionalProperties":false},
+    "leaseReceipt": {"type":"object","properties":{"delivery_id":{"$ref":"#/$defs/id"},"visible_until":{"$ref":"#/$defs/timestamp"}},"required":["delivery_id","visible_until"],"additionalProperties":false},
+    "limits": {"type":"object","properties":{"max_payload_bytes":{"type":"integer","minimum":1},"max_header_bytes":{"type":"integer","minimum":1},"max_headers":{"type":"integer","minimum":1},"max_batch":{"type":"integer","minimum":1},"max_wait_ms":{"type":"integer","minimum":1},"max_visibility_ms":{"type":"integer","minimum":1},"max_claim_lifetime_ms":{"type":"integer","minimum":1},"max_inflight_per_owner":{"type":"integer","minimum":1},"max_pending_bytes":{"type":"integer","minimum":1},"max_attempts":{"type":"integer","minimum":1},"message_retention_ms":{"type":"integer","minimum":1},"terminal_retention_ms":{"type":"integer","minimum":1},"dedup_ms":{"type":"integer","minimum":1},"recovery_ms":{"type":"integer","minimum":1},"max_operation_ms":{"type":"integer","minimum":1},"max_poll_interval_ms":{"type":"integer","minimum":1},"max_scan_rows":{"type":"integer","minimum":1},"max_codec_depth":{"type":"integer","minimum":1},"max_retry_delay_ms":{"type":"integer","minimum":1}},"required":["max_payload_bytes","max_header_bytes","max_headers","max_batch","max_wait_ms","max_visibility_ms","max_claim_lifetime_ms","max_inflight_per_owner","max_pending_bytes","max_attempts","message_retention_ms","terminal_retention_ms","dedup_ms","recovery_ms","max_operation_ms","max_poll_interval_ms","max_scan_rows","max_codec_depth","max_retry_delay_ms"],"additionalProperties":false},
+    "requirement": {"type":"object","properties":{"interface":{"const":"batten.messaging.channels/1"},"resource":{"$ref":"#/$defs/id"},"mode":{"enum":["queue","topic"]},"subscriptions":{"type":"array","items":{"$ref":"#/$defs/id"},"uniqueItems":true,"minItems":1},"profiles":{"type":"array","items":{"$ref":"#/$defs/id"},"uniqueItems":true,"minItems":1},"operations":{"type":"array","items":{"enum":["publish","lookup","stage","receive","ack","retry","reject","extend"]},"uniqueItems":true,"minItems":1},"features":{"type":"array","items":{"enum":["fanout","idempotent_publish","delayed_retry","extend_visibility","transactional_publish"]},"uniqueItems":true}},"required":["interface","resource","mode","subscriptions","profiles","operations","features"],"additionalProperties":false},
+    "postgresBinding": {"type":"object","properties":{"provider":{"const":"postgres"},"resource":{"$ref":"#/$defs/id"},"connection_ref":{"type":"string","minLength":1},"namespace":{"$ref":"#/$defs/id"},"profiles":{"type":"array","items":{"$ref":"#/$defs/payloadProfile"},"minItems":1},"limits":{"$ref":"#/$defs/limits"},"reason_codes":{"type":"array","items":{"$ref":"#/$defs/id"},"minItems":1,"uniqueItems":true}},"required":["provider","resource","connection_ref","namespace","profiles","limits","reason_codes"],"additionalProperties":false},
+    "error": {"type":"object","properties":{"code":{"enum":["invalid_request","payload_unsupported","payload_invalid","denied","unsupported","id_conflict","lease_lost","settlement_conflict","limit_exceeded","transaction_invalid","binding_changed","unavailable","timeout","io_failure"]},"effect":{"enum":["none","unknown"]},"incident_id":{"$ref":"#/$defs/id"}},"required":["code","effect","incident_id"],"additionalProperties":false}
+  }
+}

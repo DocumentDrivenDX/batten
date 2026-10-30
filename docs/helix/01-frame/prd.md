@@ -203,6 +203,15 @@ No additional capability is assigned this priority by the owner.
 - **FR-22** — Applications trigger their declared jobs and non-admin event operations,
   inspect authorized run handles, and read durable run records. Event work uses
   explicit application authority and cannot impersonate an interactive caller.
+- **FR-45** — Applications publish schema-qualified messages and consume declared
+  durable subscriptions through one scoped asynchronous interface. PostgreSQL 18
+  is the first backend. Queue consumers compete; topic subscriptions progress
+  independently. Delivery is at least once with explicit settlement, bounded
+  retries and recovery. Payloads reuse original UMF schemas with exact qualified
+  codecs; provider capabilities refuse unsupported guarantees. Future Kafka,
+  SQS and NATS bindings must preserve the selected profile without client-native
+  broker APIs. Same-store publication requires a qualified transaction executor;
+  backend availability alone establishes no atomicity.
 
 ### Subsystem: Artifact delivery and lifecycle
 
@@ -324,6 +333,7 @@ test functions or permission to write code before the review gate.
 | FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
 | FR-40 | Compose then customize a review journey | Wizard/form/collection with a local detailed editor; undeclared library import | Local code works within supplied APIs; extra dependency refuses without a platform exception. |
 | FR-41 | Present the same review journey on web and terminal | Shared interactions; one browser-only custom control | Supported surfaces preserve meaning; terminal admission refuses the unsupported required control before effects. |
+| FR-45 | Publish and consume messages | Competing consumers, fan-out, duplicates, crash/response loss, revocation and unknown codec | CONTRACT-007 MSG acceptance proves scoped delivery/recovery; unsupported features refuse before effects. |
 
 ## Technical Context
 

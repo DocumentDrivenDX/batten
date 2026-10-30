@@ -1,0 +1,257 @@
+{
+  "description": "Fabricated structural fixtures only. Digests, codec identity and limits are illustrative; no eligible deployment or runtime qualification is implied.",
+  "valid": [
+    {
+      "definition": "requirement",
+      "value": {
+        "interface": "batten.messaging.channels/1",
+        "resource": "review-requests",
+        "mode": "queue",
+        "subscriptions": [
+          "work"
+        ],
+        "profiles": [
+          "review-request-json-v1"
+        ],
+        "operations": [
+          "publish",
+          "lookup",
+          "receive",
+          "ack",
+          "retry",
+          "reject",
+          "extend"
+        ],
+        "features": [
+          "idempotent_publish",
+          "delayed_retry",
+          "extend_visibility"
+        ]
+      }
+    },
+    {
+      "definition": "postgresBinding",
+      "value": {
+        "provider": "postgres",
+        "resource": "review-requests",
+        "connection_ref": "host-managed-db",
+        "namespace": "messaging",
+        "profiles": [
+          {
+            "id": "review-request-json-v1",
+            "artifact": {
+              "id": "fabricated-review-schema",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "selector": "#/$defs/reviewRequest",
+            "encoding": "json-utf8",
+            "codec": {
+              "id": "umf-json-instance",
+              "version": "qualification-required"
+            }
+          }
+        ],
+        "limits": {
+          "max_payload_bytes": 65536,
+          "max_header_bytes": 1000,
+          "max_headers": 1000,
+          "max_batch": 10,
+          "max_wait_ms": 1000,
+          "max_visibility_ms": 30000,
+          "max_claim_lifetime_ms": 120000,
+          "max_inflight_per_owner": 1000,
+          "max_pending_bytes": 1048576,
+          "max_attempts": 5,
+          "message_retention_ms": 86400000,
+          "terminal_retention_ms": 86400000,
+          "dedup_ms": 86400000,
+          "recovery_ms": 3600000,
+          "max_operation_ms": 5000,
+          "max_poll_interval_ms": 1000,
+          "max_scan_rows": 100,
+          "max_codec_depth": 64,
+          "max_retry_delay_ms": 60000
+        },
+        "reason_codes": [
+          "handler_failed",
+          "handler_refused"
+        ]
+      }
+    },
+    {
+      "definition": "outgoingMessage",
+      "value": {
+        "message_id": "review-demo-001",
+        "payload": {
+          "profile": "review-request-json-v1",
+          "body_base64": "eyJyZXZpZXdfaWQiOiJkZW1vIn0="
+        },
+        "headers": {},
+        "correlation_id": null,
+        "causation_id": null
+      }
+    },
+    {
+      "definition": "publicationReceipt",
+      "value": {
+        "message_id": "review-demo-001",
+        "accepted_at": "2026-10-29T23:00:00Z",
+        "deduplicated": false,
+        "dedup_until": "2026-10-30T23:00:00Z"
+      }
+    },
+    {
+      "definition": "delivery",
+      "value": {
+        "message": {
+          "message_id": "review-demo-001",
+          "payload": {
+            "profile": "review-request-json-v1",
+            "body_base64": "eyJyZXZpZXdfaWQiOiJkZW1vIn0="
+          },
+          "headers": {},
+          "correlation_id": null,
+          "causation_id": null
+        },
+        "subscription": "work",
+        "delivery_id": "delivery-demo-001",
+        "receipt": "receipt-placeholder",
+        "attempt": 1,
+        "published_at": "2026-10-29T23:00:00Z",
+        "visible_until": "2026-10-29T23:00:30Z"
+      }
+    },
+    {
+      "definition": "settlementReceipt",
+      "value": {
+        "delivery_id": "delivery-demo-001",
+        "state": "acked",
+        "settled_at": "2026-10-29T23:00:00Z"
+      }
+    },
+    {
+      "definition": "leaseReceipt",
+      "value": {
+        "delivery_id": "delivery-demo-001",
+        "visible_until": "2026-10-29T23:00:00Z"
+      }
+    },
+    {
+      "definition": "stagedPublication",
+      "value": {
+        "message_id": "review-demo-001"
+      }
+    },
+    {
+      "definition": "error",
+      "value": {
+        "code": "lease_lost",
+        "effect": "none",
+        "incident_id": "incident-demo"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "definition": "requirement",
+      "value": {
+        "interface": "batten.messaging.channels/1",
+        "resource": "review-requests",
+        "mode": "queue",
+        "subscriptions": [
+          "work"
+        ],
+        "profiles": [
+          "review-request-json-v1"
+        ],
+        "operations": [
+          "publish",
+          "lookup",
+          "receive",
+          "ack",
+          "retry",
+          "reject",
+          "extend"
+        ],
+        "features": [
+          "exactly_once"
+        ]
+      }
+    },
+    {
+      "definition": "outgoingMessage",
+      "value": {
+        "message_id": "review-demo-001",
+        "payload": {
+          "profile": "review-request-json-v1",
+          "body_base64": "eyJyZXZpZXdfaWQiOiJkZW1vIn0="
+        },
+        "headers": {},
+        "correlation_id": null,
+        "causation_id": null,
+        "actor": "caller-supplied"
+      }
+    },
+    {
+      "definition": "outgoingMessage",
+      "value": {
+        "message_id": "",
+        "payload": {
+          "profile": "review-request-json-v1",
+          "body_base64": "eyJyZXZpZXdfaWQiOiJkZW1vIn0="
+        },
+        "headers": {},
+        "correlation_id": null,
+        "causation_id": null
+      }
+    },
+    {
+      "definition": "payloadProfile",
+      "value": {
+        "id": "review-request-json-v1",
+        "artifact": {
+          "id": "fabricated-review-schema",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "selector": "#/$defs/reviewRequest",
+        "encoding": "pickle",
+        "codec": {
+          "id": "umf-json-instance",
+          "version": "qualification-required"
+        }
+      }
+    },
+    {
+      "definition": "limits",
+      "value": {
+        "max_payload_bytes": 65536,
+        "max_header_bytes": 1000,
+        "max_headers": 1000,
+        "max_batch": 10,
+        "max_wait_ms": 1000,
+        "max_visibility_ms": 30000,
+        "max_claim_lifetime_ms": 120000,
+        "max_inflight_per_owner": 1000,
+        "max_pending_bytes": 1048576,
+        "max_attempts": 0,
+        "message_retention_ms": 86400000,
+        "terminal_retention_ms": 86400000,
+        "dedup_ms": 86400000,
+        "recovery_ms": 3600000,
+        "max_operation_ms": 5000,
+        "max_poll_interval_ms": 1000,
+        "max_scan_rows": 100,
+        "max_codec_depth": 64,
+        "max_retry_delay_ms": 60000
+      }
+    },
+    {
+      "definition": "error",
+      "value": {
+        "code": "timeout",
+        "effect": "rolled_back",
+        "incident_id": "incident-demo"
+      }
+    }
+  ]
+}

@@ -99,7 +99,8 @@ public-surface checks, and failure rules are in CONTRACT-002.
 | `batten.hosting` | Typed profile resolution, trusted factory composition, ownership/placement binding | CONTRACT-004 `start_plan` | C, R; selected public factories injected; settings dependencies at composition | Eager unselected providers, private host discovery, automatic installs |
 | `batten.tables` | Native UMF component binding, upstream compiler/typed-access integration | `TableComponent`, `TableProvider`, native artifact validation | C and public UMF/Weft APIs | Copied compiler/planner/parser/RLS emitter, native driver, legacy-format adapter |
 | `batten.workers` | Transport, signed authority/owner envelope, process supervision, limits and shutdown | `WorkerExecutor`, `WorkerPolicy`, lifecycle interface | C, R, stdlib/OS interfaces | Host app internals, database credentials, platform SDKs, automatic service construction |
-| `batten.postgres` | PostgreSQL 18 execution, owned/borrowed sessions, identity/pools, durable state and native migration execution | `PostgresServices`, `ConnectionSource`, explicit maintenance API | C, stdlib, `psycopg` | Databricks/gateway SDKs, upstream compiler duplication, UI, host app internals |
+| `batten.postgres` | PostgreSQL 18 execution, owned/borrowed sessions, identity/pools, durable state, messaging provider and native migration execution | `PostgresServices`, `ConnectionSource`, CONTRACT-007 provider, explicit maintenance API | C, public `batten.messaging` in messaging provider, stdlib, `psycopg` | Databricks/gateway SDKs, upstream compiler duplication, UI, host app internals |
+| `batten.messaging` | Scoped channels/subscriptions, payload profile references, settlement protocols and validation | CONTRACT-007 `Channel`, `Subscription`, `Payloads`, `for_resource`, `payloads` | C and stdlib; codecs/providers injected | Runtime internals, native drivers, broker SDKs, copied UMF codecs/action engines, host app internals |
 | `batten.lakebase` | Lakebase endpoint/role/credential integration and qualification | `LakebaseAuthority`, public authority/session factory | C, stdlib, Databricks SDK | Generic SQL executor duplication, host environment reads, other adapter internals |
 | `batten.databricks` | Warehouse choice, UC files/search/grant reporting, jobs/pipelines, lineage and artifact store | `DatabricksServices`, module-specific resource clients | C, stdlib, Databricks SDK | PostgreSQL execution, model/session loop, host app internals |
 | `batten.gateway` | Gateway completion/embedding translation, aliases, budgets, attribution | `GatewayModels`, configured client factory | C, stdlib, `httpx` or injected supported client | Agent loop, concrete model choice in declarations, unrelated platform adapters |
@@ -243,3 +244,21 @@ dependency/refusal result. Failed required preparation prevents readiness.
 Owner decisions remain in `../01-frame/decision-points.md`. An ontology-provider
 module is the proposed shape; special application-plugin privileges, host identity
 exceptions, and storage exemptions are not inferred from that shape.
+
+## Messaging boundary
+
+[CONTRACT-007](contracts/CONTRACT-007-messaging.md) owns named channels, durable
+subscriptions, exact UMF payload profiles and explicit delivery settlement.
+[ADR-011](adr/ADR-011-postgres-first-messaging.md) selects the first PostgreSQL 18
+provider. Its `batten.postgres.messaging` adapter owns logged messages, subscription
+deliveries, deduplication and retained settlement records. Short claim transactions
+end before application handlers execute. The composition root injects trusted
+connection/authority and separately qualified codecs through public protocols.
+
+Generic runtime coordinates the existing durable-work service using admitted
+provider handles; messaging adds no second scheduler or saga executor. Declared
+operations still enter through `Host.invoke` with current authorization and required
+confirmation. Message headers convey correlation, never operation authority.
+Future broker adapters must satisfy an explicit capability profile; no native
+offset/queue URL enters application APIs. UMF schemas define business payloads;
+no new messaging vocabulary or universal instance codec is assumed.

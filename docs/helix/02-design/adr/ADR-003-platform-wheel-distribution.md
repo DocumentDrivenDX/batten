@@ -33,7 +33,8 @@ Names below are proposals, not registry-availability or publication claims.
 | `novirhyza-batten-umf` | `batten.umf` | Core and public UMF validation/metadata APIs |
 | `novirhyza-batten-hosting` | `batten.hosting` | Core and typed-settings tools; provider factories injected |
 | `novirhyza-batten-tables` | `batten.tables` | Core and public UMF/Weft packages |
-| `novirhyza-batten-postgres` | `batten.postgres` | Core and psycopg |
+| `novirhyza-batten-postgres` | `batten.postgres` | Core and psycopg; messaging provider extra adds public Batten messaging |
+| `novirhyza-batten-messaging` | `batten.messaging` | Core and stdlib; provider and qualified codec implementations injected |
 | `novirhyza-batten-lakebase` | `batten.lakebase` | Core and Databricks SDK for authority/endpoint integration |
 | `novirhyza-batten-databricks` | `batten.databricks` | Core and Databricks SDK for resource APIs |
 | `novirhyza-batten-gateway` | `batten.gateway` | Core and supported gateway client/HTTPX |
