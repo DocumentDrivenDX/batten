@@ -22,6 +22,33 @@ it only decreases afterward. The owner is considering the ontology-provider
 module boundary. The proposal places it in a normal Batten platform module and
 requires zero ontology-specific core capabilities.
 
+## Packaged runtime and fleet direction
+
+Source: owner clarification and authorization to integrate and realign, 2026-10-29.
+The complete packaged runtime and deep declarative services are central product
+value. Application authors must not need pip/npm installation. The platform owns
+qualification of dependency upgrades across applications, enforces telemetry,
+assertions and behavioral test coverage, and bounds out-of-scope behavior.
+
+The scale objective is hundreds of applications sharing infrastructure and
+integrating through the graph API and future defined mechanisms. It is an owner
+goal, not an observed capacity result. Exact load mix, service budgets, upgrade
+policy thresholds and graph integration profiles need design and qualification.
+Separate platform-module distributions remain compatible with this direction:
+platform assembly resolves a cohort once; applications consume the complete
+runtime. This authorizes document alignment, retaining the source/build review gate.
+
+## Semantic testing and platform migration direction
+
+Source: owner direction in this conversation, 2026-10-29. Batten must expose
+application intent and use-case refinements as testable semantics. Every default
+fully declarative construct, including composed UI and declarative hooks, must
+expose its complete functionality through the CLI and automatically produce
+property-based end-to-end tests. Every fully declarative UI-and-hook implementation
+must receive an automatic conformance verdict, reusable to qualify migration to
+new platforms. Missing semantics, oracles or execution coverage cannot silently
+pass. This direction authorizes specification and integration, not runtime code.
+
 ## Authorized scope
 
 Deliver the product vision, PRD, concerns, feature registry, boundary audit,

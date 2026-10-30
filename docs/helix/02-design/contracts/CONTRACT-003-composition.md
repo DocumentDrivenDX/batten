@@ -124,6 +124,18 @@ capability uses the existing capability refusal. No extension package is selecte
 by this design.
 
 
+### Effective semantics for verification
+
+FR-47 tooling MUST preserve exact author intent and use-case refinements when
+building the test model. Semantic definitions and hook targets MUST resolve to
+pinned public upstream meanings. A declarative hook MUST expose its effects,
+preconditions, transitions and outcomes to the qualified oracle; an inert code
+entry alone MUST NOT establish declarative completeness. Unknown required meaning
+MUST refuse semantic qualification while preserving source bytes. Test generation
+and execution MUST occur outside the effect-free `assess` boundary. The existing
+ValidationEvidence schema MUST NOT be treated as an execution/coverage report;
+exact test-model and report formats require companion contracts.
+
 ## Precedence and Compatibility
 
 PRD FR-34–38 governs scope; the schema governs structure and this contract owns

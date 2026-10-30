@@ -1,8 +1,8 @@
-<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/c876dddcc435eb4e -->
-<!-- helix:source docs/helix/02-design/architecture.md sha256:9a0974a3fc6dec69 -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md sha256:384a6f58c4dab07e -->
-<!-- helix:source docs/helix/02-design/adr/ADR-009-ux-builder-ownership.md sha256:d93271c37cd9bbc6 -->
-<!-- helix:source docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md sha256:fefdffd0c6d1e34c -->
+<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/fleet_alignment_reader/c876dddcc435eb4e -->
+<!-- helix:source docs/helix/02-design/architecture.md sha256:ebb43c32ec3db5ba -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-005-ux-builder-binding.md sha256:0008fd4ad87e294d -->
+<!-- helix:source docs/helix/02-design/adr/ADR-009-ux-builder-ownership.md sha256:d15b944955d35bc9 -->
+<!-- helix:source docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md sha256:107baf00adf9690e -->
 <!-- helix:source docs/helix/02-design/adr/ADR-002-native-umf-platform-dependency.md sha256:19b600b856750646 -->
 
 # Build on the platform

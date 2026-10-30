@@ -18,9 +18,11 @@ ddx:
 
 ## Mission Statement
 
-Batten is a core-and-extensions SDK for declarative AI application development.
-Builders compose UMF declarations with typed procedural hooks, choose platform
-modules, and deliver interfaces through reusable hosts and ux-builder integration.
+Batten is a core-and-extensions SDK and packaged runtime for declarative AI
+applications. Its goal is to let teams build and operate hundreds of integrated
+applications on shared infrastructure while the platform manages dependency
+evolution, observability and compatibility. Builders compose deep declarative
+services with typed procedural hooks and ux-builder interfaces.
 
 ## Positioning
 
@@ -42,10 +44,40 @@ and runs the same application through development and deployed hosts. Each modul
 has one platform responsibility, a documented public surface, and enforced
 dependency rules. A host embeds Batten without exposing its private internals.
 
-**North Star**: Reduce application-specific integration work from a declared
-workflow to a working interface, measured against independent assembly.
+**North Star**: Reduce the ongoing cost and risk of building, operating and
+upgrading a fleet of integrated applications through one governed runtime.
+Reducing application-specific integration work is an enabling outcome.
+
+The platform supplies a complete, qualified runtime cohort. Application authors
+use its supplied APIs and services without application-level pip/npm installation.
+Operators compose optional modules into reviewed runtime artifacts at platform
+build time; application admission cannot expand that dependency closure.
+
+The bounded dependency and capability surface lets the platform require telemetry,
+assertions and behavioral test coverage, then qualify dependency upgrades against
+application evidence before rollout. Applications integrate through the graph API
+and future explicitly defined mechanisms, preserving resource ownership and
+current authorization. Shared infrastructure retains per-application attribution,
+limits and lifecycle control. Hundreds of applications is the owner's scale
+objective; exact capacity and upgrade-safety claims require measured evidence.
+
+## Test applications through their semantics
+
+Authors express desired behavior first, then refine it for the use case. Those
+semantics must provide executable expectations for every default fully declarative
+construct, including UI journeys and declarative hooks. The CLI exposes their
+complete functionality; Batten automatically builds property-based end-to-end
+suites from the effective declarations, without application-specific test authoring.
+
+Every fully declarative UI-and-hook composition must receive a decisive automatic
+conformance result against its declared semantics. The same semantic model and
+properties qualify candidate runtimes and platforms, detecting behavior drift
+before migration. Unknown or untested required meaning prevents qualification.
+Custom procedural code needs explicit semantic/test contracts; its behavior is
+not inferred from an inert handler reference.
 
 ## User Experience
+
 
 A developer defines a fabricated task board using native UMF documents, typed
 reads, and declared actions. They attach a screen, a chat tool, and a scheduled
@@ -68,6 +100,11 @@ can admit through its published contract.
 | Value Proposition | Customer Benefit |
 |-------------------|------------------|
 | Native platform capabilities | Authors use the platform's supported semantics without maintaining duplicate compilers or engines. |
+| Semantic application verification | Complete CLI access and automatically generated property-based end-to-end suites turn intent and refinements into migration conformance checks. |
+| Qualified packaged runtime | Application delivery needs no package installation; platform owners qualify a common dependency cohort. |
+| Enforced observability and verification | Required telemetry, assertions and behavior coverage make application outcomes inspectable and upgrades assessable. |
+| Shared fleet operation | Declarative services amortize runtime and infrastructure costs across hundreds of applications, subject to capacity qualification. |
+| Governed application integration | Graph API and future defined mechanisms connect applications through explicit contracts and permission boundaries. |
 | Explicit module and permission boundaries | Authors and host owners can see what an application depends on and may reach. |
 | Shared development and deployed host contract | Local work exercises the same admission and execution behavior that deployment consumes. |
 | Independent application delivery | A reviewed application update can be admitted without rebuilding unrelated applications. |
@@ -79,8 +116,12 @@ can admit through its published contract.
 | Authoring effort | Observe time and manual steps from a native model to a working fabricated workflow. |
 | Integration effort | Count host-specific glue and private import dependencies required by a second host. |
 | Contract clarity | Record compatibility refusals and workarounds encountered by real application authors. |
+| Upgrade safety and effort | Compare candidate cohorts against affected application assertions, coverage and telemetry; measure regressions, qualification effort and recovery outcomes. |
+| Fleet efficiency and isolation | Measure resource cost, concurrency, fairness and cross-application interference across a fabricated fleet targeting hundreds of applications. |
+| Integration control | Exercise authorized graph interactions and denied cross-application access, including dependency changes and revocation. |
 
-The owner supplies numeric targets after baseline workflows are measured.
+The owner supplies numeric acceptance thresholds after baseline workflows are measured;
+the hundreds-of-applications scale objective is already owner-selected.
 These learning indicators establish no customer-adoption gate.
 
 ## Why Now

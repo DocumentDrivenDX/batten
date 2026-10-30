@@ -12,6 +12,26 @@ ddx:
 
 # Project concerns
 
+## Fleet operating direction
+
+Owner direction, 2026-10-29: complete packaged runtimes and deep declarative
+services must make dependency upgrades qualifiable across an application fleet.
+Required telemetry, assertions and behavioral coverage are admission/upgrade
+obligations (PRD FR-23/27/29/42). Shared hosting targets hundreds of applications
+with scoped resources, fairness and attribution (FR-43); graph API integration
+retains explicit contracts and current grants (FR-44). These requirements preserve
+module ownership, local Python/TypeScript hooks and the decreasing test budget.
+Capacity and upgrade-safety claims require measured cohort/workload evidence.
+
+## Semantic verification direction
+
+Owner direction, 2026-10-29 (FR-47): exposed intent plus explicit use-case
+refinements must drive complete CLI functionality and automatic property-based
+end-to-end tests for every default fully declarative UI/hook composition.
+Platform migration qualification must reuse those semantic properties. Behavioral
+coverage remains complete while shared generators and parameter tables preserve
+the decreasing test-function ceiling; no new testing dependency is selected.
+
 ## Active Concerns
 
 The owner authorized defaults for the proposal except the explicitly open policy

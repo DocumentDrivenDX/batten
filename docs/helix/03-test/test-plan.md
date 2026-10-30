@@ -22,7 +22,8 @@ Prove the first P0 composition/hosting/UI boundary through public behavior befor
 claiming installed, native, browser or deployed support. FEAT-009 and the initial
 FEAT-002 ux-builder story define this packet's scope. The rest of PRD FR-1–33
 remains required product scope and needs its own story/test allocation before
-its implementation; this plan does not assert complete product coverage.
+its implementation. Fleet allocation below adds FR-42–44 and the strengthened
+FR-23/27/29; this plan does not assert complete product coverage.
 
 ## Framework Selection & Cost
 
@@ -91,6 +92,69 @@ Use a fabricated review queue with Review records, approve action, deterministic
 recommendation double and a separate optional saga reference. Keep the same
 application bytes across local/embedded profiles. Native PostgreSQL18 fixtures,
 identities and UI records are fabricated; no production snapshots or credentials.
+
+## Fleet and runtime evolution allocation
+
+PRD FR-23/27/29/42–44 add fleet assurance to the first-host plan. These rows are
+planned qualification, not passing evidence or new test-function allocations.
+Extend existing public-boundary scenarios for invariants they already own.
+
+| Acceptance ID / source | Primary evidence layer | Required observable outcome |
+| --- | --- | --- |
+| FLT-01 / FR-23 | Installed runtime/application delivery | Build/admit/start fabricated applications using only the supplied runtime with registry access unavailable; attempted pip/npm fetch/install refuses. |
+| FLT-02 / FR-29/42 | Admission and cohort qualification integration | Missing, failing, stale or mismatched app assertions/behavior coverage refuses; current exact evidence qualifies. Changing the app/cohort/policy invalidates it. |
+| FLT-03 / FR-27/42 | Host diagnostics integration | Application opt-out cannot disable required capture; calls/refusals carry safe app/artifact/cohort attribution. Sink loss is visible and cannot produce passing evidence. |
+| FLT-04 / FR-42 | Candidate/accepted cohort comparison | Breaking dependency/interface changes identify affected apps and integration dependents; required behavior executes before eligibility and incompatible candidates are withheld. |
+| FLT-05 / FR-43, CMP-16 | Native shared-host load qualification | A fabricated fleet targeting hundreds of apps runs the declared mix; excess use, failures, cancellation and revocation preserve scope, configured fairness and allocations. Measure capacity and failure domains. |
+| FLT-06 / FR-44, CMP-17 | Public graph-provider authorization integration | Authorized declared interaction works; foreign target, missing authority, revoked grant and undeclared private access refuse. Graph links confer no grants. |
+| FLT-07 / FR-42 | Runtime recovery and durable-state integration | Retained qualified cohort remains usable when state-compatible; incompatible schema/state refuses rollback and uncertain external effects stay visible. |
+
+Platform-only tests or schema validation cannot qualify an application fleet.
+Owners must specify workload, concurrency, per-app/owner budgets, telemetry loss
+policy, evidence policy and pass thresholds before tests can claim capacity or
+upgrade safety. Pin runtime/application digests, provider versions, platform and
+policy in each result. Use fabricated data; no live fleet operations are authorized.
+The function-count ratchet remains in force; consolidation must preserve every
+required outcome. No capacity, percentage-coverage or latency measurement exists
+in this packet. Exact evidence/telemetry/graph and rollout contracts are required
+before dependent source work.
+
+## Semantic application conformance allocation
+
+FR-47 is P0. Automatic conformance for every fully declarative UI-and-hook
+composition is required; default-construct support gaps cannot be treated as
+optional test exclusions. Use generated cases through shared public behavior
+runners; these rows allocate outcomes, not additional test functions.
+
+| Acceptance ID | Primary layer | Observable outcome |
+| --- | --- | --- |
+| SEM-01 | Semantic generator conformance | Every default construct and allowed refinement produces a complete behavior/CLI/property inventory; a missing definition, hook oracle or CLI mapping prevents qualification. |
+| SEM-02 | CLI/host end-to-end | Generated commands exercise every declared behavior, including UI navigation/state, hook effects, validation, denial, confirmation, cancellation and original-call recovery; no private-host bypass. |
+| SEM-03 | Real renderer/host/provider end-to-end | Automatically generated legal/illegal state sequences check semantic invariants and actual UI/hook outcomes, including focus/accessibility where relevant; no handwritten per-app cases are required. |
+| SEM-04 | Generator/oracle negative controls | Deliberately wrong transitions, ignored refinements and altered declarative hook effects produce reproducible minimized failures; implementation self-comparison cannot pass. |
+| SEM-05 | Cross-platform migration conformance | Exact app/refinements and properties run on accepted/candidate bindings; semantic drift, absent UI/hook behavior or missing required coverage blocks migration qualification. |
+| SEM-06 | Reproducibility/evidence integration | Replay pinned seeds/traces and shrunk counterexamples against exact artifacts/cohorts; changed semantics invalidate prior evidence and exploration limits remain explicit. |
+
+Generate from desired semantics after use-case refinement, preserving original
+UMF/ux-builder meaning and testing implementation through public execution paths.
+The default declarative hook set must supply deterministic contracts/oracles for
+observed effects; external nondeterminism requires controlled fixtures or qualified
+properties, never guessed exact outputs. Arbitrary procedural hooks need explicit
+test contracts and cannot silently inherit declarative completeness.
+
+Conclusive qualification means all required declared behaviors have adequate
+oracles, CLI mappings and real end-to-end coverage, with a decisive pass/fail
+verdict for the stated domain and exploration policy. Property-based sampling is
+not an exhaustive proof of unbounded behavior; finite modeled state spaces may
+also be explored exhaustively. Report coverage and bounds, never turn a missing
+case into success. Generation must preserve configured authority/resource limits,
+use fabricated inputs and controlled clocks, and retain uncertain effects without
+blind replay. No live platform migration or external effect is authorized here.
+
+Exact semantic model/refinement, generator/oracle, CLI and execution-report
+contracts, qualified renderer/platform adapters and the testing framework remain
+implementation prerequisites. No generated runtime suite has executed in this
+specification packet. Existing first-host and native evidence requirements remain.
 
 ## Known Gaps
 
