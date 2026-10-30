@@ -1,0 +1,739 @@
+{
+  "umf": "0.10.0",
+  "id": "urn:batten:services:0.1.0",
+  "title": "Batten platform service ontology",
+  "vocabularies": {},
+  "extensions": {},
+  "modules": [
+    {
+      "id": "batten.services",
+      "namespace": "batten.services",
+      "extensions": {},
+      "elements": [
+        {
+          "id": "Application",
+          "kind": "record",
+          "name": "Application",
+          "extensions": {},
+          "members": [
+            {
+              "module": "batten.services",
+              "element": "Application.id"
+            },
+            {
+              "module": "batten.services",
+              "element": "Application.applicationId"
+            },
+            {
+              "module": "batten.services",
+              "element": "Application.artifactId"
+            },
+            {
+              "module": "batten.services",
+              "element": "Application.artifactSha256"
+            }
+          ],
+          "keys": [
+            {
+              "id": "identity",
+              "name": "Identity",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "batten.services",
+                  "element": "Application.id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Application.id",
+          "kind": "field",
+          "name": "id",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "Application.applicationId",
+          "kind": "field",
+          "name": "applicationId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "Application.artifactId",
+          "kind": "field",
+          "name": "artifactId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "Application.artifactSha256",
+          "kind": "field",
+          "name": "artifactSha256",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface",
+          "kind": "record",
+          "name": "ServiceInterface",
+          "extensions": {},
+          "members": [
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.id"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.interfaceId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.version"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.contractArtifactId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.contractSha256"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.module"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface.element"
+            }
+          ],
+          "keys": [
+            {
+              "id": "identity",
+              "name": "Identity",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "batten.services",
+                  "element": "ServiceInterface.id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ServiceInterface.id",
+          "kind": "field",
+          "name": "id",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.interfaceId",
+          "kind": "field",
+          "name": "interfaceId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.version",
+          "kind": "field",
+          "name": "version",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.contractArtifactId",
+          "kind": "field",
+          "name": "contractArtifactId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.contractSha256",
+          "kind": "field",
+          "name": "contractSha256",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.module",
+          "kind": "field",
+          "name": "module",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceInterface.element",
+          "kind": "field",
+          "name": "element",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport",
+          "kind": "record",
+          "name": "ServiceExport",
+          "extensions": {},
+          "members": [
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.id"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.exportId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.applicationRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.interfaceRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.transport"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.profileId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.profileVersion"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.descriptorArtifactId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceExport.descriptorSha256"
+            }
+          ],
+          "keys": [
+            {
+              "id": "identity",
+              "name": "Identity",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "batten.services",
+                  "element": "ServiceExport.id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ServiceExport.id",
+          "kind": "field",
+          "name": "id",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.exportId",
+          "kind": "field",
+          "name": "exportId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.applicationRevision",
+          "kind": "field",
+          "name": "applicationRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.interfaceRevision",
+          "kind": "field",
+          "name": "interfaceRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.transport",
+          "kind": "field",
+          "name": "transport",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.profileId",
+          "kind": "field",
+          "name": "profileId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.profileVersion",
+          "kind": "field",
+          "name": "profileVersion",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.descriptorArtifactId",
+          "kind": "field",
+          "name": "descriptorArtifactId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.descriptorSha256",
+          "kind": "field",
+          "name": "descriptorSha256",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement",
+          "kind": "record",
+          "name": "ServiceRequirement",
+          "extensions": {},
+          "members": [
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.id"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.requirementId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.applicationRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.interfaceRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.required"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement.selectedExport"
+            }
+          ],
+          "keys": [
+            {
+              "id": "identity",
+              "name": "Identity",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "batten.services",
+                  "element": "ServiceRequirement.id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ServiceRequirement.id",
+          "kind": "field",
+          "name": "id",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.requirementId",
+          "kind": "field",
+          "name": "requirementId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.applicationRevision",
+          "kind": "field",
+          "name": "applicationRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.interfaceRevision",
+          "kind": "field",
+          "name": "interfaceRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.required",
+          "kind": "field",
+          "name": "required",
+          "scalarType": "boolean",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.selectedExport",
+          "kind": "field",
+          "name": "selectedExport",
+          "scalarType": "string",
+          "nullability": "absent-allowed",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding",
+          "kind": "record",
+          "name": "ServiceBinding",
+          "extensions": {},
+          "members": [
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.id"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.bindingId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.requirementRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.exportRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.deploymentRevision"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.resourceBinding"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.evidenceArtifactId"
+            },
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding.evidenceSha256"
+            }
+          ],
+          "keys": [
+            {
+              "id": "identity",
+              "name": "Identity",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "batten.services",
+                  "element": "ServiceBinding.id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ServiceBinding.id",
+          "kind": "field",
+          "name": "id",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.bindingId",
+          "kind": "field",
+          "name": "bindingId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.requirementRevision",
+          "kind": "field",
+          "name": "requirementRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.exportRevision",
+          "kind": "field",
+          "name": "exportRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.deploymentRevision",
+          "kind": "field",
+          "name": "deploymentRevision",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.resourceBinding",
+          "kind": "field",
+          "name": "resourceBinding",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.evidenceArtifactId",
+          "kind": "field",
+          "name": "evidenceArtifactId",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.evidenceSha256",
+          "kind": "field",
+          "name": "evidenceSha256",
+          "scalarType": "string",
+          "nullability": "required",
+          "cardinality": "one",
+          "extensions": {}
+        }
+      ],
+      "relationships": [
+        {
+          "id": "Application.exports",
+          "name": "exports",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "Application",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceExport",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        },
+        {
+          "id": "Application.requires",
+          "name": "requires",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "Application",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        },
+        {
+          "id": "ServiceExport.implements",
+          "name": "implements",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "ServiceExport",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        },
+        {
+          "id": "ServiceRequirement.needs",
+          "name": "needs",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceInterface",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.resolves",
+          "name": "resolves",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceRequirement",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        },
+        {
+          "id": "ServiceBinding.selects",
+          "name": "selects",
+          "source": [
+            {
+              "module": "batten.services",
+              "element": "ServiceBinding",
+              "key": "identity"
+            }
+          ],
+          "target": [
+            {
+              "module": "batten.services",
+              "element": "ServiceExport",
+              "key": "identity"
+            }
+          ],
+          "sourceMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetMultiplicity": {
+            "min": 0,
+            "max": "*"
+          },
+          "targetLifecycle": "independent",
+          "directed": true,
+          "extensions": {}
+        }
+      ]
+    }
+  ]
+}

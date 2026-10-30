@@ -22,6 +22,22 @@ it only decreases afterward. The owner is considering the ontology-provider
 module boundary. The proposal places it in a normal Batten platform module and
 requires zero ontology-specific core capabilities.
 
+## Packaged runtime and fleet direction
+
+Source: owner clarification and authorization to integrate and realign, 2026-10-29.
+The complete packaged runtime and deep declarative services are central product
+value. Application authors must not need pip/npm installation. The platform owns
+qualification of dependency upgrades across applications, enforces telemetry,
+assertions and behavioral test coverage, and bounds out-of-scope behavior.
+
+The scale objective is hundreds of applications sharing infrastructure and
+integrating through the graph API and future defined mechanisms. It is an owner
+goal, not an observed capacity result. Exact load mix, service budgets, upgrade
+policy thresholds and graph integration profiles need design and qualification.
+Separate platform-module distributions remain compatible with this direction:
+platform assembly resolves a cohort once; applications consume the complete
+runtime. This authorizes document alignment, retaining the source/build review gate.
+
 ## Authorized scope
 
 Deliver the product vision, PRD, concerns, feature registry, boundary audit,
@@ -70,3 +86,47 @@ APIs does not add a dependency. Applications cannot expand the installed cohort.
 A terminal user interface (TUI) is a design target for the same application
 meaning; support must be qualified per control and renderer. This authorizes
 requirements/contracts/test allocation, retaining the existing source review gate.
+
+## Attribution, audit and mutation direction
+
+Source: owner direction, 2026-10-29. Robust user attribution and audit are core
+Batten requirements. Command Query Responsibility Segregation (CQRS) is the default
+exposed mutation model: declared commands change state; queries read it. Every
+database, messaging, AI gateway and other system interaction carries OpenTelemetry
+(OTel) telemetry and the strongest supported user attribution. Preserve initiating
+user, delegation and effective service identity across asynchronous boundaries;
+report unsupported native attribution explicitly rather than inventing a user.
+This authorizes specification evolution; the existing source/build review gate remains.
+
+## Platform asset direction
+
+Source: owner direction, 2026-10-29. Applications must be able to carry deployment
+packages for tables, pipelines and other platform assets, require assets managed
+elsewhere, or combine both. Hide provider details behind a generic platform
+wrapper wherever semantics permit. Databricks bundle syntax and Unity Catalog
+bindings belong to the provider, outside the core interface. This authorizes
+requirements, contracts and test allocation; production applies, secret access,
+migrations and product implementation retain their separate authorization gates.
+
+## Application interoperability direction
+
+Source: owner discussion and authorization to evolve HELIX specifications,
+2026-10-29. Applications share governed ontology types and discover each other's
+services/shapes through a small Batten-owned platform ontology. Application,
+ServiceInterface, ServiceExport, ServiceRequirement and ServiceBinding express
+provider offers, consumer needs and host-approved resolutions.
+
+UMF owns portable model/action meaning; Arras owns ontology capabilities. Batten
+owns its platform definitions and binding rules in the optional provider module;
+core remains ontology-neutral. Shared business types have independent ownership
+and exact artifact identity. Graph discovery and explicit bindings use the same
+contracts. Discoverability, binding and current execution permission are distinct.
+
+Table, API and messaging access are possible transport profiles, each requiring
+an explicit owner export and qualified authority/consistency contract. Raw shared
+connections remain prohibited. Read-only governed table exports are the initial
+table design assumption; cross-application mutations use owner commands unless a
+separate writable profile is explicitly contracted. Exact matches, immutable
+bindings and explicit provider selection are design defaults, not live evidence.
+This authorizes specs, native model and verification allocation; source code,
+migrations, production changes, commits and pushes remain separately gated.

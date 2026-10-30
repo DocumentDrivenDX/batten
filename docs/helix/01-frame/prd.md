@@ -17,7 +17,13 @@ kind: product
 
 ## Summary
 
-Batten is an open-source application SDK in the Novirhyza family. Authors compose native UMF declarations for data and behavior, with typed
+Batten is an open-source application SDK and packaged runtime in the Novirhyza family.
+It targets hundreds of integrated applications on shared infrastructure, with
+platform-owned dependency evolution, enforced observability and behavioral
+verification. Deep declarative services reduce both initial integration and
+ongoing fleet operating cost. This is intended behavior requiring qualification.
+
+Authors compose native UMF declarations for data and behavior, with typed
 procedural hooks and ux-builder interfaces. They select capabilities independently
 of hosting environments and execution placement.
 Host teams embed a public runtime contract that applies admission, identity,
@@ -51,6 +57,13 @@ local database checks, and deployed behavior.
 3. Platform dependencies and permission responsibilities stay explicit and checkable.
 4. Every specified capability receives implementation and qualification; an old
    reference implementation's absence or limitation does not silently reduce scope.
+5. Application authors consume a complete qualified runtime without pip/npm
+   installation; platform owners qualify dependency upgrades across applications.
+6. Required telemetry, assertions and behavioral test coverage provide enforceable
+   evidence for admission, operation and candidate runtime upgrades.
+7. Hundreds of applications share services with explicit resource limits,
+   ownership and attribution, and integrate through governed graph API contracts
+   and future defined mechanisms.
 
 ### Success Metrics
 
@@ -59,10 +72,14 @@ local database checks, and deployed behavior.
 | App-specific integration effort | Baseline and target supplied by Erik LaBianca | Compare custom wiring for a fabricated application across hosts. |
 | Developer iteration effort | Baseline and target supplied by Erik LaBianca | Observe build/admit/update steps and elapsed time. |
 | Boundary independence | No private host dependency | Import census and installed-artifact qualification. |
+| Application package setup | No application-level pip/npm install | Exercise application build/admission/start against a complete runtime without package-registry access. |
+| Upgrade qualification | All affected required behavior has current evidence before rollout | Compare exact candidate and accepted cohorts against application assertions, coverage and protocol compatibility. |
+| Shared fleet scale | Hundreds of applications; exact load mix and service budgets to be qualified | Measure shared-service cost, contention, fairness, isolation and recovery using fabricated applications. |
+| Governed integration | Declared, authorized interfaces only | Exercise graph API access, revocation and dependency change; future mechanisms require their own contracts. |
 
 ### Non-Goals
 
-Host identity-provider deployment, infrastructure provisioning, a marketplace for
+Host identity-provider deployment, shared infrastructure provisioning, a marketplace for
 unknown third-party code, a hostile-code security boundary, and replacement
 implementations of the platform libraries are outside product scope. Batten
 handles its host integration and application-delivery responsibilities within
@@ -136,6 +153,10 @@ No additional capability is assigned this priority by the owner.
 - **FR-9** — One typed operation supplies its route, tool, screen, view, and event
   adapters. Ambiguous tool ownership or undeclared calls are refused. Human-started
   operations use declared confirmations; model-started writes require approval.
+  Command Query Responsibility Segregation (CQRS) is the default exposed mutation
+  model: declared commands change business state; queries cannot conceal mutations.
+  All adapters and local hooks preserve that distinction, authorization, attribution
+  and audit. CQRS does not itself require event sourcing or separate databases.
 
 - **FR-39** — UI applications integrate with ux-builder design artifacts and its
   public component/theme/audit tooling. Stable bindings connect UI controls to UMF
@@ -195,7 +216,8 @@ No additional capability is assigned this priority by the owner.
 - **FR-20** — Owners confirm writes and external job starts against the displayed
   identity, scope, executor, and schedule. Material change invalidates confirmation;
   access is rechecked at execution and loss suspends work with an owner-visible reason.
-- **FR-21** — Declared Databricks jobs and pipelines support reviewed deployment
+- **FR-21** — Declared platform jobs and pipelines, initially targeting Databricks,
+  support reviewed deployment
   and governed reconciliation, staged verified artifacts, least-privilege job
   identity, platform scheduling, enable/pause/cancel, observation, accounting,
   and lineage drift reporting. Limits that cannot bind externally started work
@@ -220,7 +242,9 @@ No additional capability is assigned this priority by the owner.
   dependency cohort before plugin code executes. New third-party dependencies
   are exceptional platform changes requiring owner approval and host admission;
   runtime dependency resolution
-  and vendored platform libraries are refused.
+  and vendored platform libraries are refused. The platform delivers the complete
+  qualified runtime, including selected Python/browser dependencies and services;
+  application build, admission and start must not require pip/npm installation.
 - **FR-24** — Hosts admit installed and stored artifacts under explicit approval
   policies, support shared and owner-scoped admission, and revoke or roll back by
   artifact identity. Packaged extensions expose reviewed public surfaces and
@@ -234,10 +258,30 @@ No additional capability is assigned this priority by the owner.
   representation or diagnostics. Secret values travel only for the authorized call.
 - **FR-26** — File, search, completion, and embedding ports enforce declared resources,
   caller or explicit application identity, bounded results, budgets, and safe
-  errors. Files remain within the application's storage scope.
+  errors. Files remain within the application's storage scope. Object-storage
+  access must support S3, Azure Data Lake Storage, Databricks Volumes and a local
+  filesystem through one scoped capability, preserving each backend's qualified
+  guarantees rather than assuming filesystem or transactional equivalence.
+  The initial backend pair is Databricks Volumes and a local managed filesystem;
+  S3 and Azure Data Lake Storage extend the same application boundary.
+  Qualified capabilities include conditional mutations, version-pinned byte ranges,
+  multipart/resumable upload and explicit integrity verification. Listing is shallow
+  and bounded by default, with native continuation and optional metadata projection.
+  Unsupported concurrency or publication guarantees refuse before effects.
 - **FR-27** — Namespaced audit and declared telemetry cover admission and execution
   across all surfaces. They carry safe identifiers/counts/outcomes, report capture
   limits, and distinguish offline, native, browser, and deployed evidence.
+  Required telemetry is a host-enforced admission/execution obligation, not an
+  optional application opt-in. Capture loss is observable and cannot silently
+  become passing evidence. OpenTelemetry (OTel) instrumentation covers every
+  database, messaging, AI gateway, storage, search, worker, graph and other system
+  interaction, including reads, refusals, retries and background work. Attribution
+  retains the initiating user when present, delegation and effective execution
+  identity with application/resource and causal correlation. Each provider uses
+  the strongest supported native attribution and reports remaining gaps explicitly.
+  Durable audit preserves decisions and actual or uncertain outcomes independently
+  of trace sampling. Telemetry context never grants authority; capture and exports
+  enforce access, redaction and bounded identity disclosure.
 - **FR-28** — Authors declare required platform grants; operators inspect their
   resolved status and apply them through the platform owner. Applications do not
   acquire grant authority by declaring a requirement.
@@ -246,6 +290,11 @@ No additional capability is assigned this priority by the owner.
 
 - **FR-29** — Shared conformance checks validate declarations, gates, resources,
   artifacts, platform boundaries, compatibility, and documentation against observable behavior.
+  Hosts require application assertions and test evidence covering declared behavior,
+  bound to artifact identity and the qualified cohort. Missing, failing or stale
+  required evidence refuses admission or upgrade qualification. Behavioral coverage
+  and the decreasing test-function budget are independent requirements; no numeric
+  code-coverage threshold is implied.
 - **FR-30** — Offline doubles and public-boundary test hosts let applications test
   without the embedding application. Distinct integration tests qualify real
   PostgreSQL 18, workers, browsers, and deployed adapters; doubles do not confer native support.
@@ -274,7 +323,10 @@ No additional capability is assigned this priority by the owner.
 - **FR-36** — Operators bind the same application to local, standalone and embedded
   hosting independently of platform choices and execution placement. Profiles
   describe identity, ownership, resources, selected providers and supported
-  placement; unavailable combinations refuse before effects. Separated workers
+  placement; unavailable combinations refuse before effects. The required local
+  profile uses explicit stub authentication and a shared PostgreSQL 18 pgserver
+  instance for Truss and direct UMF table access. It also supports local Tether
+  execution through a host-configured model API. Separated workers
   require independently qualified transport and recovery.
 - **FR-37** — Authors assess composition without starting services or executing
   application/provider code. Results explain missing or ambiguous capabilities,
@@ -284,6 +336,46 @@ No additional capability is assigned this priority by the owner.
   executor capabilities. Batten exposes scoped invocation, observation and recovery
   bindings while preserving UMF outcomes and uncertainty. Missing upstream support
   blocks the affected component rather than invoking a Batten-specific fallback.
+
+### Subsystem: Fleet operation and evolution
+
+- **FR-46** — Applications carry digest-pinned native deployment packages, require
+  exact externally managed resource contracts, or combine both through a generic
+  platform wrapper. Providers own native formats, resource kinds and environment
+  bindings; core interfaces contain no vendor deployment semantics. Operators
+  separately plan, authorize, apply and reconcile changes under scoped identity.
+  Each asset has one lifecycle owner. Admission requires current contract,
+  access and readiness evidence; deployment alone does not prove usable outputs.
+  Startup/reload never applies, migrates or grants. Persistent assets survive
+  runtime shutdown/removal by default; destructive changes require separate
+  authorization and dependency checks. Recovery retains partial/uncertain effects.
+
+- **FR-42** — Platform owners qualify candidate dependency/runtime cohorts against
+  affected application assertions, behavioral coverage, required telemetry and
+  interface compatibility before rollout. Evidence binds exact application and
+  runtime artifacts; changed inputs invalidate prior qualification. Operators can
+  identify impacted applications, withhold an incompatible upgrade and retain a
+  qualified cohort. Recovery must respect durable-state compatibility; a code
+  rollback does not imply data/schema rollback.
+- **FR-43** — The runtime supports a target fleet of hundreds of applications on
+  shared infrastructure through declarative services, with per-application and
+  owner attribution, authorization, bounded concurrency/resource use, fairness
+  and lifecycle control. One application's excess use, revocation or failure
+  must not bypass another's scope or silently consume its allocation. Exact
+  workload, capacity, failure-domain limits and service budgets require qualification.
+- **FR-44** — Applications share independently governed native semantic types and
+  discover permitted services/shapes through a Batten-owned platform ontology.
+  Declared interfaces, owner exports, consumer requirements and host-approved
+  bindings identify exact contracts, providers and upgrade dependencies. Discovery
+  visibility, binding and execution authority remain distinct. Every interaction
+  checks authenticated caller or explicit application authority, target access
+  and current grants; graph relationships confer no authority. Qualified graph,
+  owner-published table/view, API and messaging profiles retain their own access,
+  consistency and recovery contracts. Bindings refuse incompatible, ambiguous,
+  stale or unsupported dependencies without silent provider/version fallback.
+  Direct private imports, raw shared connections and undeclared side channels
+  cannot substitute for integration. UMF/Arras retain native semantic ownership;
+  portable core remains ontology-neutral.
 
 ## Acceptance Test Sketches
 
@@ -300,7 +392,7 @@ test functions or permission to write code before the review gate.
 | FR-6 | List applications | Enabled/disabled, approved/unapproved, admin/user | Listing and UI agree with effective access. |
 | FR-7 | Fail a port | Hidden object, invalid parameters, timeout | Stable safe outcome with no private payload. |
 | FR-8 | Open screen/view and download | Approved resource, altered bytes, unlisted operation | Host navigation and permitted calls work; altered/unlisted resources fail closed. |
-| FR-9 | Call one operation across surfaces | Same declared input through route/tool/view/event | Same authorized behavior; model-write approval is respected. |
+| FR-9 | Call commands and queries across surfaces | Same operation through route/tool/view/event, including a hidden query write | Same attributed command behavior; query mutation refuses; model-write approval holds. |
 | FR-10 | Choose and page warehouse | Offered and unoffered choices for fabricated callers | Choice persists; grants still decide rows; no choice elevates access. |
 | FR-11 | Read and change ontology | Own/foreign module, batch, cursor, receipt | Own permitted changes and consistent reads; foreign mutation refused. |
 | FR-12 | Evolve native tables | Reviewed migration phases, interruption, changed applied digest | Correct catalog and resumable phases; altered history refused. |
@@ -318,7 +410,7 @@ test functions or permission to write code before the review gate.
 | FR-24 | Revoke and remove | Active artifact, dependent module, stale plan | Revocation closes access; data removal requires current unblocked confirmation. |
 | FR-25 | Resolve secret reference | Declared and undeclared names | Authorized resolution only; no value in representation or audit. |
 | FR-26 | Exercise resources | Scoped files/search and bounded model calls | Authorized bounded outcomes, safe refusal and accurate attribution. |
-| FR-27 | Inspect diagnostic output | Calls, refusals, limits, deliberately lost capture | Declared safe events and explicit capture gaps. |
+| FR-27 | Follow a user across services | Database/message/model/storage calls, delegated retry, sampled trace and lost capture | Causal user/effective-principal attribution, durable audit, explicit provider/capture gaps and safe disclosure. |
 | FR-28 | Inspect grants | In-place, missing, unresolved, unreadable requirements | Accurate read-only report; no implicit grant. |
 | FR-29 | Check negative controls | Forbidden import, wrong admin declaration, stale docs | Actual checks fail with actionable locations. |
 | FR-30 | Compare evidence layers | Same behavior through double and installed/native adapter | Parity tested; each support claim names its actual evidence. |
@@ -333,6 +425,10 @@ test functions or permission to write code before the review gate.
 | FR-39 | Review through ux-builder UI | Loading, denied, invalid, successful and uncertain approval | Authorized server outcome and accessible recovery across both host profiles. |
 | FR-40 | Compose then customize a review journey | Wizard/form/collection with a local detailed editor; undeclared library import | Local code works within supplied APIs; extra dependency refuses without a platform exception. |
 | FR-41 | Present the same review journey on web and terminal | Shared interactions; one browser-only custom control | Supported surfaces preserve meaning; terminal admission refuses the unsupported required control before effects. |
+| FR-42 | Qualify a runtime upgrade | Compatible/breaking cohort, changed app evidence, incompatible durable state | Required exact evidence qualifies; impacted apps are named and unsafe recovery is refused. |
+| FR-43 | Share services across a fabricated fleet | Hundreds of applications, bounded load, an abusive/failing app and revoked owner | Qualified budgets/fairness and scope hold; measured limits and failure domains are reported. |
+| FR-44 | Discover and bind services | Shared types, visible/hidden exports, ambiguous providers, changed interfaces and revoked grants | Exact authorized resolutions work; unsafe bindings refuse; affected dependents are visible only to permitted callers. |
+| FR-46 | Deploy and bind platform assets | Managed package, external contract, mixed dependencies, drift and partial apply | Generic admission preserves source identity; authorized deployment yields verified bindings or explicit uncertainty; startup and shutdown preserve assets. |
 | FR-45 | Publish and consume messages | Competing consumers, fan-out, duplicates, crash/response loss, revocation and unknown codec | CONTRACT-007 MSG acceptance proves scoped delivery/recovery; unsupported features refuse before effects. |
 
 ## Technical Context
@@ -396,11 +492,28 @@ APIs require pinned integration proofs; Erik LaBianca and upstream maintainers
 supply the first supported cohort. Deployment availability and service-level
 targets are unmeasured and remain operator-owned.
 
+## Fleet qualification dependencies
+
+The owner selected the packaged-runtime, enforced-evidence and shared-fleet goals.
+Platform owners must supply supported cohort artifacts and upgrade evidence policy;
+host operators must define workloads, telemetry failure policy, resource budgets
+and service objectives for capacity qualification. Upstream maintainers and host
+owners must qualify exact Arras discovery operations, the async bridge, registry
+revision/visibility behavior and transport authority/delegation profiles before
+integration implementation. CONTRACT-009 defines the platform model and resolution
+rules; transport support still requires exact provider evidence. No registry store,
+API protocol or additional messaging provider is selected by discovery design.
+None of these design obligations is a live service claim.
+
 ## Success Criteria
 
 Every FR has an exercising acceptance path, qualified on the platform cohort it
 claims. Every source module is classified and every target module has an enforced
 import/public-surface contract. Installed SDK and development-host artifacts work
 without a private source checkout. Consumer outcomes stay unchanged across both
-repositories. The actual checks, rather than documentation alone, prove boundary,
+repositories. Application delivery requires no dependency installation.
+Candidate cohorts pass
+required application evidence before rollout; shared-fleet capacity and graph
+integration claims name their measured workload, provider and authority scope.
+The actual checks, rather than documentation alone, prove boundary,
 shape, and test-count ratchets before dependent feature implementation.

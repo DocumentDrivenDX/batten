@@ -36,7 +36,8 @@ Names below are proposals, not registry-availability or publication claims.
 | `novirhyza-batten-postgres` | `batten.postgres` | Core and psycopg; messaging provider extra adds public Batten messaging |
 | `novirhyza-batten-messaging` | `batten.messaging` | Core and stdlib; provider and qualified codec implementations injected |
 | `novirhyza-batten-lakebase` | `batten.lakebase` | Core and Databricks SDK for authority/endpoint integration |
-| `novirhyza-batten-databricks` | `batten.databricks` | Core and Databricks SDK for resource APIs |
+| `novirhyza-batten-storage` | `batten.storage`, including local provider | Core and stdlib |
+| `novirhyza-batten-databricks` | `batten.databricks` | Core, public Batten storage protocol and Databricks SDK for resource APIs |
 | `novirhyza-batten-gateway` | `batten.gateway` | Core and supported gateway client/HTTPX |
 | `novirhyza-batten-arras` | `batten.arras` | Core and public Arras/UMF packages |
 | `novirhyza-batten-tether` | `batten.tether` | Core and public Tether package |
@@ -56,6 +57,14 @@ A release publishes an exact tested cohort and a lock/install manifest. Platform
 modules built into a host are resolved at host build time. Plugin admission checks
 both allowed dependency names and version constraints against that installed cohort;
 it never fetches dependencies or treats a name-only match as compatibility.
+
+Platform owners assemble these artifacts and their resolved dependencies into a
+complete qualified runtime. Application build, admission and start consume it
+without pip/npm installation or registry resolution. This includes supplied
+browser assets; optional modules remain selectable during platform assembly.
+The platform owns dependency upgrades and their cross-application qualification.
+Exact runtime transport/container/archive format remains a later packaging design;
+this decision does not select a new deployment technology.
 
 Provisional risk: namespace packaging and cohort release automation add work.
 An installed-artifact proof must demonstrate independent imports and wheel-only
@@ -88,3 +97,7 @@ untested cohorts, runtime installation, or platform libraries copied into a whee
 
 The proposal follows platform-adapter ownership and Python/uv packaging. It
 does not select a package registry or create any remote repository.
+
+Wheel construction uses Hatchling through the uv build toolchain. Hatchling is a
+build-only dependency; Ruff, strict Pyright and pytest remain development tools.
+No application loads the build toolchain or installs dependencies at invocation.

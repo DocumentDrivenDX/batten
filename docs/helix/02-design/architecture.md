@@ -20,7 +20,7 @@ ddx:
 
 Batten has a platform-neutral application core and independently installed
 platform modules. This is the proposal for the owner's first review. It covers
-PRD FR-1–41. The composition/hosting packet elaborates the owner-selected
+PRD FR-1–44 and FR-46. The composition/hosting packet elaborates the owner-selected
 next design slice; migration and product code still require build authorization. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
 precedes this target model.
 
@@ -35,6 +35,57 @@ provider is. Application data and ontology schema remain native upstream meaning
 the core preserves their opaque versioned declarations and invokes the owning
 module's validator. A required component with no suitable provider is refused.
 
+## Packaged runtime and fleet responsibilities
+
+The platform assembles selected module wheels, browser artifacts and their exact
+upstream dependencies into a complete qualified runtime. Applications consume
+that runtime without pip/npm installation. Independent module distribution is a
+platform assembly boundary; it does not delegate dependency resolution to each app.
+Deep declarative services and bounded public APIs reduce the behavioral variation
+that fleet-wide upgrades must qualify.
+
+Packaging owns cohort and application artifact identity; qualification tooling
+checks affected application assertions, behavior coverage and required telemetry
+against each candidate cohort. Admission verifies that required evidence matches
+exact artifacts and host policy. Hosts enforce telemetry and capability use at
+execution boundaries. Missing evidence or unobservable required outcomes cannot
+silently qualify an upgrade. ADR-005 and CONTRACT-002 define these obligations;
+exact evidence exchange and rollout automation require downstream contracts.
+
+Shared hosts target hundreds of applications using common platform services.
+Generic runtime/worker coordination enforces application and owner limits,
+concurrency, fairness, revocation and lifecycle; providers enforce native resource
+scope. Host diagnostics attribute outcomes and resource use to each application,
+artifact and cohort. Operators own workload budgets and measured failure domains;
+shared-process containment is for trusted first-party code and does not promise
+hostile-code isolation or immunity to a process-wide failure.
+
+Cross-application integration uses Batten's platform ontology through the Arras
+provider: Application, ServiceInterface, ServiceExport, ServiceRequirement and
+ServiceBinding. Shared business types remain independently governed UMF artifacts.
+CONTRACT-009 separates semantic contracts, transport descriptors and deployment
+resources; qualified graph, owner-published table/view, API and messaging exports
+share discovery and resolution rules without inheriting each other's guarantees.
+
+Host composition explicitly bootstraps the registry. Authenticated discovery runs
+outside effect-free assessment and filters visibility before pagination or impact
+expansion. The module supplies exact artifact-bound resolution evidence and generic
+dependency edges; portable core sees opaque capabilities and lifecycle dependencies.
+Core-only hosts may consume explicit bindings without loading ontology packages.
+
+Only host-approved bindings connect an exact consumer requirement to an admitted
+export and deployment resource. Every use checks current caller/application
+authority, target scope, grants and binding revisions. Discovery, graph links and
+shared storage confer no authority; raw cross-application connections remain
+forbidden. Contract/deployment changes require reassessment, with no automatic
+provider fallback or replay of uncertain effects. Exact Arras async/snapshot and
+transport delegation profiles require qualification before source work (ADR-013).
+
+Cohort rollout must preserve application and durable-state compatibility. Retaining
+an accepted runtime allows upgrade withholding; reverting code cannot reverse
+schema changes or completed external effects. Migration and production rollout
+remain separately authorized operations.
+
 ## Level 1: System Context
 
 | Element | Type | Purpose | Protocol |
@@ -48,6 +99,29 @@ module's validator. A required component with no suitable provider is refused.
 | ux-builder | UI platform | Design-first artifacts, components, tokens and audits | Optional public adapter and pinned artifacts |
 | Databricks, Lakebase, model gateway | Platform services | Governed data, storage, external jobs, models | Owning adapter APIs |
 | Browser and MCP client | User surface | Reach declared operations and resources | Host bridge/MCP |
+
+### Attributed commands and system interactions
+
+Command Query Responsibility Segregation (CQRS) is the default public operation
+model. Generic dispatch enforces command/query intent, permission, confirmation
+and trusted invocation context. UMF retains action and transaction semantics;
+CQRS selects neither event sourcing nor separate read/write storage. Declared
+exceptional SQL and provider maintenance remain governed and audited boundaries.
+
+The runtime binds initiating user, effective authority, delegation and causal
+identity once at trusted ingress. Workers, queues, schedules, agent tools and
+cross-application calls preserve that origin while rechecking current authority.
+Adapters instrument every database, messaging, AI gateway, storage, search and
+other system interaction through OpenTelemetry (OTel), using native attribution
+where supported and reporting precise gaps where it is not. CONTRACT-001 owns
+the propagation and audit rules; native clients stay in their owning modules.
+
+Portable contracts/core remain stdlib-only. Injected diagnostic protocols carry
+context to host/provider instrumentation; concrete OTel SDK/exporter dependencies
+belong to the selected host/adapters and require cohort qualification. Durable
+audit is independent of sampled traces. Audit storage, retention, access, loss
+handling and exact OTel mappings require focused contracts before source work;
+no cross-service atomic audit guarantee follows from this architecture.
 
 ## Level 2: Container Diagram
 
@@ -102,9 +176,11 @@ public-surface checks, and failure rules are in CONTRACT-002.
 | `batten.postgres` | PostgreSQL 18 execution, owned/borrowed sessions, identity/pools, durable state, messaging provider and native migration execution | `PostgresServices`, `ConnectionSource`, CONTRACT-007 provider, explicit maintenance API | C, public `batten.messaging` in messaging provider, stdlib, `psycopg` | Databricks/gateway SDKs, upstream compiler duplication, UI, host app internals |
 | `batten.messaging` | Scoped channels/subscriptions, payload profile references, settlement protocols and validation | CONTRACT-007 `Channel`, `Subscription`, `Payloads`, `for_resource`, `payloads` | C and stdlib; codecs/providers injected | Runtime internals, native drivers, broker SDKs, copied UMF codecs/action engines, host app internals |
 | `batten.lakebase` | Lakebase endpoint/role/credential integration and qualification | `LakebaseAuthority`, public authority/session factory | C, stdlib, Databricks SDK | Generic SQL executor duplication, host environment reads, other adapter internals |
-| `batten.databricks` | Warehouse choice, UC files/search/grant reporting, jobs/pipelines, lineage and artifact store | `DatabricksServices`, module-specific resource clients | C, stdlib, Databricks SDK | PostgreSQL execution, model/session loop, host app internals |
+| `batten.storage` | Scoped byte-object protocols, keys, limits and local managed filesystem provider | CONTRACT-006 `ObjectStore`, `for_resource`; `batten.storage.local` factory | C and stdlib; local imports own public protocol | Runtime/other adapters, vendor clients, ontology/data types, host internals |
+| `batten.platform` | Generic asset declarations, validation, deployment protocols and receipt values | CONTRACT-010 provider protocols and values | C and stdlib | Runtime, vendor SDKs, native bundle parsers, model/DDL compiler, host internals |
+| `batten.databricks` | Warehouse choice, UC files/search/grant reporting, jobs/pipelines, lineage, artifact store and native deployment adapter | `DatabricksServices`, module-specific clients; `batten.databricks.platform` | C, public `batten.storage` and `batten.platform`, stdlib, Databricks SDK; admitted CLI through operator tooling | PostgreSQL execution, model/session loop, host app internals |
 | `batten.gateway` | Gateway completion/embedding translation, aliases, budgets, attribution | `GatewayModels`, configured client factory | C, stdlib, `httpx` or injected supported client | Agent loop, concrete model choice in declarations, unrelated platform adapters |
-| `batten.arras` | Ontology declaration validation/registration, reads/actions, links, receipts, retirement dependencies | `OntologyProvider`, module-owned ontology client/types | C and public Arras/UMF APIs | Core ontology special cases, private store access, duplicate ontology engine |
+| `batten.arras` | Ontology validation/reads/actions; Batten platform model, service resolution evidence, links, receipts and retirement dependencies | `OntologyProvider`, module-owned ontology client/types | C and public Arras/UMF APIs | Core ontology special cases, private store access, duplicate ontology engine |
 | `batten.tether` | Agent/session integration and operation-to-tool binding | `AgentProvider`, session/tool integration | C and public Tether APIs | A second agent loop, private Tether modules, concrete storage owned by another adapter |
 | `batten.asgi` | HTTP and FastAPI route/gate mapping | `create_app`, route adapter and actor binding | C, FastAPI/Starlette/ASGI types | Concrete data/model providers, host app construction/private dependencies |
 | `batten.mcp` | Operation-derived tools and resources; local stdio transport | `serve_stdio`, tool/resource adapters | C and public MCP SDK | Admin-tool exposure, private host discovery, remote-token forwarding, agent-loop ownership |
@@ -147,6 +223,72 @@ that an import gate already executes; dependent source work requires that gate.
 
 The SDK does not provision operator infrastructure. No deployment, remote creation,
 dependency installation, or operational credential access is part of this review.
+
+## Platform asset deployment
+
+CONTRACT-010 and ADR-012 extend application delivery with optional generic
+`batten.platform`. App-managed native packages, external release/output contracts
+and mixed dependencies share one declaration boundary. Core continues to see
+capability metadata and generic admission findings, without asset or vendor types.
+Host composition injects validator/provider services; operator tooling calls the
+provider's read-only planning, explicit apply and reconciliation interfaces.
+
+Package source closure is part of the immutable application inventory. Trusted
+build evidence covers native source, generated artifacts and remote code dependency
+closure. Pure assessment never executes native build hooks. Live planning binds
+environment state, toolchain, ownership and dependency receipts into the reviewed
+plan. Native apply has durable operation identity and preserves partial/unknown
+outcomes. The deployment service must retain state and serialize conflicting
+ownership changes; application replicas do not independently reconcile resources.
+
+The first adapter target is Databricks Declarative Automation Bundles, formerly
+Databricks Asset Bundles. `batten.databricks.platform` owns bundle format validation,
+CLI/API invocation, deployment state, target/workspace mapping, native substitutions,
+Unity Catalog identities and permission inspection. Version-pinned native packages
+may contain jobs, pipelines and supported catalog resources. Generic declarations
+name interface contracts and opaque outputs, never universal vendor resource enums.
+
+Table lifecycle is explicit: pipeline outputs require separately authorized runs
+and output verification; ordinary tables use reviewed native creation/migration
+artifacts through qualified tooling. No generic `resources.tables` support or
+portable model-to-DDL translation is inferred. Existing UMF/Weft tooling retains
+its own qualified target profiles; PostgreSQL support does not establish Delta
+or Unity Catalog support. Unsupported resource kinds or semantics refuse.
+
+External producers publish exact release/output contracts. Operators supply
+environment-specific resource bindings and trusted receipts; selected native
+lookups may assist resolution but establish neither compatibility nor ownership.
+The consumer inspects grants/readiness and cannot deploy or adopt producer assets.
+Databricks App resource attachments bind access to existing resources; they do
+not replace creation, deployment ordering or output readiness verification.
+
+Runtime preparation checks current receipt, access and contract evidence.
+Start/reload never deploys, migrates, initializes or grants. Client close and app
+removal preserve persistent assets by default, with one declared lifecycle owner
+and separately approved destruction that checks dependents. Deployer authority
+and runtime authority remain separate. Vendor SDK/CLI qualification, provider
+feature limits, state retention and readiness budgets require observed evidence.
+
+Primary provider evidence: [bundle configuration](https://docs.databricks.com/aws/en/dev-tools/bundles/settings),
+[supported resources](https://docs.databricks.com/aws/en/dev-tools/bundles/resources),
+[variables and lookups](https://docs.databricks.com/aws/en/dev-tools/bundles/variables),
+and [app resource bindings](https://docs.databricks.com/aws/en/dev-tools/databricks-apps/resources).
+Documentation inspection establishes candidate mechanisms only; exact toolchain
+and native behavior remain qualification obligations.
+
+## Required local-development composition
+
+The local composition root supplies explicit stub authentication and one shared
+PostgreSQL 18 pgserver instance. Truss and direct UMF table bindings borrow that
+instance through separate owner/principal/resource bindings; sharing a server
+neither merges storage ownership nor supplies cross-resource atomicity.
+
+The local Tether module uses a host-configured model API through its public
+provider boundary. Typed file configuration binds the endpoint/profile and scoped
+credential reference; the application declares capabilities. A scripted provider
+is an explicit test choice, never a silent fallback from a failed live endpoint.
+CONTRACT-004 owns lifetime, permission and no-reset obligations. Generic agent
+clients' shell/filesystem tools are not implicitly application capabilities.
 
 ## Composition and host profiles
 
@@ -244,6 +386,15 @@ dependency/refusal result. Failed required preparation prevents readiness.
 Owner decisions remain in `../01-frame/decision-points.md`. An ontology-provider
 module is the proposed shape; special application-plugin privileges, host identity
 exceptions, and storage exemptions are not inferred from that shape.
+
+## Object storage boundary
+
+[CONTRACT-006](contracts/CONTRACT-006-object-storage.md) owns the optional storage
+interface. [ADR-010](adr/ADR-010-scoped-object-storage.md) records module ownership.
+Local managed filesystem and Databricks Volumes are the first backend pair. The
+composition root supplies roots and authority; applications receive scoped handles
+with relative keys. Core treats the storage capability as opaque. Neither shared
+PostgreSQL placement nor UMF action binding supplies atomicity across bytes and rows.
 
 ## Messaging boundary
 

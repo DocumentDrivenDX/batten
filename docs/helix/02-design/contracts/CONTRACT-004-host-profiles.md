@@ -55,6 +55,71 @@ wheel/upstream compatibility metadata. Selected versions MUST agree in both.
 | placement | `in-process`, `child-process`, `remote-worker` | per binding | Must match module capability and host transport support. No silent relocation. |
 | batten.hosting.start_plan(plan, services) | `async -> Host` | yes | Composition-root adapter constructs CONTRACT-001 Host after verifying the plan hash, original app/profile/cohort/evidence and trusted factory registry. Drift refuses before prepare/import effects. |
 
+### Attribution across profiles and placements
+
+Every profile MUST preserve CONTRACT-001 command/query, trusted attribution,
+durable audit and OpenTelemetry obligations. Local fabricated identities exercise
+the same propagation boundaries and MUST be marked as fixtures; they establish
+no deployed identity evidence. Child/remote-worker bindings MUST preserve verified
+origin and delegation across transport and recheck current authority at execution.
+Host service or pooled database identities MUST remain distinguishable from users.
+A profile MUST refuse execution when required attribution/audit capabilities are
+missing; it MUST NOT substitute shared authority or silently disable capture.
+
+### Service discovery and deployment bindings
+
+CONTRACT-009 defines the selected ontology module's registry and resolution rules.
+The host MUST bootstrap its trusted registry service from explicit configuration;
+registry discovery cannot depend on resolving itself. Provider discovery produces
+pinned evidence before effect-free assessment. A service binding uses the existing
+exact consumer ArtifactRef/local requirement ID and opaque resource binding ID.
+The host MUST validate the selected export, interface, profile, deployment and
+resolution evidence before use. Catalog records and application metadata cannot
+choose privileged factories or manufacture resource authority. Deployment changes
+require new binding evidence and reassessment without changing semantic interface
+identity. Credentials and private addresses stay in typed host configuration.
+Graph-discovery hosts select `batten.arras`; other hosts MAY consume verified
+explicit bindings without introducing an ontology dependency into portable core.
+
+### Required local-development profile
+
+Local hosting MUST support an explicitly configured stub identity provider,
+one shared PostgreSQL 18 pgserver instance, direct UMF table access and Truss
+on that same instance. A selected Tether capability MUST accept a host-supplied
+model API binding through Tether's supported public adapter/provider boundary.
+
+The composition root owns or borrows the pgserver instance exactly once. Each
+consumer borrows its assigned connection source; closing one consumer MUST NOT
+stop the shared server or invalidate another consumer's resources. Truss and
+native tables retain their own schema/database, role and migration ownership.
+Physical tables MUST have a single declared owner. Shared server placement grants
+no cross-module access or cross-resource atomicity guarantee.
+
+Stub identity MUST be an explicit local fixture mapping with fabricated actors,
+roles and database principals. Requests still traverse ordinary Batten gates,
+confirmation and native policy enforcement. A missing actor has no implicit
+superuser/shared-identity fallback. The host MUST bind loopback only while stub
+authentication is selected; standalone/embedded profiles MUST refuse it.
+
+The model API address, model/profile, limits and optional credential reference
+are host configuration resolved under ADR-006. Values MUST NOT appear in app
+models, generated UI or diagnostics. Credentials are supplied only by the host's
+scoped provider, not read from newly introduced environment names. A configured
+unavailable/incompatible model API MUST return an explicit capability/provider
+failure; it MUST NOT silently switch to scripted output or another endpoint.
+A deterministic scripted provider remains an explicitly selected test profile.
+
+Tether owns agent execution, tool approval, sessions and its selected persistence
+contract. The host exposes only declared, approved Batten operations as agent
+tools; it MUST NOT inherit unrestricted local shell/filesystem tools by launching
+a generic reference client. Tether persistence need not use pgserver unless its
+selected public store explicitly supports that binding.
+
+Database installation, schema migration and fixture reset are explicit reviewed
+operations. Ordinary start/reload MUST NOT reset data or bypass native admission.
+Local readiness requires the selected providers and original database ownership
+bindings; a model API or integration described in config is not live evidence.
+
 Local hosting may own PostgreSQL 18 helper/process resources. Standalone hosting
 owns its Batten service lifecycle within operator-managed infrastructure.
 Embedded hosting accepts explicit borrowed service bindings and host-managed
@@ -74,6 +139,17 @@ stops new admissions, cleans owned prepared resources in reverse order and retur
 safe outcomes through CONTRACT-001. Unsettled cleanup remains draining with
 retained resource IDs. Live invocation rechecks current authority; an assessed
 plan is not an authorization grant. No UI state changes lifecycle authority.
+
+## Platform asset bindings
+
+CONTRACT-010 binds required resource contracts to trusted deployment receipts and
+opaque resource IDs through the selected provider. Deployment ownership is distinct
+from this contract's owned/borrowed client lifetime. Preparation MUST verify exact
+application/environment/provider/contract identity and current access/readiness;
+missing or uncertain required evidence refuses readiness. A receipt grants no
+authority and a current invocation still rechecks permissions. Ordinary start,
+reload, cleanup and removal MUST NOT deploy, migrate, initialize, grant or destroy
+persistent assets. Operators separately authorize deployment and destructive work.
 
 ## Precedence and Compatibility
 

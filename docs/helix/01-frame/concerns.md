@@ -12,6 +12,17 @@ ddx:
 
 # Project concerns
 
+## Fleet operating direction
+
+Owner direction, 2026-10-29: complete packaged runtimes and deep declarative
+services must make dependency upgrades qualifiable across an application fleet.
+Required telemetry, assertions and behavioral coverage are admission/upgrade
+obligations (PRD FR-23/27/29/42). Shared hosting targets hundreds of applications
+with scoped resources, fairness and attribution (FR-43); platform-ontology discovery and service bindings
+retain explicit contracts and current grants (FR-44). These requirements preserve
+module ownership, local Python/TypeScript hooks and the decreasing test budget.
+Capacity and upgrade-safety claims require measured cohort/workload evidence.
+
 ## Active Concerns
 
 The owner authorized defaults for the proposal except the explicitly open policy
@@ -26,12 +37,14 @@ decisions. Selection sources distinguish rulings from proposed defaults.
 | testing | library; operator-override, ADR-007 | all | Consumer behavior and permission boundaries need evidence with minimal duplication. | One test per observable behavior; tables of cases; public boundaries; no growth by renaming or indirection. |
 | authorization-model | library; operator-override | api | Trusted applications still need explicit permission containment. | Central deny-by-default decision; actor before access; negative cases; host and database permissions compose. |
 | model-gateway | library; operator-override | api, infra | Completion/embedding access uses host-managed routes and attribution. | Product aliases; one adapter owns gateway calls; qualify actual features and identity; no duplicate retry layer. |
+| service-discovery-binding | project-local; owner direction, ADR-013 | api, data, infra | Apps need shared meaning, service discovery and qualified bindings. | Native platform ontology in optional Arras module; exact semantic pins, filtered discovery, host-approved resolutions and current grants; transport guarantees stay separate. |
 | native-platform-libraries | project-local; operator-override, ADR-002 | all | UMF, Weft, Arras, and Tether are platform capabilities. | Depend on public upstream packages; no compiler/engine vendoring; preserve exact meaning and evidence scope. |
 | platform-adapter-ownership | project-local; operator-override, ADR-001 | api, data, infra | Databricks, PostgreSQL 18, Lakebase, and gateway have different dependencies. | Isolated dependency closure, native clients at owning boundaries, platform facts qualified on a pinned cohort. |
 | browser-client | project-local; assumption/default, ADR-001 | ui | Screens and views need a browser bridge, not Python host objects. | Browser-compatible JavaScript; TypeScript/Bun build tools outside runtime; no shell imports; Chromium/Playwright qualification. |
 | typed-file-configuration | project-local; operator-override, ADR-006 | all | Files are authoritative; no new environment variables. | Immutable typed settings, explicit layers, injected identity/services, redacted diagnostics. |
 | cleanroom-public-artifacts | project-local; operator-override | all | Batten is independently implemented and openly distributable. | MIT OR Apache-2.0, copyright Synaptiq; no private source/history, client identities, credentials, or operational data. |
 | ux-builder-integration | project-local; operator-override | ui, cli | Owner requires ux-builder integration without duplicating its design system. | Public semantic controls/slots and blueprint/component/theme/audit surfaces; local Python/TypeScript without added packages; exceptional platform dependencies; per-renderer evidence. |
+| attributed-cqrs-and-otel | project-local; operator-override | all | Every interaction needs user attribution, audit and OpenTelemetry (OTel) coverage. | Command Query Responsibility Segregation (CQRS) by default; trusted causal context, native attribution where supported, durable audit independent of sampling, explicit gaps and redacted export. |
 | upstream-saga-semantics | project-local; operator-override | api, data | UMF owns saga meaning. | Exact declared executor pairing; preserve uncertainty; no Batten saga compiler or orchestrator selected. |
 
 The project-local concerns declare their scopes and practices here. They do not
@@ -42,6 +55,12 @@ its upstream-supported UI stack through a pinned cohort, without imposing that
 stack on headless installations or other hosts.
 
 ## Project Overrides
+
+Platform asset composition follows ADR-012 and CONTRACT-010. Optional
+`batten.platform` owns generic protocols; native deployment tooling and resource
+semantics remain provider-owned. Deployment authority is injected separately
+from runtime access. Shared infrastructure remains operator-owned; an included
+package cannot expand runtime or remote-compute dependencies without admission.
 
 | Concern | Practice | Override | Authority |
 |---------|----------|----------|-----------|
@@ -68,5 +87,9 @@ dependencies remain outside the portable contracts/runtime closure.
 
 The first code slice must wire real boundary, shape, and test-count checks before
 dependent features. The current review authorizes their contracts, not their code.
-Observability is required as a product surface; exporter/protocol/version details
-will be selected in a focused contract before any integration support claim.
+OpenTelemetry is the owner-selected instrumentation model. CONTRACT-001 governs
+CQRS, trusted attribution and audit obligations; exact SDK, semantic conventions,
+exporter/protocol versions and capture/query schemas require a focused integration
+contract and cohort qualification before dependent source work. Host operators
+own audit retention/access and capture-failure policy; unknown native support
+cannot weaken the required Batten-side attribution or become a support claim.

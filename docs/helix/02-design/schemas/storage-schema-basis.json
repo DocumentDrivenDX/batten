@@ -1,0 +1,39 @@
+{
+  "purpose": "Storage interface schema-basis inspection; no upstream runtime qualification",
+  "core_version": "0.10.0",
+  "actions_version": "0.1.0",
+  "json_schema_version": "0.1.0",
+  "sources": [
+    {
+      "path": "spec/core/schema.json",
+      "sha256": "f0f936cf55ceaeecdf2caee11619fb6a20ba4a702bb9153f5ded572bd9b34b21"
+    },
+    {
+      "path": "spec/core/semantic-type-reference.schema.json",
+      "sha256": "19ceb6ef4b1ab01001e652e74f9d697db5fab08fe410e40136127289ec86bdff"
+    },
+    {
+      "path": "spec/extensions/actions/schema.json",
+      "sha256": "0263c21ddd91347bf3afc2b7ab14b2c0943f1da5f5c493658cd105277f6d8d09"
+    },
+    {
+      "path": "spec/extensions/actions/package.json",
+      "sha256": "77006f8c094af31c4c1f5c95424ff15eb97da6de6e969f8b3a91150960f200b8"
+    },
+    {
+      "path": "spec/extensions/json-schema/package.json",
+      "sha256": "32bac6cf2a6fcb6d0f4367084f7e358887e263969f0b1697145abb0b413c4582"
+    },
+    {
+      "path": "spec/domain-packs/medical/pack.json",
+      "sha256": "0ca3d6d61f4eb5f2d242750e9fcac4a142b0e38f5e8214077be903e27f77b7ae"
+    }
+  ],
+  "reuse": [
+    "Native UMF records/fields for application file metadata",
+    "Native action declarations and existing Batten inert hook binding",
+    "CONTRACT-003 capability requirements and host resource binding"
+  ],
+  "gap": "Inspected core, extensions and medical pack do not define async object transfer, application-scoped storage handles, cursor lifetime or provider error/effect semantics. Local boundary schema is JSON Schema 2020-12; no new UMF engine or general storage vocabulary.",
+  "limits": "Schema checks shapes only. No streaming, native authority, path containment or conditional-operation proof."
+}

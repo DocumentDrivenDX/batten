@@ -1,17 +1,35 @@
-<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/bd5e052e8e86013c -->
-<!-- helix:source docs/helix/00-discover/product-vision.md sha256:bb32dd92919bd60f -->
-<!-- helix:source docs/helix/01-frame/prd.md sha256:3570b5c283508bf7 -->
-<!-- helix:source docs/helix/02-design/architecture.md sha256:9a0974a3fc6dec69 -->
+<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/118d11d5bee90a6c -->
+<!-- helix:source docs/helix/00-discover/product-vision.md sha256:34b99ee7b0cd2742 -->
+<!-- helix:source docs/helix/01-frame/prd.md sha256:44209bdd519038ed -->
+<!-- helix:source docs/helix/02-design/architecture.md sha256:ffb0e445269fc317 -->
 
 # Batten
 
-Batten is a core-and-extensions SDK for declarative AI applications in the Novirhyza family. Its design combines native application models, typed procedural hooks and reusable hosting.
+Batten is an application SDK and packaged runtime in the Novirhyza family. Its goal is to reduce the cost and risk of operating hundreds of integrated AI applications on shared infrastructure.
 
 ## Declare the application
 
 Describe data and behavior through UMF, the platform's portable modeling foundation. Use typed code hooks for application-specific work. Bind an interface to the same governed operations.
 
 The host supplies identity, permissions, resource bindings and lifecycle. Authors choose capabilities without rebuilding that integration for every application.
+
+## Consume a complete runtime
+
+The platform supplies a qualified set of runtime dependencies and deep declarative services. Application authors use the supplied APIs without running pip or npm installation.
+
+Platform owners qualify dependency upgrades against affected application assertions, behavioral test coverage and required telemetry. Changed application or runtime inputs require fresh evidence.
+
+## Share services with explicit boundaries
+
+The design targets hundreds of applications sharing infrastructure, with per-application identity, limits, attribution and lifecycle control. Actual capacity requires measured workloads and service budgets.
+
+Applications integrate through declared graph API capabilities and future defined interfaces. Each interaction checks current authority and target access; a graph relationship grants no permission.
+
+## Follow each decision
+
+The default command/query model separates business changes from reads. Every system interaction retains its initiating user, delegation and effective execution identity where available.
+
+OpenTelemetry instrumentation follows database, messaging, model and other service calls. Durable audit survives trace sampling, and unsupported native attribution remains explicit.
 
 ## Choose the capabilities
 

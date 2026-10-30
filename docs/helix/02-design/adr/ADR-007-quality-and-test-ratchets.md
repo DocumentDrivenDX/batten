@@ -44,6 +44,20 @@ ceilings and the installed greenfield defaults, as recorded in CONTRACT-002.
 No numeric test budget, coverage floor, latency target, or claimed platform
 capacity is invented. Numeric policy values and measured outcomes are distinct.
 
+## Application evidence and upgrade gates
+
+PRD FR-27/29/42 require host-enforced telemetry, application assertions and test
+coverage of declared behavior for admission and candidate runtime qualification.
+Required evidence must be current for exact application/cohort inputs and cannot
+be replaced by a coverage percentage or a declared list of tests. Missing, failing
+or stale evidence refuses the affected admission or upgrade qualification.
+
+This strengthens behavioral assurance while preserving the decreasing function
+budget: consolidate redundant tests without dropping distinct invariants. No
+numeric code-coverage floor or automatic test-count exception is introduced.
+CONTRACT-002 governs evidence obligations; telemetry schema, runtime failure policy
+and evidence exchange remain downstream contract work before implementation.
+
 ## Why We Chose This
 
 ### Over a test-growth trailer as an automatic exception

@@ -1,5 +1,16 @@
 # Batten review packet
 
+## Fleet operating goal
+
+Batten targets hundreds of integrated applications sharing a complete qualified
+runtime and deep declarative services. Platform-owned dependency upgrades use
+required application assertions, behavioral coverage and host-enforced telemetry.
+Applications need no pip/npm installation and integrate through governed graph
+API capabilities and future defined mechanisms. See the [vision](00-discover/product-vision.md),
+[PRD fleet requirements](01-frame/prd.md), [cohort decision](02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md)
+and [verification allocation](03-test/test-plan.md). Capacity and upgrade safety
+require qualification; this alignment does not authorize product code or rollout.
+
 ## Composition and hosting packet
 
 The owner-selected next design slice treats Batten as a core-and-extensions SDK
@@ -77,6 +88,25 @@ packet and tracking. Migration remains separate. Before source work, review the
 contracts and dependency proofs, establish the real quality scaffold, then build
 the assessor, host binding and UX slice. No existing open policy is silently settled.
 
+## Platform assets
+
+[CONTRACT-100](02-design/contracts/CONTRACT-100-platform-assets.md) and
+[ADR-012](02-design/adr/ADR-012-generic-platform-assets.md) define a generic optional
+platform wrapper for app-managed native packages and externally managed resource
+contracts. Databricks bundle syntax and Unity Catalog bindings stay in the provider.
+Deployment planning/apply is separate from runtime startup; current contract,
+grant and output readiness checks gate use. Persistent assets survive shutdown.
+[Verification allocation](03-test/test-plan.md#platform-asset-acceptance-allocation)
+covers partial effects, drift, ownership and native qualification. This evolves
+the specification without authorizing implementation or live applies.
+
+## Storage interface
+
+[CONTRACT-006](02-design/contracts/CONTRACT-006-object-storage.md) defines scoped
+object storage, initially local filesystem and Databricks Volumes.
+[ADR-010](02-design/adr/ADR-010-scoped-object-storage.md) records the optional module
+boundary. The interface and value schema do not authorize runtime implementation.
+
 ## Messaging interface
 
 [CONTRACT-007](02-design/contracts/CONTRACT-007-messaging.md) defines channels,
@@ -85,3 +115,22 @@ durable subscriptions, payload profiles, settlement and recovery.
 first, with explicitly qualified future broker adapters. Existing UMF schemas
 define business payloads; no new UMF messaging vocabulary is selected. TP-001's
 MSG allocation covers the design without claiming runtime or codec qualification.
+
+## Application service discovery
+
+[ADR-013](02-design/adr/ADR-013-platform-ontology-for-service-discovery.md) and
+[CONTRACT-009](02-design/contracts/CONTRACT-009-service-discovery-and-binding.md)
+define Batten's native five-type platform ontology, shared semantic identities,
+permission-filtered discovery and exact host-approved service bindings.
+[US-005](01-frame/user-stories/US-005-discover-and-bind-services.md) and
+[verification allocation](03-test/test-plan.md#service-discovery-and-binding-allocation)
+cover graph, governed table/view, API and messaging profiles. The core remains
+ontology-neutral. Native registry/transport behavior requires cohort qualification.
+
+## Authorized local storage build
+
+The owner approved main integration of the evolved specifications and the local
+filesystem implementation under [TD-006](02-design/technical-designs/TD-006-local-object-storage.md),
+[CONTRACT-100](02-design/contracts/CONTRACT-100-storage-provider-host.md) and the
+[implementation plan](04-build/implementation-plan.md). Earlier review holds
+continue to apply to unrelated migration and platform implementations.

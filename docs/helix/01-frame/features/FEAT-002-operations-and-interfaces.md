@@ -50,7 +50,11 @@ sources of truth; binding generated UI directly to host internals would prevent 
 
 - **UI-01:** Digest-covered screens/routes/views/downloads must preserve the full
   containment and declared-resource behavior in FR-8. Every surface must use the
-  typed operation, permission and confirmation obligations of FR-9.
+  typed operation, permission and confirmation obligations of FR-9. The default
+  exposed model is Command Query Responsibility Segregation (CQRS): commands own
+  mutations and queries cannot hide business writes. Every adapter and custom
+  control preserves server-bound user attribution and audit; UI identity claims
+  and telemetry context confer no authority.
 - **UI-02:** UI bindings must reference exact UMF model/action and Batten operation
   identities. Labels and display names must not resolve execution targets.
 - **UI-03:** ux-builder must own blueprint structure, journeys, layout, tokens,

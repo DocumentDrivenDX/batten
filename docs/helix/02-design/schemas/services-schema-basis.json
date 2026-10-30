@@ -1,0 +1,60 @@
+{
+  "purpose": "Batten-owned service ontology design; source inspection and structural validation do not qualify native registration, authority or service behavior",
+  "core_version": "0.10.0",
+  "actions_version": "0.1.0",
+  "domain_pack": {
+    "id": "medical",
+    "version": "1.2.0"
+  },
+  "sources": [
+    {
+      "project": "umf",
+      "path": "spec/metamodel/umf.yaml",
+      "sha256": "1e406ee49b0c4c08b8eb996bb1fcb6e96fa8d6f4673f0877aa1800986b2dbbce"
+    },
+    {
+      "project": "umf",
+      "path": "spec/core/schema.json",
+      "sha256": "f0f936cf55ceaeecdf2caee11619fb6a20ba4a702bb9153f5ded572bd9b34b21"
+    },
+    {
+      "project": "umf",
+      "path": "spec/extensions/actions/schema.json",
+      "sha256": "0263c21ddd91347bf3afc2b7ab14b2c0943f1da5f5c493658cd105277f6d8d09"
+    },
+    {
+      "project": "umf",
+      "path": "spec/extensions/actions/package.json",
+      "sha256": "77006f8c094af31c4c1f5c95424ff15eb97da6de6e969f8b3a91150960f200b8"
+    },
+    {
+      "project": "umf",
+      "path": "spec/domain-packs/medical/pack.json",
+      "sha256": "0ca3d6d61f4eb5f2d242750e9fcac4a142b0e38f5e8214077be903e27f77b7ae"
+    },
+    {
+      "project": "arras",
+      "path": "docs/helix/02-design/contracts/CONTRACT-001-ontology-interface.md",
+      "sha256": "b9b0e8e90976a043dd8af69cfb5569ace9f8c33b2afae89157be7f7493cb18b2"
+    }
+  ],
+  "reuse": [
+    "UMF records, fields, keys and directed relationships",
+    "Original artifact identity/digest and native module/element references from CONTRACT-003",
+    "UMF-owned action and business model semantics",
+    "Arras public principal-scoped ontology boundary; async adaptation still requires qualification"
+  ],
+  "local_additions": [
+    "Application",
+    "ServiceInterface",
+    "ServiceExport",
+    "ServiceRequirement",
+    "ServiceBinding"
+  ],
+  "gap": "Inspected business packs and actions describe domain data and operations, not Batten application exports, dependencies and deployment binding. Native core suffices for the five records; no new UMF vocabulary or ontology engine is selected.",
+  "limits": [
+    "Core schema checks declaration structure only",
+    "Relationship cardinality, revision integrity, visibility and authority require CONTRACT-008 semantic checks",
+    "No Python instance codecs, Arras registration or provider profile is qualified"
+  ]
+}

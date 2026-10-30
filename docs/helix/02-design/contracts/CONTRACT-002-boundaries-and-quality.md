@@ -55,9 +55,11 @@ standard-library imports are allowed unless another rule forbids an effect.
 | BND-G | `batten.postgres` | C, public `batten.messaging` for the messaging provider | Public `psycopg` surfaces |
 | BND-MSG | `batten.messaging` | C | None; codec and provider protocols injected |
 | BND-L | `batten.lakebase` | C | Public `databricks.sdk` authority/endpoint/role surfaces |
-| BND-D | `batten.databricks` | C | Public `databricks.sdk` resource surfaces |
+| BND-ST | `batten.storage` | C; local implementation may import its own public protocol | None |
+| BND-PLT | `batten.platform` | C | None; provider-neutral values/protocols only |
+| BND-D | `batten.databricks` | C, public `batten.storage`, public `batten.platform` | Public `databricks.sdk` resource surfaces; pinned CLI only through explicit deployment-tool boundary |
 | BND-M | `batten.gateway` | C | `httpx` or a cohort-declared injected public gateway client |
-| BND-A | `batten.arras` | C | Public `arras`, `umf_core`, `umf_access` surfaces |
+| BND-A | `batten.arras` | C | Public `arras`, `umf_core`, `umf_access`; owns CONTRACT-009 platform model interpretation and resolution evidence, never core ontology types |
 | BND-H | `batten.tether` | C | Public `tether` surfaces |
 | BND-I | `batten.asgi` | C | `fastapi`, `starlette`; ASGI protocol types |
 | BND-Q | `batten.mcp` | C | Public `mcp` surfaces |
@@ -92,6 +94,13 @@ The checker MUST:
 Core schema/dispatch semantic review MUST additionally prove no ontology-specific
 types or branches. An import scanner alone cannot prove this property, runtime
 reflection targets, or permission containment.
+
+Core MUST also contain no native bundle, Unity Catalog, workspace or platform
+asset types/branches. `batten.platform` is an optional protocol module, not a new
+core dependency. Native source interpreters and CLI launches belong to their
+provider/deployment-tool boundary. Installed core and generic wrapper must import
+without Databricks packages or a CLI. A bundle's remote code/library closure is
+subject to CONTRACT-003 admission; deployment artifacts cannot bypass cohort policy.
 
 ### Gate entry points
 
@@ -155,6 +164,29 @@ marked as such. Browser races fail and are fixed at their synchronization, witho
 blind retries. Tests await observable state, events, or controlled clocks rather
 than sleeping. The behavior-to-acceptance mapping follows any consolidation.
 No positive-growth trailer automatically authorizes exceeding the ceiling.
+
+### Application and cohort evidence obligations
+
+For PRD FR-27/29/42, admission and upgrade qualification MUST require assertions
+and test evidence for declared application behavior. Evidence MUST bind exact
+application artifact, runtime cohort, required interfaces and effective evidence
+policy. Missing, failing, stale or mismatched required evidence MUST refuse the
+affected admission or qualification; metadata presence alone MUST NOT count as a
+passing assertion. A changed runtime dependency MUST invalidate its prior evidence.
+
+Candidate-cohort qualification MUST identify affected applications and declared
+integration dependents, exercise their required behavior against the candidate,
+and verify required telemetry capture and compatibility. It MUST preserve separate
+installed/native/browser/deployed evidence scopes. Runtime telemetry enforcement
+MUST remain host-owned; an application MUST NOT opt out of required capture.
+Capture loss MUST be visible and MUST NOT be reported as a successful observation.
+
+The behavior-to-assertion mapping MUST survive test consolidation. Behavioral
+coverage and the decreasing function-count ceiling MUST both hold; this contract
+sets no percentage threshold or growth exception. Evidence wire format, telemetry
+catalog, bounded sink-failure policy and upgrade control API remain unselected
+and MUST be contracted before their implementation. These obligations do not
+add fields to CONTRACT-003's structural composition schema.
 
 ## Precedence and Compatibility
 

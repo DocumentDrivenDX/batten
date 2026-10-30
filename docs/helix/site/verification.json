@@ -1,6 +1,6 @@
 {
   "scope": "Batten documentation microsite only; no SDK/native/deployed support claim",
-  "guide": "Six source-stamped explanations, independently evaluated by microsite_reader_review",
+  "guide": "Six source-stamped explanations independently evaluated by fleet_alignment_reader against current cited sources for fleet-goal alignment.",
   "checks": [
     "strict guide source/link/prose check",
     "documentor reviewed-body stamps",
@@ -22,7 +22,7 @@
   "inputs": [
     {
       "path": "docs/helix/site/build.py",
-      "sha256": "da0b3d4e453d4856ca0b029c78e22499374e5736ffe865ae373f03337896f75f"
+      "sha256": "80247b9f89d54da986946089acc4e66c3801de35acbcea02b9003e3d826b431e"
     },
     {
       "path": "docs/helix/site/assets/favicon.svg",
@@ -38,27 +38,27 @@
     },
     {
       "path": "docs/helix/guide/developer/about.md",
-      "sha256": "8592335c59a05feff21f870d4fb21d58da1d97bab69fe95aa19b9f7cdfad1fe1"
+      "sha256": "8901252c6ea5752341c14e250af831d0b219beb92db822bb0b5b69bf64041ae5"
     },
     {
       "path": "docs/helix/guide/developer/architecture.md",
-      "sha256": "c9a09c6b58c07093c7cdbd7b96909f387325e14572fd84124459dd551bb33202"
+      "sha256": "4b9434f9f1883add0cc6e8792c19ab3a25412928b8864bf9e2d1b042e98442f1"
     },
     {
       "path": "docs/helix/guide/developer/composition.md",
-      "sha256": "00216b3f1acd14d63433a6185de2096f394117ff343bea57773662d2fabde385"
+      "sha256": "fe1e5dfcefb75634e05c170f90beee6b70b4544a81e59082fbabc0e11375094e"
     },
     {
       "path": "docs/helix/guide/developer/hosting.md",
-      "sha256": "adf83b4efb5bd150ddfde3636c0f69aabb4540711eb6fc884de6da4f041a75ec"
+      "sha256": "560ad52a7e3dc4b5a847d225fd117be6e489daeaa8e234956c7d98082408ba41"
     },
     {
       "path": "docs/helix/guide/developer/index.md",
-      "sha256": "4eec33685c792931f2d47a7082850f8a264d2986f63da4141cc2ea85019fc817"
+      "sha256": "35315370e4a291c7b8458a87d8e989c28ccc1fc0ed133eca3e3a63363ad9a2c5"
     },
     {
       "path": "docs/helix/guide/developer/integrations.md",
-      "sha256": "01ad2eb2ec009bf3666297049aabf0d78165d3fe182acd6ee2687d0d1b8c1f77"
+      "sha256": "cfdac79b988dd46bcbc624d3dc569bf9ad79eff304aace257a43034c2a360860"
     },
     {
       "path": ".helix.yml",
@@ -72,5 +72,6 @@
       "path": ".github/workflows/pages.yml",
       "sha256": "eaa3f8f4c84e332ad2a74da17f6c722ded602ee89f2134eca065eda86ad3267a"
     }
-  ]
+  ],
+  "revision_checks": "Storage conditional/range/multipart and listing design: schema compilation and fabricated positive/negative shape cases passed. Governed artifact validation, independent six-page reader review and source checks passed after refreshing concurrent source changes; static assembly/link checks passed. Browser observations above belong to prior publication; no native backend, new browser or deployment evidence is claimed."
 }

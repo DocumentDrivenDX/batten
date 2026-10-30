@@ -1,10 +1,14 @@
-<!-- helix:publish audience=developer page=architecture kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/df3553698c799c67 -->
-<!-- helix:source docs/helix/02-design/architecture.md sha256:9a0974a3fc6dec69 -->
+<!-- helix:publish audience=developer page=architecture kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/9a922636dc850dd0 -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-001-public-host-api.md sha256:496f18dd0d526258 -->
+<!-- helix:source docs/helix/02-design/architecture.md sha256:ffb0e445269fc317 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-001-platform-modules-and-neutral-core.md sha256:f845d229ffe50254 -->
-<!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:afb392083440716f -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:f30000f983733880 -->
-<!-- helix:source docs/helix/03-test/test-plan.md sha256:29d7680fa9244bd1 -->
-<!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:471d35bf9671a37f -->
+<!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:de51435c7c5bc7cd -->
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:ac1c72c5f2bc7448 -->
+<!-- helix:source docs/helix/03-test/test-plan.md sha256:317605eb730dcd51 -->
+<!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:15cfb8ec9962db47 -->
+
+<!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
+<!-- helix:source docs/helix/02-design/adr/ADR-012-generic-platform-assets.md sha256:1c38e89475ee2c90 -->
 
 # A small core, explicit boundaries
 
@@ -22,11 +26,33 @@ Separate wheels follow platform responsibilities. Tables, PostgreSQL, Lakebase, 
 
 The browser client is independent of Python host objects. Its optional ux-builder adapter owns its upstream UI dependencies.
 
+## Package and qualify the runtime
+
+The optional platform wrapper defines resource contracts and deployment protocols. Databricks bundle tooling stays in its adapter. Operators deploy assets separately; core consumes generic admission results and scoped runtime capabilities.
+
+Platform owners assemble selected modules and their dependencies into a complete runtime. Application delivery consumes that runtime without pip or npm installation.
+
+Dependency upgrades must qualify against affected application assertions, behavioral coverage and required telemetry. Evidence is tied to exact application and runtime artifacts. Missing or stale evidence blocks qualification.
+
+## Operate a shared fleet
+
+The design targets hundreds of applications sharing declarative services. Hosts enforce application and owner limits, fairness, lifecycle and diagnostic attribution. Capacity and failure domains require measured evidence.
+
+Graph API integration uses public provider boundaries and current grants. Core remains generic; the owning provider retains graph semantics.
+
 ## Public hosting boundary
 
 The hosting layer resolves typed profiles and constructs explicitly selected public factories. Local development and embedding use the same asynchronous lifecycle contract.
 
 Services declare owned or borrowed lifetime. Required components must prepare successfully before readiness. Cleanup retains unresolved resource outcomes.
+
+## Preserve commands and attribution
+
+Command Query Responsibility Segregation (CQRS) separates state-changing commands from queries. The host preserves those rules across routes, tools, screens and background work.
+
+Trusted invocation context follows the initiating user and effective principal through workers and service calls. Telemetry cannot grant authority, and reused connections must not leak identities.
+
+OpenTelemetry instrumentation belongs to host and provider adapters, keeping the portable core free of concrete SDK dependencies. Durable audit remains independent of sampled traces.
 
 ## Verify the actual boundary
 

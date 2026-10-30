@@ -98,6 +98,22 @@ qualified executor capability. Batten preserves upstream results and recovery
 identity without synthesizing rollback, retries or completion. Until that
 pairing exists, the saga requirement refuses; unrelated applications can assess.
 
+### Cross-application resolution evidence
+
+CONTRACT-009 owns the optional platform ontology and service-resolution semantics.
+Discovery I/O MUST occur before assessment through authenticated public provider
+reads. The module supplies separate host-owned digest-covered resolution artifacts
+plus generic capability/dependency metadata. ValidationEvidence.artifact references
+the supplied resolution bytes, and the plan's evidence array covers them in its
+hash. Evidence MUST NOT enter the immutable consumer artifact it references.
+Assessment MUST verify exact evidence provenance, interface/provider/consumer pins
+and the supplied dependency closure without querying the catalog or importing code.
+Service binding records are module-owned meaning, not new core field types.
+Host resource bindings remain CONTRACT-004's consumer ArtifactRef/requirement pairs.
+Catalog, provider or deployment drift requires reassessment; eligible metadata
+never proves live authorization or readiness. Explicit bindings in a core-only
+host MUST satisfy equivalent evidence rules without importing the ontology module.
+
 ### Application code and exceptional platform dependencies
 
 Manifests, UMF and UMF extensions MUST be the first authoring layer. Local
@@ -123,6 +139,17 @@ its permissions. Unapproved closure uses `dependency_unapproved`; absent qualifi
 capability uses the existing capability refusal. No extension package is selected
 by this design.
 
+
+## Platform asset companion artifacts
+
+CONTRACT-010 defines managed deployment packages and external resource requirements
+as digest-covered companion artifacts. Application requirements use the ordinary
+`batten.platform.assets/1` capability pin. Trusted owning validators project exact
+manifest linkage, source closure, output/dependency pins and graph validity into
+ValidationEvidence; core does not parse native sources or introduce vendor fields.
+Relevant unsupported meaning refuses while preserving source bytes.
+Static eligibility authorizes no deployment and proves no live resource readiness.
+Operator planning/apply and host preparation are separate CONTRACT-010 boundaries.
 
 ## Precedence and Compatibility
 

@@ -1,0 +1,38 @@
+{
+  "purpose": "Platform asset companion schema source inspection; no deployment qualification",
+  "core_version": "0.10.0",
+  "actions_version": "0.1.0",
+  "sources": [
+    {
+      "path": "spec/metamodel/umf.yaml",
+      "sha256": "1e406ee49b0c4c08b8eb996bb1fcb6e96fa8d6f4673f0877aa1800986b2dbbce"
+    },
+    {
+      "path": "spec/core/extension-package.schema.json",
+      "sha256": "ec2f2d0dec7edf563b3275fcfd5f96ed7789547aaba8b7cc534ddc411639428f"
+    },
+    {
+      "path": "spec/extensions/actions/package.json",
+      "sha256": "77006f8c094af31c4c1f5c95424ff15eb97da6de6e969f8b3a91150960f200b8"
+    },
+    {
+      "path": "spec/domain-packs/medical/pack.json",
+      "sha256": "0ca3d6d61f4eb5f2d242750e9fcac4a142b0e38f5e8214077be903e27f77b7ae"
+    }
+  ],
+  "reuse": [
+    "CONTRACT-003 exact ArtifactRef and interface pin shapes",
+    "UMF native identity and unknown preservation",
+    "UMF owns model and action meaning"
+  ],
+  "local_gaps": [
+    "native package source inventory",
+    "managed versus external output dependencies",
+    "resource access and readiness declarations"
+  ],
+  "limits": [
+    "No UMF deployment vocabulary or runtime registration inferred",
+    "Schema checks shape only; ownership, graph, source closure, authority and readiness require semantic validation",
+    "No published provider/toolchain support implied"
+  ]
+}

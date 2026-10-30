@@ -41,6 +41,21 @@ Deprecation is announced for a minor before removal and includes a replacement;
 removal still requires the major change. Later host-owned legacy compatibility
 has its own consumer tests and does not alter Batten's native contract.
 
+## Fleet upgrade qualification
+
+PRD FR-42 makes safe dependency evolution a platform responsibility. Before a
+candidate cohort qualifies, the platform must inventory affected applications
+and declared integrations, run their required assertions and behavior coverage,
+and verify required telemetry and protocol compatibility. Evidence must bind
+exact candidate runtime, application and policy inputs; changing them invalidates
+the result. A series match or a passing platform-only suite is insufficient.
+
+The operator must be able to withhold a failing candidate and retain a qualified
+cohort. Recovery must assess durable-state compatibility and preserve uncertain
+external outcomes. There is no implicit schema/data rollback. Exact evidence
+formats, required telemetry failure policy and rollout controls need contracts
+before source implementation. No fleet upgrade has been qualified in this packet.
+
 ## Why We Chose This
 
 ### Over matching the host product version
