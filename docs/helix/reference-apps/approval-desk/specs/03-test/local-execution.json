@@ -2,17 +2,17 @@
   "application": "MA-001",
   "checks": {
     "fast_quality": {
-      "command": "uv run --locked --inexact python scripts/quality.py",
+      "command": "uv run --locked python scripts/quality.py",
       "native_cases_excluded": 2,
       "passed": 18
     },
     "final_lint": {
-      "command": "uv run --locked --inexact python scripts/quality.py --lint",
+      "command": "uv run --locked python scripts/quality.py --lint",
       "result": "passed"
     },
     "governed_artifacts": "ADR-016, CONTRACT-012 and approval-desk specs validated with the bound installed HELIX catalog",
     "native_browser": {
-      "command": ".venv/bin/python -m pytest -m integration tests/apps -x -q",
+      "command": "uv run --locked pytest -m integration tests/apps -q",
       "passed": 2,
       "tests": [
         "test_approval_desk_native_browser_journey",
@@ -68,14 +68,14 @@
       "starlette": "1.10.0",
       "typing-inspection": "0.4.4",
       "typing_extensions": "4.16.0",
-      "umf-codegen": "0.1.0a1",
-      "umf_access": "0.1.0.dev4",
+      "umf-codegen": "0.1.0a5",
+      "umf_access": "0.1.0.dev8",
       "uvicorn": "0.54.0",
-      "weft-sql": "0.4.51",
+      "weft-sql": "0.4.54",
       "wrapt": "2.5.2"
     },
     "python": "3.11",
-    "umf_revision": "b12a489844f29947ee52115b90f4ccc5c8bc5032",
+    "umf_release": "umf-v0.5.8",
     "wheels": {
       "novirhyza_batten_approval_desk-0.1.0a1-py3-none-any.whl": "acc016451df355d51710c52147c7b60aae763d9fb65779b02ae5b85dfde45443",
       "novirhyza_batten_asgi-0.1.0a1-py3-none-any.whl": "a008450f6e47d9eb85ec7910ad62541776823db2a30689cc67ff78e655cf3538",
@@ -83,9 +83,9 @@
       "novirhyza_batten_local-0.1.0a1-py3-none-any.whl": "ff6aba163acb6627c70858652416239306ee515568b5d3a242ad7e2f0c4d8d18",
       "novirhyza_batten_runtime-0.1.0a1-py3-none-any.whl": "40edf328ccb44bf0d090e2351360373e5321e400556da4d3434b1dcc717e490c",
       "novirhyza_batten_tables-0.1.0a1-py3-none-any.whl": "73840a1c061593dbadaa4e6a1094913de3b07169885beca1f3c6ffd51ae3a6d3",
-      "novirhyza_batten_umf_postgres-0.1.0a1-py3-none-any.whl": "c714fd285d8d41d756edeac96262a581fabb6cacba7f6594db47675c41f16dea",
-      "umf_access-0.1.0.dev4-py3-none-any.whl": "1d8f2464e02191d00234429d702550f5833402c42d7c6214b9c524bc845a6b17",
-      "umf_codegen-0.1.0a1-py3-none-any.whl": "defb9ad500c91ef51bb9c5a85edbbb7643c6b4a21902d3ade9cf2ff46c87e6af"
+      "novirhyza_batten_umf_postgres-0.1.0a1-py3-none-any.whl": "bb1792a56059a0ca46a3ec22edc8b08aa435ecb26feb3afce8425c5cb240a1c6",
+      "umf_access-0.1.0.dev8-py3-none-any.whl": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
+      "umf_codegen-0.1.0a5-py3-none-any.whl": "36a6f7e0ab92feb9cb20ed8842cc3c1f073cdd3ff2c4edff137c1fcbc3ace158"
     }
   },
   "date": "2026-11-02",
@@ -101,7 +101,9 @@
     "installed CLI and restart persistence",
     "linked database/host spans with request text, SQL and connection details excluded from durable capture",
     "registry description and loaded thumbnail, app entry and return navigation",
-    "app-scoped cookie path and refusal of unregistered or legacy root API routes"
+    "app-scoped cookie path and refusal of unregistered or legacy root API routes",
+    "revoking the reviewer database group blocks cross-owner conditional decisions while preserving the pending row",
+    "changed native installation head refuses startup and the restored reference starts successfully"
   ],
   "qualification": "exercised local preview",
   "schema": 1

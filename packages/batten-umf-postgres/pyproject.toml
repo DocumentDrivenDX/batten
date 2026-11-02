@@ -8,7 +8,7 @@ version = "0.1.0a1"
 requires-python = ">=3.11"
 license = "MIT OR Apache-2.0"
 license-files = ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]
-dependencies = ["novirhyza-batten-tables==0.1.0a1", "umf-access==0.1.0.dev4", "umf-codegen==0.1.0a1", "psycopg[binary]==3.3.6", "weft-sql==0.4.51"]
+dependencies = ["novirhyza-batten-tables==0.1.0a1", "umf-access==0.1.0.dev8", "umf-codegen==0.1.0a5", "psycopg[binary]==3.3.6", "weft-sql==0.4.54"]
 
 [project.optional-dependencies]
 local = ["pgserver-pg18==18.6.1", "opentelemetry-instrumentation-psycopg==0.66b2"]

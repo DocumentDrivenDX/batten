@@ -5,7 +5,7 @@ revision, and let a different person approve or reject it. Alex and Casey are
 requesters; Blake is an independent reviewer who can also submit requests.
 All identities and data are fabricated.
 
-From the repository root, with Python 3.11, uv, Bun 1.4.3 and Just installed:
+From the repository root, with Python 3.11, uv, Bun 1.4.4 and Just installed:
 
 ```sh
 uv sync --frozen --all-packages
@@ -31,12 +31,12 @@ migrates tables. Restarting preserves requests and native receipts; local login
 sessions must be established again. `local.toml` supplies typed limits and port.
 No application environment variables or cloud credentials are needed.
 
-The assembler reads the pinned original public UMF source from the sibling checkout,
-without modifying it, or fetches that public revision into an ignored cache. It
-uses UMF's original generator and packaging verification. Dependencies are built
-and installed once at composition time into `.cache/approval-runtime`; serving
-and calling the app do not install Python or npm dependencies. Cohort and wheel
-hashes are recorded in `.cache/approval-cohort.json`.
+The assembler downloads UMF's original `umf-v0.5.8` access and codegen wheels
+from the public UMF release and verifies their pinned SHA-256 digests. Batten
+packages are built from this checkout. Dependencies are installed once at
+composition time into `.cache/approval-runtime`; serving and calling the app do
+not install Python or npm dependencies. Cohort and wheel hashes are recorded in
+`.cache/approval-cohort.json`.
 
 The installed CLI uses the same host, identity, business operations and native
 tables as the browser:

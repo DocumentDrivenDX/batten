@@ -43,9 +43,17 @@ The existing design/site and storage releases retain their own tags.
 ## Required Actions Summary
 
 Use Python 3.11 and the recorded dependency cohort for this preview. Source
-assembly also uses Bun 1.4.3 and uv. Explicitly initialize a new dedicated
+assembly also uses Bun 1.4.4 and uv. Explicitly initialize a new dedicated
 fabricated database before serving. Run with loopback-only stub identities;
 this is a local development profile.
+
+Dependency audit: CI pins uv 0.13.6, Bun 1.4.4 and current compatible Python
+tools. UMF access 0.1.0.dev8 and codegen 0.1.0a5 are the newest published
+compatible original wheels; UMF 0.10.1 publishes `umf-core` but no replacement
+access/codegen pair. `weft-sql` 0.4.54 is the newest published distribution;
+Weft 0.4.56 publishes a separate `umf-weft` package. TypeScript 7.0.2 is the
+newest compiler, but `@typescript-eslint/parser` 8.72.1 explicitly rejects it;
+Batten uses the latest compatible TypeScript 6.0.3.
 
 ## Changes and Fixes
 

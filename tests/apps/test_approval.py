@@ -4,13 +4,48 @@ from __future__ import annotations
 
 import json
 import uuid
+from collections.abc import Awaitable, Callable, Generator
+from contextlib import contextmanager
 from typing import Any, cast
 
+import psycopg
 import pytest
 from approval_probe import AppProcess, api, login_page
+from pgserver.postgres_server import get_server
 from playwright.async_api import Browser, Route, expect
 
 pytestmark = [pytest.mark.integration, pytest.mark.asyncio(loop_scope="module")]
+
+
+def _revoke_reviewer(app: AppProcess) -> None:
+    server = get_server(app.data / "pgdata", cleanup_mode=None)
+    try:
+        with psycopg.connect(server.get_uri(), autocommit=True) as admin:
+            admin.execute("REVOKE approval_reviewers FROM approval_blake")
+    finally:
+        server.cleanup()
+
+
+@contextmanager
+def _corrupt_installation_head(app: AppProcess) -> Generator[None, None, None]:
+    deployment = app.data / "deployment.json"
+    metadata = json.loads(deployment.read_text())
+    original_head_digest = metadata["reference"]["headDigest"]
+    metadata["reference"]["headDigest"] = "0" * 64
+    deployment.write_text(json.dumps(metadata))
+    try:
+        yield
+    finally:
+        metadata["reference"]["headDigest"] = original_head_digest
+        deployment.write_text(json.dumps(metadata))
+
+
+UiAction = tuple[Callable[..., Awaitable[None]], tuple[object, ...]]
+UiTransition = tuple[
+    tuple[UiAction, ...],
+    Callable[..., Awaitable[None]],
+    tuple[object, ...],
+]
 
 
 async def test_approval_desk_native_browser_journey(
@@ -25,24 +60,51 @@ async def test_approval_desk_native_browser_journey(
         for actor in ("alex", "blake", "casey")
     ]
     await expect(alex.locator("#empty")).to_be_visible()
-    await alex.locator("#title").fill("Fabricated equipment request")
-    await alex.locator("#submit").click()
-    await expect(alex.locator("#requests strong")).to_have_text(
-        "Fabricated equipment request"
+    transitions: tuple[UiTransition, ...] = (
+        (
+            (
+                (alex.locator("#title").fill, ("Fabricated equipment request",)),
+                (alex.locator("#submit").click, ()),
+            ),
+            expect(alex.locator("#requests strong")).to_have_text,
+            ("Fabricated equipment request",),
+        ),
+        (
+            ((blake.locator("#refresh").click, ()),),
+            expect(blake.get_by_role("button", name="Approve request")).to_be_visible,
+            (),
+        ),
+        (
+            (
+                (
+                    alex.locator("#edit-title").fill,
+                    ("Fabricated revised equipment request",),
+                ),
+                (alex.get_by_role("button", name="Save changes").click, ()),
+            ),
+            expect(alex.locator("#requests strong")).to_have_text,
+            ("Fabricated revised equipment request",),
+        ),
+        (
+            ((blake.get_by_role("button", name="Approve request").click, ()),),
+            expect(blake.locator("#notice")).to_contain_text,
+            ("changed",),
+        ),
+        (
+            ((blake.locator("#refresh").click, ()),),
+            expect(blake.get_by_role("button", name="Approve request")).to_be_enabled,
+            (),
+        ),
+        (
+            ((blake.get_by_role("button", name="Approve request").click, ()),),
+            expect(blake.locator("#detail")).to_contain_text,
+            ("Approved",),
+        ),
     )
-    await blake.locator("#refresh").click()
-    await expect(blake.get_by_role("button", name="Approve request")).to_be_visible()
-    await alex.locator("#edit-title").fill("Fabricated revised equipment request")
-    await alex.get_by_role("button", name="Save changes").click()
-    await expect(alex.locator("#requests strong")).to_have_text(
-        "Fabricated revised equipment request"
-    )
-    await blake.get_by_role("button", name="Approve request").click()
-    await expect(blake.locator("#notice")).to_contain_text("changed")
-    await blake.locator("#refresh").click()
-    await expect(blake.get_by_role("button", name="Approve request")).to_be_enabled()
-    await blake.get_by_role("button", name="Approve request").click()
-    await expect(blake.locator("#detail")).to_contain_text("Approved")
+    for actions, predicate, expected in transitions:
+        for action, arguments in actions:
+            await action(*arguments)
+        await predicate(*expected)
     final: Any = (await api(blake, "list", {}))["result"]
     assert [
         (row["owner"], row["state"], row["decided_by"], row["title"])
@@ -124,6 +186,44 @@ async def test_approval_desk_native_browser_journey(
     )
     await app.start()
     assert (await api(alex, "list", {}))["status"] == "denied"
+    for page, actor in ((alex, "alex"), (blake, "blake")):
+        for action, arguments in (
+            (page.goto, (app.url,)),
+            (page.get_by_role("link", name="Open Approval desk", exact=True).click, ()),
+            (page.locator("#actor").select_option, (actor,)),
+            (expect(page.locator("#refresh")).to_be_enabled, ()),
+        ):
+            await action(*arguments)
+    _revoke_reviewer(app)
+    assert (own := cast(dict[str, Any], (await api(blake, "list", {}))["result"]))[
+        "rows"
+    ] and all(row["owner"] == "blake" for row in own["rows"])
+    pending = next(
+        row
+        for row in cast(
+            dict[str, list[dict[str, str]]], (await api(alex, "list", {}))["result"]
+        )["rows"]
+        if row["state"] == "pending"
+    )
+    assert (
+        await api(
+            blake,
+            "decide",
+            {
+                "id": pending["id"],
+                "revision": pending["revision"],
+                "decision": "approved",
+            },
+            key=uuid.uuid4().hex,
+        )
+    )["status"] == "precondition_failed" and cast(
+        dict[str, Any], (await api(alex, "get", {"id": pending["id"]}))["result"]
+    )["rows"][0]["state"] == "pending"
+    await app.stop()
+    with _corrupt_installation_head(app):
+        with pytest.raises(RuntimeError, match="installation-reference-mismatch"):
+            await app.start()
+    await app.start()
     captures = "".join(
         (app.data / name).read_text() for name in ("audit.jsonl", "spans.jsonl")
     )
@@ -141,7 +241,7 @@ async def test_approval_desk_native_browser_journey(
         and any(span["name"] == "database" for span in spans)
         and all(
             any(
-                parent["name"] == "operation"
+                parent["name"] in {"operation", "startup"}
                 and parent["span_id"] == span["parent_id"]
                 and parent["trace_id"] == span["trace_id"]
                 for parent in spans
@@ -149,6 +249,7 @@ async def test_approval_desk_native_browser_journey(
             for span in spans
             if span["name"] == "database"
         )
+        and any(span["name"] == "operation" for span in spans)
     )
 
 

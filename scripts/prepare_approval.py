@@ -4,68 +4,41 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import io
 import json
 import subprocess
 import sys
-import tarfile
 import tomllib
 from pathlib import Path
 
-UMF_REVISION = "b12a489844f29947ee52115b90f4ccc5c8bc5032"
-UMF_PATHS = [
-    "src",
-    "spec",
-    "python",
-    "scripts/codegen",
-    "scripts/build-codegen.ts",
-    "package.json",
-    "bun.lock",
-    "patches",
-    ".helix.yml",
-]
+UMF_RELEASE = "umf-v0.5.8"
+UMF_WHEELS = {
+    "umf_access-0.1.0.dev8-py3-none-any.whl": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
+    "umf_codegen-0.1.0a5-py3-none-any.whl": "36a6f7e0ab92feb9cb20ed8842cc3c1f073cdd3ff2c4edff137c1fcbc3ace158",
+}
 
 
 def run(args: list[str], cwd: Path) -> None:
     subprocess.run(args, cwd=cwd, check=True)
 
 
-def upstream(root: Path, source: Path) -> Path:
-    target = root / ".cache/approval-umf"
-    ready = target / "batten-source.json"
-    if ready.exists():
-        if json.loads(ready.read_text())["revision"] != UMF_REVISION:
-            raise ValueError("cached SDK source differs")
-        return target
-    target.mkdir(parents=True, exist_ok=True)
-    if not (source / ".git").exists():
-        source = root / ".cache/umf-source"
-        source.mkdir(parents=True, exist_ok=True)
-        run(["git", "init", "-q"], source)
-        run(
-            [
-                "git",
-                "fetch",
-                "--depth=1",
-                "https://github.com/DocumentDrivenDX/umf.git",
-                UMF_REVISION,
-            ],
-            source,
-        )
-    archive = subprocess.check_output(
-        ["git", "archive", UMF_REVISION, *UMF_PATHS], cwd=source
-    )
-    with tarfile.open(fileobj=io.BytesIO(archive)) as stream:
-        stream.extractall(target, filter="data")
-    run(["bun", "install", "--frozen-lockfile", "--production"], target)
-    run(["bun", "scripts/build-codegen.ts"], target)
-    ready.write_text(
-        json.dumps({
-            "revision": UMF_REVISION,
-            "source": "original public archive; rebuilt by original packaging script",
-        })
-    )
-    return target
+def upstream_wheels(wheels: Path) -> list[str]:
+    wheels.mkdir(parents=True, exist_ok=True)
+    urls = {
+        name: f"https://github.com/DocumentDrivenDX/umf/releases/download/{UMF_RELEASE}/{name}"
+        for name in UMF_WHEELS
+    }
+    result: list[str] = []
+    for name, digest in UMF_WHEELS.items():
+        path = wheels / name
+        if not path.exists():
+            from urllib.request import urlopen
+
+            with urlopen(urls[name], timeout=60) as response:
+                path.write_bytes(response.read())
+        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise ValueError(f"upstream wheel digest mismatch: {name}")
+        result.append(str(path))
+    return result
 
 
 def assets(root: Path) -> Path:
@@ -139,21 +112,17 @@ def refresh_app(root: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--umf-source", type=Path)
     parser.add_argument("--app-only", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if args.app_only:
         refresh_app(root)
         return
-    source = args.umf_source or root.parent / "umf"
-    sdk = upstream(root, source)
     assets(root)
     wheels = root / ".cache/approval-wheels"
     wheels.mkdir(parents=True, exist_ok=True)
+    built = upstream_wheels(wheels)
     projects = [
-        sdk / "python/umf_access",
-        sdk / "python/umf_codegen",
         *[
             root / "packages" / ("batten-" + name)
             for name in (
@@ -167,41 +136,23 @@ def main() -> None:
         ],
         root / "examples/approval-desk",
     ]
-    built: list[str] = []
-    for index, project in enumerate(projects):
-        name = tomllib.loads((project / "pyproject.toml").read_text())["project"][
-            "name"
-        ].replace("-", "_")
-        matches = list(wheels.glob(name + "-*.whl"))
-        if index < 2:
-            if not matches:
-                run(
-                    [
-                        "uv",
-                        "build",
-                        "--wheel",
-                        "--project",
-                        str(project),
-                        "--out-dir",
-                        str(wheels),
-                    ],
-                    root,
-                )
-        else:
-            run(
-                [
-                    sys.executable,
-                    "-m",
-                    "build",
-                    "--no-isolation",
-                    "--wheel",
-                    "--outdir",
-                    str(wheels),
-                    str(project),
-                ],
-                root,
-            )
-        built.append(str(next(wheels.glob(name + "-*.whl"))))
+    for project in projects:
+        metadata = tomllib.loads((project / "pyproject.toml").read_text())["project"]
+        name = metadata["name"].replace("-", "_")
+        run(
+            [
+                sys.executable,
+                "-m",
+                "build",
+                "--no-isolation",
+                "--wheel",
+                "--outdir",
+                str(wheels),
+                str(project),
+            ],
+            root,
+        )
+        built.append(str(wheels / f"{name}-{metadata['version']}-py3-none-any.whl"))
     run(
         [
             "uv",
@@ -241,8 +192,6 @@ def main() -> None:
             str(wheels),
             "--find-links",
             "https://github.com/DocumentDrivenDX/pgserver/releases/expanded_assets/pg18.6-pgv0.8.6-r2",
-            "--find-links",
-            "https://github.com/DocumentDrivenDX/weft/releases/expanded_assets/v0.4.51",
             *[
                 argument
                 for project in projects
@@ -258,7 +207,7 @@ def main() -> None:
         root,
     )
     receipt = {
-        "umf_revision": UMF_REVISION,
+        "umf_release": UMF_RELEASE,
         "python": "3.11",
         "wheels": {
             Path(p).name: hashlib.sha256(Path(p).read_bytes()).hexdigest()

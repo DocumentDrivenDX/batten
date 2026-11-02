@@ -8,7 +8,7 @@ import signal
 from dataclasses import dataclass
 from pathlib import Path
 
-from playwright.async_api import Browser, Page
+from playwright.async_api import Browser, Page, expect
 
 
 @dataclass
@@ -84,7 +84,7 @@ async def login_page(browser: Browser, url: str, actor: str) -> Page:
     await page.goto(url)
     await page.get_by_role("link", name="Open Approval desk", exact=True).click()
     await page.locator("#actor").select_option(actor)
-    await page.locator("#refresh").wait_for(state="visible")
+    await expect(page.locator("#refresh")).to_be_enabled()
     return page
 
 
