@@ -13,13 +13,15 @@ def main() -> None:
     args = parser.parse_args()
     commands = [
         [sys.executable, "scripts/check_boundaries.py", "--base", "HEAD"],
+        [sys.executable, "scripts/check_micro_apps.py"],
         ["ruff", "check", "."],
         ["ruff", "format", "--check", "."],
         ["pyright"],
         ["bun", "run", "lint"],
+        ["bun", "run", "typecheck"],
     ]
     if not args.lint:
-        commands.append([sys.executable, "-m", "pytest"])
+        commands.append([sys.executable, "-m", "pytest", "-m", "not integration"])
     for command in commands:
         subprocess.run(command, check=True)
 

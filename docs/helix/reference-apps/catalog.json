@@ -1,0 +1,264 @@
+{
+  "version": 1,
+  "workflow": "docs/helix/04-build/batten-app-workflow.md",
+  "apps": [
+    {
+      "id": "MA-001",
+      "slug": "approval-desk",
+      "root": "docs/helix/reference-apps/approval-desk",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "actions"
+      ],
+      "story": "US-101",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-002",
+      "slug": "service-intake",
+      "root": "docs/helix/reference-apps/service-intake",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "actions",
+        "messaging"
+      ],
+      "story": "US-102",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-003",
+      "slug": "case-tracker",
+      "root": "docs/helix/reference-apps/case-tracker",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "graphs",
+        "actions"
+      ],
+      "story": "US-103",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-004",
+      "slug": "evidence-library",
+      "root": "docs/helix/reference-apps/evidence-library",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "storage",
+        "actions"
+      ],
+      "story": "US-104",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-005",
+      "slug": "document-review",
+      "root": "docs/helix/reference-apps/document-review",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "storage",
+        "agents",
+        "models",
+        "actions"
+      ],
+      "story": "US-105",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-006",
+      "slug": "entity-directory",
+      "root": "docs/helix/reference-apps/entity-directory",
+      "ui": "typescript",
+      "modules": [
+        "graphs",
+        "actions"
+      ],
+      "story": "US-106",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-007",
+      "slug": "knowledge-assistant",
+      "root": "docs/helix/reference-apps/knowledge-assistant",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "storage",
+        "agents",
+        "models",
+        "search"
+      ],
+      "story": "US-107",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-008",
+      "slug": "model-triage",
+      "root": "docs/helix/reference-apps/model-triage",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "messaging",
+        "agents",
+        "models",
+        "actions"
+      ],
+      "story": "US-108",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-009",
+      "slug": "data-reconciliation",
+      "root": "docs/helix/reference-apps/data-reconciliation",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "actions",
+        "jobs"
+      ],
+      "story": "US-109",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-010",
+      "slug": "scheduled-digest",
+      "root": "docs/helix/reference-apps/scheduled-digest",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "jobs",
+        "storage",
+        "messaging"
+      ],
+      "story": "US-110",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-011",
+      "slug": "access-attestation",
+      "root": "docs/helix/reference-apps/access-attestation",
+      "ui": "typescript",
+      "modules": [
+        "tables",
+        "graphs",
+        "actions"
+      ],
+      "story": "US-111",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    },
+    {
+      "id": "MA-012",
+      "slug": "service-handoff",
+      "root": "docs/helix/reference-apps/service-handoff",
+      "ui": "typescript",
+      "modules": [
+        "graphs",
+        "services",
+        "messaging",
+        "actions"
+      ],
+      "story": "US-112",
+      "obligations": [
+        "AUTH",
+        "IDENTITY",
+        "COMMANDS",
+        "LIFECYCLE",
+        "LIMITS",
+        "PARITY",
+        "OBSERVABILITY"
+      ]
+    }
+  ]
+}

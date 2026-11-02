@@ -1,4 +1,4 @@
-<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/b21a5fd0d3174315 -->
+<!-- helix:publish audience=developer page=integrations kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_reader_review/72eb260ed7364329 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-009-service-discovery-and-binding.md sha256:53b8b2e0e2ef2dc3 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-007-messaging.md sha256:f265082768032e42 -->
@@ -13,6 +13,8 @@
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-100-storage-provider-host.md sha256:e2825ccf8e5b413e -->
 <!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
+
+<!-- helix:source docs/helix/02-design/adr/ADR-015-typescript-app-ui-delivery.md sha256:5e7b255d041b71c3 -->
 
 # Build on the platform
 
@@ -74,6 +76,8 @@ Model access is a separate gateway capability. Host-managed aliases, budgets and
 For local development, the host binds Tether to an explicit model API and model profile through typed configuration. Agent tools still require declared bindings and approval. An unavailable API produces an explicit failure; it never silently switches to another endpoint or a scripted response. Scripted model fixtures provide separate deterministic test evidence.
 
 ## Design with ux-builder
+
+The first reference apps use authored TypeScript interfaces through Batten’s public client and host context. A declarative UI compiler is a separate capability; those apps need real browser tests for their UI journeys.
 
 ux-builder owns its design workflow, blueprint, components, themes and audits. Batten adds stable references between controls, UMF metadata and admitted operations.
 

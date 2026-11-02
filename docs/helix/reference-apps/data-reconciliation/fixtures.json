@@ -1,0 +1,13 @@
+{
+  "application": "MA-009",
+  "record": {
+    "id": "fabricated-data-reconciliation-record",
+    "owner": "actor-a",
+    "state": "unmatched"
+  },
+  "actors": {
+    "permitted": "actor-a",
+    "foreign": "actor-b",
+    "independent_reviewer": "actor-c"
+  }
+}

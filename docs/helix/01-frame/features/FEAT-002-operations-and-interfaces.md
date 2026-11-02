@@ -23,6 +23,12 @@ ddx:
 
 ## Overview
 
+The initial reference-app delivery uses application-authored TypeScript browser
+apps through the public client and host context. ux-builder can supply supported
+design assets and tooling. This delivery decision does not claim that Batten has
+a declarative UI compiler or renderer; those remain the required future state
+below. ADR-015 governs this staged delivery boundary.
+
 Applications must expose declared operations through host-contained UI and other
 surfaces. The ux-builder integration must reuse its design workflow, components,
 themes and audit tools while binding to native UMF meaning and Batten's public client.
@@ -96,6 +102,25 @@ Browser modules must execute without Bun/Node runtime globals. Cross-profile
 browser verification must cover the same authored review journey and server
 outcomes. Existing CONTRACT-002 shape/test policies apply; no UI timing or
 accessibility support claim is established by configuration alone.
+
+## Lintel GraphQL and Relay binding
+
+Owner direction selects Lintel as a separately packaged Python/FastAPI API runtime
+included in Batten's qualified runtime. **UI-13:** Batten must expose selected native
+UMF reads, relationships and declared commands through the Lintel GraphQL/Relay
+binding and support TypeScript Relay client builds from the same exported schema.
+Calls must preserve the existing public host admission, authority, confirmation,
+attribution and resource-custody gates. Lintel owns GraphQL/Relay projection;
+UMF, Weft and existing providers retain semantic/compilation/execution ownership.
+Batten owns the optional adapter implementing Lintel's neutral public execution
+ports; Lintel must not import Batten, and generic Batten core must not import
+Lintel/GraphQL. Host composition supplies the binding and router explicitly.
+REST/OpenAPI product API generation is outside this slice. See
+[SD-002](../../02-design/solution-designs/SD-002-lintel-graphql-relay.md) and Lintel's
+[US-004 client](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/01-frame/user-stories/US-004-typescript-clients.md)
+and [US-005 embedding](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/01-frame/user-stories/US-005-batten-embedding.md)
+acceptance slices. Batten-specific Technical Designs and contract amendments
+remain required before source implementation; this requirement is not a support claim.
 
 ## User Stories
 

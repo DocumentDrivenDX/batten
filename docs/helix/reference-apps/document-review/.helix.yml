@@ -1,0 +1,12 @@
+{
+  "flows": [
+    {
+      "id": "helix",
+      "root": "specs/"
+    }
+  ],
+  "x-batten-app": {
+    "id": "MA-005",
+    "workflow": "../../04-build/batten-app-workflow.md"
+  }
+}

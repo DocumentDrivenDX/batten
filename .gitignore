@@ -10,3 +10,6 @@ coverage/
 .ruff_cache/
 build/
 *.egg-info/
+
+.cache/
+.local/

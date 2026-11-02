@@ -1,0 +1,13 @@
+{
+  "application": "MA-010",
+  "record": {
+    "id": "fabricated-scheduled-digest-record",
+    "owner": "actor-a",
+    "state": "scheduled"
+  },
+  "actors": {
+    "permitted": "actor-a",
+    "foreign": "actor-b",
+    "independent_reviewer": "actor-c"
+  }
+}

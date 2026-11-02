@@ -1,7 +1,7 @@
 # Batten microsite
 
 The microsite projects the vision, requirements and design into source-stamped
-reader explanations. It is separate from Batten's unimplemented SDK runtime.
+reader explanations. The local runtime preview has separate release assets and bounded native/browser evidence.
 
 Build from the repository root with Python's standard library:
 
@@ -50,3 +50,16 @@ To retry publication, rerun the Pages workflow for the reviewed `main` revision.
 To restore an earlier site, revert the reviewed source change and let the same
 workflow rebuild it. A release archive also preserves its exact static output.
 The standalone build command itself does not modify hosting configuration.
+
+## Slack and social previews
+
+Every route emits static Open Graph and Twitter card metadata, a canonical public
+URL and an absolute HTTPS image URL. Slack can crawl these without JavaScript.
+The branded `assets/social-preview.png` is a 1200 × 630 PNG; its editable artwork
+is `assets/social-preview.svg`. Regenerate the PNG with Chromium at that viewport
+after changing the artwork. The publication checker validates metadata consistency,
+per-route URLs, image signature and dimensions before deployment.
+
+After publication, fetch the page as Slackbot and check that the public PNG returns
+`image/png`. A real Slack workspace render remains separate from crawler checks;
+Slack may cache previews for previously shared URLs.

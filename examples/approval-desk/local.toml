@@ -1,0 +1,7 @@
+# Fabricated local-development bounds, not production capacity or latency claims.
+port = 8820
+max_concurrency = 4
+timeout_seconds = 30.0
+max_body_bytes = 16384
+max_sessions = 128
+session_ttl_seconds = 3600.0

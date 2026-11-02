@@ -28,3 +28,10 @@ body{background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,-a
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 @media print{.site-header,.design-banner,.on-this-page,.theme-toggle,.hero-actions,.host-controls,.site-footer{display:none}body{background:#fff;color:#000}.section-wrap{width:100%}.article-grid{display:block}.prose p{color:#222}a{text-decoration:underline}.sources{break-inside:avoid}}
 }
+
+@layer components {
+.preview-section{padding-block:60px;border-bottom:1px solid var(--line)}.preview-section h2{font-size:clamp(32px,4vw,48px);line-height:1.12;letter-spacing:-1.5px;max-width:700px;margin:16px 0 22px}.preview-section>p:not(.eyebrow){max-width:790px;color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}.preview-section>.button{margin-top:25px}
+}
+@layer responsive {
+@media(max-width:600px){.preview-section{padding-block:36px}.preview-section>p:not(.eyebrow){font-size:12px}.preview-section .hero-actions{flex-wrap:wrap}}
+}

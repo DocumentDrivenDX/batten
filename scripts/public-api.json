@@ -34,5 +34,47 @@
     "LocalStore",
     "create_store",
     "initialize"
+  ],
+  "batten.tables": [
+    "TablePort"
+  ],
+  "batten.hosting.local": [
+    "LocalApplication",
+    "LocalRuntime",
+    "LocalSettings"
+  ],
+  "batten.umf_postgres": [
+    "AuthenticatedTransport",
+    "NativeBinding",
+    "UmfTableProvider",
+    "create_umf_provider"
+  ],
+  "batten.umf_postgres.local": [
+    "LocalTables",
+    "UmfTableProvider",
+    "initialize"
+  ],
+  "batten.asgi": [
+    "AppListing",
+    "LocalSessions",
+    "create_app",
+    "create_registry"
+  ],
+  "batten.runtime": [
+    "Host",
+    "create_host"
+  ],
+  "batten.contracts": [
+    "Actor",
+    "ArtifactRef",
+    "Execution",
+    "HostConfig",
+    "HostServices",
+    "Identity",
+    "Observations",
+    "Operation",
+    "OperationCall",
+    "OperationOutcome",
+    "ShutdownReport"
   ]
 }

@@ -1,5 +1,41 @@
 # Batten review packet
 
+## First local reference application
+
+The owner authorized building the approval desk after the enterprise app packet
+was pushed as `27f0876`. Its [run instructions](../../examples/approval-desk/README.md)
+use original UMF/Weft tables on PostgreSQL 18 and an authored TypeScript UI.
+[ADR-016](02-design/adr/ADR-016-local-approval-stack.md),
+[CONTRACT-012](02-design/contracts/CONTRACT-012-local-operation-host.md), and
+[TD-101](reference-apps/approval-desk/specs/02-design/technical-designs/TD-101-approval-desk.md)
+bound this authorized implementation. Historical review holds below concern
+other slices; this app does not qualify the complete fleet or reference corpus.
+
+## Enterprise micro-apps and authoring workflow
+
+The [scope evaluation](01-frame/feasibility-study.md) distinguishes design fit,
+current component evidence and capabilities needing another qualified platform.
+The [reference-app library](reference-apps/README.md) supplies independent HELIX
+specification roots, fabricated data and business invariants for twelve patterns.
+Use the [Batten app workflow](04-build/batten-app-workflow.md) within a selected
+app directory. Installed HELIX owns templates and prompts; no catalog is vendored.
+
+The [integration queue](04-build/integration-gaps.md) prioritizes existing platform
+projects: UMF/PostgreSQL tables, UMF/Truss graphs and the other public capabilities.
+Initial UI delivery is an authored TypeScript app, with room for ux-builder,
+under [ADR-015](02-design/adr/ADR-015-typescript-app-ui-delivery.md).
+Inventory checks are included in the quality gate; complete app execution is a
+separate qualification obligation under CONTRACT-011.
+
+## Lintel GraphQL and Relay integration
+
+Owner direction selects a separate Python/FastAPI [Lintel runtime](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/README.md)
+for inclusion in Batten, with GraphQL + Relay and TypeScript operation/fragment
+builds from the same API. REST/OpenAPI product API generation is outside its MVP.
+[SD-002](02-design/solution-designs/SD-002-lintel-graphql-relay.md) records public
+host composition, authority/custody boundaries and required upstream changes.
+This is a planning addition; no Lintel implementation or cohort acceptance is claimed.
+
 ## Fleet operating goal
 
 Batten targets hundreds of integrated applications sharing a complete qualified

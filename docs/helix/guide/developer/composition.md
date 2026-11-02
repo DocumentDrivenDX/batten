@@ -1,4 +1,4 @@
-<!-- helix:publish audience=developer page=composition kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/c1f1be2f7f852967 -->
+<!-- helix:publish audience=developer page=composition kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_reader_review/c1f1be2f7f852967 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-009-service-discovery-and-binding.md sha256:53b8b2e0e2ef2dc3 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/01-frame/features/FEAT-009-composition-and-hosting.md sha256:ad49c3fcde9f276e -->

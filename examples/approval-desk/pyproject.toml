@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling==1.33.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "novirhyza-batten-approval-desk"
+version = "0.1.0a1"
+requires-python = ">=3.11,<3.15"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]
+dependencies = ["novirhyza-batten-local==0.1.0a1"]
+
+[project.scripts]
+batten-approval = "approval_desk.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/approval_desk"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../docs/helix/reference-apps/approval-desk/specs/02-design/models/approval.umf.json" = "approval_desk/models/approval.umf.json"
+"../../.cache/approval-ui" = "approval_desk/web"
+"local.toml" = "approval_desk/local.toml"

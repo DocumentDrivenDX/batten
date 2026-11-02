@@ -26,21 +26,33 @@ ROOTS = {
     "gateway": ("contracts",),
     "arras": ("contracts",),
     "tether": ("contracts",),
-    "asgi": ("contracts",),
+    "asgi": ("contracts", "runtime"),
+    "umf_postgres": ("contracts", "tables"),
+    "umf_postgres.local": ("contracts", "tables", "umf_postgres"),
+    "hosting.local": ("contracts", "runtime", "asgi", "tables", "umf_postgres.local"),
+    "app.approval": ("contracts", "runtime", "tables", "asgi", "hosting.local"),
     "mcp": ("contracts",),
 }
 VENDORS = {
     "packaging": {"packaging"},
     "umf": {"umf_core", "umf_codegen", "umf_access"},
     "hosting": {"pydantic", "pydantic_settings"},
-    "tables": {"umf_core", "umf_codegen", "umf_access", "weft"},
     "postgres": {"psycopg"},
     "lakebase": {"databricks"},
     "databricks": {"databricks"},
     "gateway": {"httpx"},
     "arras": {"arras", "umf_core", "umf_access"},
     "tether": {"tether"},
-    "asgi": {"fastapi", "starlette"},
+    "asgi": {"starlette", "uvicorn"},
+    "umf_postgres": {"umf_access", "umf_codegen", "psycopg"},
+    "umf_postgres.local": {
+        "umf_access",
+        "umf_codegen",
+        "psycopg",
+        "pgserver",
+        "opentelemetry",
+    },
+    "hosting.local": {"opentelemetry", "uvicorn", "starlette"},
     "mcp": {"mcp"},
 }
 
@@ -67,6 +79,8 @@ def module(path: Path, root: Path) -> str:
 
 
 def owner(name: str) -> str:
+    if name == "approval_desk" or name.startswith("approval_desk."):
+        return "app.approval"
     if not name.startswith("batten."):
         if name.startswith(("scripts.", "tests.", "docs.helix.site.")) or name in {
             "eslint.config"
