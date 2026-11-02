@@ -16,6 +16,15 @@ under [ADR-015](02-design/adr/ADR-015-typescript-app-ui-delivery.md).
 Inventory checks are included in the quality gate; complete app execution is a
 separate qualification obligation under CONTRACT-011.
 
+## Lintel GraphQL and Relay integration
+
+Owner direction selects a separate Python/FastAPI [Lintel runtime](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/README.md)
+for inclusion in Batten, with GraphQL + Relay and TypeScript operation/fragment
+builds from the same API. REST/OpenAPI product API generation is outside its MVP.
+[SD-002](02-design/solution-designs/SD-002-lintel-graphql-relay.md) records public
+host composition, authority/custody boundaries and required upstream changes.
+This is a planning addition; no Lintel implementation or cohort acceptance is claimed.
+
 ## Fleet operating goal
 
 Batten targets hundreds of integrated applications sharing a complete qualified
