@@ -1,4 +1,4 @@
-name: Storage quality
+name: SDK quality
 on: [push, pull_request]
 permissions:
   contents: read
@@ -20,6 +20,12 @@ jobs:
         run: |
           uv sync --frozen --all-packages
           bun install --frozen-lockfile
+      - name: Assemble pinned optional SDK and application artifacts
+        run: uv run python scripts/prepare_approval.py
       - name: Run common quality recipe and behaviors
         run: |
           uv run python scripts/quality.py
+      - name: Install native browser
+        run: uv run playwright install --with-deps chromium
+      - name: Exercise installed native approval app
+        run: uv run pytest -m integration tests/apps -q

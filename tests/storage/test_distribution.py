@@ -11,22 +11,22 @@ from pathlib import Path
 def test_installed_wheel_has_no_platform_dependencies(tmp_path: Path) -> None:
     root = Path(__file__).resolve().parents[2]
     wheels = tmp_path / "wheels"
-    subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "build",
-            "--wheel",
-            "--no-isolation",
-            "--outdir",
-            str(wheels),
-            str(root / "packages/batten-storage"),
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    wheel = next(wheels.glob("*.whl"))
+    for name in ("storage", "contracts", "runtime", "tables"):
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "build",
+                "--wheel",
+                "--no-isolation",
+                "--outdir",
+                str(wheels),
+                str(root / "packages" / ("batten-" + name)),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
     environment = tmp_path / "installed"
     venv.EnvBuilder(with_pip=False).create(environment)
     python = environment / "bin/python"
@@ -41,7 +41,7 @@ def test_installed_wheel_has_no_platform_dependencies(tmp_path: Path) -> None:
             str(python),
             "--no-deps",
             "--no-index",
-            str(wheel),
+            *map(str, sorted(wheels.glob("*.whl"))),
         ],
         check=True,
         capture_output=True,
@@ -54,7 +54,10 @@ import batten.storage
 assert not any(n.startswith('batten.storage.local') for n in sys.modules)
 assert not importlib.metadata.distribution('novirhyza-batten-storage').requires
 import batten.storage.local
-assert not any(n.split('.')[0] in {'databricks', 'psycopg', 'tether', 'umf', 'arras'} for n in sys.modules)
+import batten.contracts
+import batten.runtime
+import batten.tables
+assert not any(n.split('.')[0] in {'databricks', 'psycopg', 'tether', 'umf_access', 'umf_codegen', 'weft', 'arras', 'starlette', 'opentelemetry'} for n in sys.modules)
 print('installed portable and local imports: no platform dependencies')
 """
     result = subprocess.run(

@@ -1,0 +1,812 @@
+{
+  "umf": "0.10.0",
+  "id": "batten.approval-desk",
+  "title": "Fabricated approval desk",
+  "vocabularies": {
+    "umf.tables": {
+      "version": "0.1.0"
+    }
+  },
+  "modules": [
+    {
+      "id": "approval",
+      "namespace": "batten.examples.approval",
+      "elements": [
+        {
+          "id": "id",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "id"
+        },
+        {
+          "id": "owner",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "owner"
+        },
+        {
+          "id": "title",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "title"
+        },
+        {
+          "id": "state",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "state"
+        },
+        {
+          "id": "revision",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "revision"
+        },
+        {
+          "id": "decided_by",
+          "kind": "field",
+          "scalarType": "string",
+          "cardinality": "one",
+          "nullability": "required",
+          "extensions": {},
+          "name": "decided_by"
+        },
+        {
+          "id": "Request",
+          "kind": "record",
+          "members": [
+            {
+              "module": "approval",
+              "element": "id"
+            },
+            {
+              "module": "approval",
+              "element": "owner"
+            },
+            {
+              "module": "approval",
+              "element": "title"
+            },
+            {
+              "module": "approval",
+              "element": "state"
+            },
+            {
+              "module": "approval",
+              "element": "revision"
+            },
+            {
+              "module": "approval",
+              "element": "decided_by"
+            }
+          ],
+          "keys": [
+            {
+              "id": "primary",
+              "name": "primary",
+              "primary": true,
+              "fields": [
+                {
+                  "module": "approval",
+                  "element": "id"
+                }
+              ]
+            }
+          ],
+          "extensions": {},
+          "name": "Request"
+        }
+      ],
+      "extensions": {
+        "umf.tables": {
+          "profile": "postgresql18/0.1",
+          "tables": [
+            {
+              "id": "requests",
+              "record": {
+                "module": "approval",
+                "element": "Request"
+              },
+              "name": "requests",
+              "columns": [
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  "name": "id",
+                  "nativeType": {
+                    "kind": "text"
+                  },
+                  "immutable": true
+                },
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  "name": "owner",
+                  "nativeType": {
+                    "kind": "text"
+                  },
+                  "immutable": true
+                },
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  "name": "title",
+                  "nativeType": {
+                    "kind": "text"
+                  }
+                },
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  "name": "state",
+                  "nativeType": {
+                    "kind": "text"
+                  }
+                },
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  "name": "revision",
+                  "nativeType": {
+                    "kind": "text"
+                  }
+                },
+                {
+                  "field": {
+                    "module": "approval",
+                    "element": "decided_by"
+                  },
+                  "name": "decided_by",
+                  "nativeType": {
+                    "kind": "text"
+                  }
+                }
+              ],
+              "indexes": [],
+              "checks": [
+                {
+                  "name": "request_state",
+                  "expression": {
+                    "op": "in",
+                    "arg": {
+                      "op": "field",
+                      "field": {
+                        "module": "approval",
+                        "element": "state"
+                      }
+                    },
+                    "values": [
+                      {
+                        "string": "pending"
+                      },
+                      {
+                        "string": "approved"
+                      },
+                      {
+                        "string": "rejected"
+                      }
+                    ]
+                  },
+                  "id": "request_state"
+                }
+              ],
+              "foreignKeys": [],
+              "policy": {
+                "mode": "native-rls",
+                "person": {
+                  "select": {
+                    "kind": "any",
+                    "rules": [
+                      {
+                        "kind": "owner",
+                        "field": {
+                          "module": "approval",
+                          "element": "owner"
+                        }
+                      },
+                      {
+                        "kind": "memberOfRole",
+                        "role": "reviewers"
+                      }
+                    ]
+                  },
+                  "insert": {
+                    "kind": "owner",
+                    "field": {
+                      "module": "approval",
+                      "element": "owner"
+                    }
+                  },
+                  "update": {
+                    "kind": "any",
+                    "rules": [
+                      {
+                        "kind": "owner",
+                        "field": {
+                          "module": "approval",
+                          "element": "owner"
+                        }
+                      },
+                      {
+                        "kind": "memberOfRole",
+                        "role": "reviewers"
+                      }
+                    ]
+                  },
+                  "delete": {
+                    "kind": "deny"
+                  }
+                },
+                "batch": {
+                  "select": {
+                    "kind": "deny"
+                  },
+                  "insert": {
+                    "kind": "deny"
+                  },
+                  "update": {
+                    "kind": "deny"
+                  },
+                  "delete": {
+                    "kind": "deny"
+                  }
+                }
+              }
+            }
+          ],
+          "seedSets": [],
+          "commands": [
+            {
+              "version": "umf.table-operation/0.1",
+              "id": "list_requests",
+              "parameters": [],
+              "consistency": "statement",
+              "replay": "none",
+              "body": {
+                "kind": "read",
+                "table": "requests",
+                "fields": [
+                  {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "decided_by"
+                  }
+                ],
+                "where": {
+                  "op": "all"
+                },
+                "orderBy": [
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "id"
+                    },
+                    "direction": "asc"
+                  }
+                ],
+                "result": "page",
+                "cursorKey": "primary",
+                "maxRows": 50
+              }
+            },
+            {
+              "version": "umf.table-operation/0.1",
+              "id": "get_request",
+              "parameters": [
+                {
+                  "id": "id",
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  }
+                }
+              ],
+              "consistency": "statement",
+              "replay": "none",
+              "body": {
+                "kind": "read",
+                "table": "requests",
+                "fields": [
+                  {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "decided_by"
+                  }
+                ],
+                "where": {
+                  "op": "eq",
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  "value": {
+                    "kind": "parameter",
+                    "parameter": "id"
+                  }
+                },
+                "orderBy": [],
+                "result": "optional",
+                "maxRows": 1
+              }
+            },
+            {
+              "version": "umf.table-operation/0.1",
+              "id": "submit_request",
+              "parameters": [
+                {
+                  "id": "id",
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  }
+                },
+                {
+                  "id": "title",
+                  "field": {
+                    "module": "approval",
+                    "element": "title"
+                  }
+                },
+                {
+                  "id": "revision",
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  }
+                }
+              ],
+              "consistency": "transaction",
+              "replay": "caller-key-required",
+              "body": {
+                "kind": "insert",
+                "table": "requests",
+                "values": [
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "id"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "id"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "owner"
+                    },
+                    "value": {
+                      "kind": "currentPrincipal"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "title"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "title"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "state"
+                    },
+                    "value": {
+                      "kind": "literal",
+                      "value": {
+                        "string": "pending"
+                      }
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "revision"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "revision"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "decided_by"
+                    },
+                    "value": {
+                      "kind": "literal",
+                      "value": {
+                        "string": ""
+                      }
+                    }
+                  }
+                ],
+                "returning": [
+                  {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "decided_by"
+                  }
+                ],
+                "maxRows": 1
+              }
+            },
+            {
+              "version": "umf.table-operation/0.1",
+              "id": "edit_request",
+              "parameters": [
+                {
+                  "id": "id",
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  }
+                },
+                {
+                  "id": "title",
+                  "field": {
+                    "module": "approval",
+                    "element": "title"
+                  }
+                },
+                {
+                  "id": "expected_revision",
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  }
+                },
+                {
+                  "id": "revision",
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  }
+                }
+              ],
+              "consistency": "transaction",
+              "replay": "caller-key-required",
+              "body": {
+                "kind": "update",
+                "table": "requests",
+                "where": {
+                  "op": "and",
+                  "args": [
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "id"
+                      },
+                      "value": {
+                        "kind": "parameter",
+                        "parameter": "id"
+                      }
+                    },
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "revision"
+                      },
+                      "value": {
+                        "kind": "parameter",
+                        "parameter": "expected_revision"
+                      }
+                    },
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "state"
+                      },
+                      "value": {
+                        "kind": "literal",
+                        "value": {
+                          "string": "pending"
+                        }
+                      }
+                    },
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "owner"
+                      },
+                      "value": {
+                        "kind": "currentPrincipal"
+                      }
+                    }
+                  ]
+                },
+                "values": [
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "title"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "title"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "revision"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "revision"
+                    }
+                  }
+                ],
+                "returning": [
+                  {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "decided_by"
+                  }
+                ],
+                "maxRows": 1
+              }
+            },
+            {
+              "version": "umf.table-operation/0.1",
+              "id": "decide_request",
+              "parameters": [
+                {
+                  "id": "id",
+                  "field": {
+                    "module": "approval",
+                    "element": "id"
+                  }
+                },
+                {
+                  "id": "state",
+                  "field": {
+                    "module": "approval",
+                    "element": "state"
+                  }
+                },
+                {
+                  "id": "expected_revision",
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  }
+                },
+                {
+                  "id": "revision",
+                  "field": {
+                    "module": "approval",
+                    "element": "revision"
+                  }
+                }
+              ],
+              "consistency": "transaction",
+              "replay": "caller-key-required",
+              "body": {
+                "kind": "update",
+                "table": "requests",
+                "where": {
+                  "op": "and",
+                  "args": [
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "id"
+                      },
+                      "value": {
+                        "kind": "parameter",
+                        "parameter": "id"
+                      }
+                    },
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "revision"
+                      },
+                      "value": {
+                        "kind": "parameter",
+                        "parameter": "expected_revision"
+                      }
+                    },
+                    {
+                      "op": "eq",
+                      "field": {
+                        "module": "approval",
+                        "element": "state"
+                      },
+                      "value": {
+                        "kind": "literal",
+                        "value": {
+                          "string": "pending"
+                        }
+                      }
+                    },
+                    {
+                      "op": "ne",
+                      "field": {
+                        "module": "approval",
+                        "element": "owner"
+                      },
+                      "value": {
+                        "kind": "currentPrincipal"
+                      }
+                    }
+                  ]
+                },
+                "values": [
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "state"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "state"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "revision"
+                    },
+                    "value": {
+                      "kind": "parameter",
+                      "parameter": "revision"
+                    }
+                  },
+                  {
+                    "field": {
+                      "module": "approval",
+                      "element": "decided_by"
+                    },
+                    "value": {
+                      "kind": "currentPrincipal"
+                    }
+                  }
+                ],
+                "returning": [
+                  {
+                    "module": "approval",
+                    "element": "id"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "owner"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "title"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "state"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "revision"
+                  },
+                  {
+                    "module": "approval",
+                    "element": "decided_by"
+                  }
+                ],
+                "maxRows": 1
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

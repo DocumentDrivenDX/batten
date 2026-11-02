@@ -1,5 +1,16 @@
 # Batten review packet
 
+## First local reference application
+
+The owner authorized building the approval desk after the enterprise app packet
+was pushed as `27f0876`. Its [run instructions](../../examples/approval-desk/README.md)
+use original UMF/Weft tables on PostgreSQL 18 and an authored TypeScript UI.
+[ADR-016](02-design/adr/ADR-016-local-approval-stack.md),
+[CONTRACT-012](02-design/contracts/CONTRACT-012-local-operation-host.md), and
+[TD-101](reference-apps/approval-desk/specs/02-design/technical-designs/TD-101-approval-desk.md)
+bound this authorized implementation. Historical review holds below concern
+other slices; this app does not qualify the complete fleet or reference corpus.
+
 ## Enterprise micro-apps and authoring workflow
 
 The [scope evaluation](01-frame/feasibility-study.md) distinguishes design fit,

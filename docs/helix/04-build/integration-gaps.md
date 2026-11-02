@@ -82,9 +82,11 @@ No reliable task billing meter is available. Include verification in each build.
 ## Continuation Evidence
 
 Use ddx as the live tracker and `01-frame/work-items.jsonl` as its review export.
-Current work is the independently scoped corpus and workflow task batten-4192222e.
-Select approval-desk as the proposed first complete slice (INT-01/02/03/05/06/13),
-then entity-directory for the graph path and evidence-library for row/blob recovery.
+Corpus/workflow task batten-4192222e is committed and pushed as 27f0876.
+The owner selected the first app build; batten-b6c932f2 implements the bounded
+local approval desk (INT-01/02/03/05/06/13) under ADR-016 and CONTRACT-012.
+The complete integration tasks remain open beyond that exercised subset.
+Follow with entity-directory for the graph path and evidence-library for row/blob recovery.
 These are planning defaults, not fabricated production priorities or deadlines.
 
 ## Validation Plan

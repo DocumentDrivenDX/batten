@@ -103,3 +103,9 @@ policy. Those values block production qualification, not fabricated specificatio
 The governing story's positive and negative criteria pass through exact installed
 native integrations and real client/host paths, with safe required telemetry.
 The corpus inventory alone establishes none of those execution claims.
+
+## Local registry requirement
+
+**FR-5**: Discover the approval desk through the local runtime registry, with a
+description and packaged visual thumbnail. The Batten brand returns to that
+registry. App-specific URL and session paths preserve independent app bindings.

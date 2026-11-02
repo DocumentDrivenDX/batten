@@ -1,0 +1,108 @@
+{
+  "application": "MA-001",
+  "checks": {
+    "fast_quality": {
+      "command": "uv run --locked --inexact python scripts/quality.py",
+      "native_cases_excluded": 2,
+      "passed": 18
+    },
+    "final_lint": {
+      "command": "uv run --locked --inexact python scripts/quality.py --lint",
+      "result": "passed"
+    },
+    "governed_artifacts": "ADR-016, CONTRACT-012 and approval-desk specs validated with the bound installed HELIX catalog",
+    "native_browser": {
+      "command": ".venv/bin/python -m pytest -m integration tests/apps -x -q",
+      "passed": 2,
+      "tests": [
+        "test_approval_desk_native_browser_journey",
+        "test_registry_lists_visual_apps_and_brand_returns_home"
+      ]
+    },
+    "registry_visual": {
+      "desktop_viewport": [
+        1365,
+        900
+      ],
+      "mobile_horizontal_overflow": false,
+      "mobile_viewport": [
+        390,
+        844
+      ],
+      "reviewed": "desktop and mobile renderings inspected locally",
+      "thumbnail_loaded": true
+    },
+    "test_functions": 17
+  },
+  "cohort": {
+    "model_sha256": "8c13d687fa44837aee3137c33b3a3a61966a002bd69ab2ea4f2a59f21857749f",
+    "packages": {
+      "annotated-types": "0.8.0",
+      "anyio": "4.16.0",
+      "click": "8.5.0",
+      "fasteners": "0.20",
+      "h11": "0.16.0",
+      "idna": "3.20",
+      "mini-racer": "0.14.1",
+      "novirhyza-batten-approval-desk": "0.1.0a1",
+      "novirhyza-batten-asgi": "0.1.0a1",
+      "novirhyza-batten-contracts": "0.1.0a1",
+      "novirhyza-batten-local": "0.1.0a1",
+      "novirhyza-batten-runtime": "0.1.0a1",
+      "novirhyza-batten-tables": "0.1.0a1",
+      "novirhyza-batten-umf-postgres": "0.1.0a1",
+      "opentelemetry-api": "1.45.2",
+      "opentelemetry-instrumentation": "0.66b2",
+      "opentelemetry-instrumentation-dbapi": "0.66b2",
+      "opentelemetry-instrumentation-psycopg": "0.66b2",
+      "opentelemetry-sdk": "1.45.2",
+      "opentelemetry-semantic-conventions": "0.66b2",
+      "packaging": "26.3",
+      "pgserver-pg18": "18.6.1",
+      "platformdirs": "4.14.3",
+      "psutil": "7.2.2",
+      "psycopg": "3.3.6",
+      "psycopg-binary": "3.3.6",
+      "pydantic": "2.14.2",
+      "pydantic_core": "2.50.2",
+      "starlette": "1.10.0",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "umf-codegen": "0.1.0a1",
+      "umf_access": "0.1.0.dev4",
+      "uvicorn": "0.54.0",
+      "weft-sql": "0.4.51",
+      "wrapt": "2.5.2"
+    },
+    "python": "3.11",
+    "umf_revision": "b12a489844f29947ee52115b90f4ccc5c8bc5032",
+    "wheels": {
+      "novirhyza_batten_approval_desk-0.1.0a1-py3-none-any.whl": "acc016451df355d51710c52147c7b60aae763d9fb65779b02ae5b85dfde45443",
+      "novirhyza_batten_asgi-0.1.0a1-py3-none-any.whl": "a008450f6e47d9eb85ec7910ad62541776823db2a30689cc67ff78e655cf3538",
+      "novirhyza_batten_contracts-0.1.0a1-py3-none-any.whl": "2089456bf773009be54674a3b2ce1701e85b611aad1bbb0d5724f089e033bc62",
+      "novirhyza_batten_local-0.1.0a1-py3-none-any.whl": "ff6aba163acb6627c70858652416239306ee515568b5d3a242ad7e2f0c4d8d18",
+      "novirhyza_batten_runtime-0.1.0a1-py3-none-any.whl": "40edf328ccb44bf0d090e2351360373e5321e400556da4d3434b1dcc717e490c",
+      "novirhyza_batten_tables-0.1.0a1-py3-none-any.whl": "73840a1c061593dbadaa4e6a1094913de3b07169885beca1f3c6ffd51ae3a6d3",
+      "novirhyza_batten_umf_postgres-0.1.0a1-py3-none-any.whl": "c714fd285d8d41d756edeac96262a581fabb6cacba7f6594db47675c41f16dea",
+      "umf_access-0.1.0.dev4-py3-none-any.whl": "1d8f2464e02191d00234429d702550f5833402c42d7c6214b9c524bc845a6b17",
+      "umf_codegen-0.1.0a1-py3-none-any.whl": "defb9ad500c91ef51bb9c5a85edbbb7643c6b4a21902d3ade9cf2ff46c87e6af"
+    }
+  },
+  "date": "2026-11-02",
+  "evidence_limits": "This is one installed local table-app cohort. It does not establish full corpus, other-host, generic semantic generation, OTLP receiver or production qualification; the strict full-corpus gate continues to refuse.",
+  "kind": "local-execution-evidence",
+  "observed_behaviors": [
+    "native original-UMF deployment and table execution on PostgreSQL 18",
+    "independent attributable approval",
+    "stale revision refusal",
+    "reviewer self-decision refusal with unchanged pending record",
+    "foreign/anonymous/revoked non-disclosure",
+    "actual committed mutation response loss and original receipt observation without duplicate rows",
+    "installed CLI and restart persistence",
+    "linked database/host spans with request text, SQL and connection details excluded from durable capture",
+    "registry description and loaded thumbnail, app entry and return navigation",
+    "app-scoped cookie path and refusal of unregistered or legacy root API routes"
+  ],
+  "qualification": "exercised local preview",
+  "schema": 1
+}

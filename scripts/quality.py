@@ -18,9 +18,10 @@ def main() -> None:
         ["ruff", "format", "--check", "."],
         ["pyright"],
         ["bun", "run", "lint"],
+        ["bun", "run", "typecheck"],
     ]
     if not args.lint:
-        commands.append([sys.executable, "-m", "pytest"])
+        commands.append([sys.executable, "-m", "pytest", "-m", "not integration"])
     for command in commands:
         subprocess.run(command, check=True)
 

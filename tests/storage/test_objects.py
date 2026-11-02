@@ -139,40 +139,31 @@ async def test_conditional_competing_publication(
     await stores[0].write("review", b"explicit", condition=Any())
 
 
-async def test_range_pinning_and_eof(local: tuple[LocalProvider, Grant]) -> None:
-    provider, grant = local
-    store = provider.bind(grant)
-    info = (await store.write("binary", b"0123456789")).info
-    async with store.open_read(
-        "binary", offset=2, length=4, condition=Matches(info.version)
-    ) as stream:
-        assert b"".join([part async for part in stream]) == b"2345"
-        assert stream.selection.length == 4
-    async with store.open_read("binary", offset=10) as stream:
-        assert [part async for part in stream] == []
-    with pytest.raises(StorageError, match="range_not_satisfiable"):
-        async with store.open_read("binary", offset=11):
-            pass
-    await store.write("binary", b"changed", condition=Any())
-    with pytest.raises(StorageError, match="precondition_failed"):
-        async with store.open_read("binary", condition=Matches(info.version)):
-            pass
-
-
-async def test_stream_integrity_and_partial_close(
+async def test_pinned_read_ranges_integrity_and_partial_close(
     local: tuple[LocalProvider, Grant],
 ) -> None:
     provider, grant = local
     store = provider.bind(grant)
-    body = b"x" * 64
+    body = b"0123456789" * 8
     digest = Digest("sha256", hashlib.sha256(body).hexdigest())
     receipt = await store.write("verified", body, expected_digest=digest)
+    info = receipt.info
     assert receipt.verification is not None and receipt.verification.scope == "source"
     async with store.open_read("verified", expected_digest=digest) as stream:
         assert b"".join([part async for part in stream]) == body
         assert (
             stream.verification is not None and stream.verification.scope == "delivered"
         )
+    async with store.open_read(
+        "verified", offset=2, length=4, condition=Matches(info.version)
+    ) as stream:
+        assert b"".join([part async for part in stream]) == b"2345"
+        assert stream.selection.length == 4
+    async with store.open_read("verified", offset=len(body)) as stream:
+        assert [part async for part in stream] == []
+    with pytest.raises(StorageError, match="range_not_satisfiable"):
+        async with store.open_read("verified", offset=len(body) + 1):
+            pass
     async with store.open_read("verified", expected_digest=digest) as stream:
         await anext(stream.__aiter__())
     assert stream.verification is None
@@ -184,6 +175,10 @@ async def test_stream_integrity_and_partial_close(
     with pytest.raises(StorageError, match="integrity_mismatch"):
         async with store.open_read("verified", expected_digest=wrong) as stream:
             [part async for part in stream]
+    await store.write("verified", b"changed", condition=Any())
+    with pytest.raises(StorageError, match="precondition_failed"):
+        async with store.open_read("verified", condition=Matches(info.version)):
+            pass
 
 
 async def test_transfer_limits_preserve_destination(

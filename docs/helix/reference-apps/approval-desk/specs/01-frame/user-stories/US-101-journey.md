@@ -43,6 +43,8 @@ They remain independent of whichever platform implementation is being qualified.
 - [ ] **US-101-AC4** — Given response loss or cancellation, when the actor inspects original work, then actual effects and uncertainty remain attributable without a fresh blind command.
 - [ ] **US-101-AC5** — Given the same business inputs on another supported surface or cohort, when the journey runs, then meaning and authority are preserved; unsupported required behavior refuses explicitly.
 
+- [ ] **US-101-AC6** — Given the local runtime registry, when I open the approval desk card and later click the Batten brand, then I see the app description and visual thumbnail, enter its own URL, and return to the registry without gaining business authority from the listing.
+
 ## Edge Cases
 
 - Empty permitted data returns an authorized empty state, not hidden counts.

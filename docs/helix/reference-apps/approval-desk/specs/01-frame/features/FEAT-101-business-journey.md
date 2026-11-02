@@ -69,3 +69,9 @@ in the app test plan. The app has no authority to modify those shared contracts.
 ## Out of Scope
 
 New platform engines, privileged UI-side data access, production policy or deployment.
+
+## Local entry point
+
+**FR-5**: Open the app from the local runtime registry, using a card with its
+title, description and packaged visual thumbnail. The Batten brand returns to
+the registry. App-specific API and session paths keep app bindings independent.

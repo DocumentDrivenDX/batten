@@ -15,7 +15,11 @@ def edge(source: str, target: str, symbol: str) -> None:
     current = owner(source)
     if target.split(".")[0] == "praxis":
         raise ValueError(f"{source}: private host dependency")
-    if target.startswith("batten."):
+    if (
+        target.startswith("batten.")
+        or target == "approval_desk"
+        or target.startswith("approval_desk.")
+    ):
         destination = owner(target)
         if current != "tools" and destination != current:
             if destination not in ROOTS[current]:
@@ -26,7 +30,10 @@ def edge(source: str, target: str, symbol: str) -> None:
                 raise ValueError(f"{source}: private export {target}.{symbol}")
     elif current != "tools":
         top = target.split(".")[0]
-        if top in {"importlib", "runpy", "subprocess"}:
+        if (
+            top in {"importlib", "runpy", "subprocess"}
+            and target != "importlib.resources"
+        ):
             raise ValueError(
                 f"{source}: process/loader needs an explicit reviewed boundary"
             )

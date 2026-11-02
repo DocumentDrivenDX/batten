@@ -45,3 +45,12 @@ Use the [Batten app workflow](docs/helix/04-build/batten-app-workflow.md) and
 uses authored TypeScript apps; table and graph persistence integrate existing
 UMF/PostgreSQL and UMF/Truss capabilities. These specs are qualification targets,
 not twelve implemented apps.
+
+## Run the first reference application
+
+The [approval desk](examples/approval-desk/README.md) uses original UMF tables and
+Weft on a dedicated PostgreSQL 18 pgserver, a modular local Batten host and an
+authored TypeScript UI. Start with `just approval-prepare`, explicitly initialize
+with `just approval-init`, then run `just approval`. The installed app opens at
+<http://127.0.0.1:8820/>. Native/browser qualification is `just approval-test`;
+`just check` stays independent of database processes.

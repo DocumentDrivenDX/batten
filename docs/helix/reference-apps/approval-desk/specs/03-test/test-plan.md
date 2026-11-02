@@ -44,9 +44,10 @@ story expectations. No app result may be inferred from inventory validation.
 | US-101 permission/recovery classes | Same app story test plan | Native integration | Current authority and durable effects cross boundaries |
 | US-101 surface/candidate classes | Same app story test plan | Real browser plus separate CLI parity observation | TypeScript and server behavior require distinct observations |
 
-The build handoff must author the per-criterion story test plan and native model/
-technical design from installed HELIX templates before executable app code.
-No preselected test function or framework is fabricated before that contract exists.
+The authorized local build uses [[SD-101-approval-desk]],
+[[TD-101-approval-desk]] and [[STP-101-approval-desk]] for exact native/model/browser
+allocation. Playwright exercises installed artifacts on a dedicated PostgreSQL 18
+cluster; the broad corpus/receiver obligations remain distinct from that local proof.
 
 ## Secondary Paths (P1-P2)
 

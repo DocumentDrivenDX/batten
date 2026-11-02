@@ -8,12 +8,12 @@ from batten.storage.local import LocalProvider, create_store
 from conftest import Grant
 
 
-async def test_listing_projection_and_progress(
+async def test_listing_projection_progress_and_scoped_cursors(
     local: tuple[LocalProvider, Grant],
 ) -> None:
     provider, grant = local
     store = provider.bind(grant)
-    for key in ["a", "b", "folder/c", "folder/deep/d"]:
+    for key in ["a", "b", "c", "folder/c", "folder/deep/d"]:
         await store.write(key, b"fabricated")
     cursor = None
     keys: list[str] = []
@@ -26,20 +26,12 @@ async def test_listing_projection_and_progress(
         cursor = page.next_cursor
         if cursor is None:
             break
-    assert sorted(keys) == ["a", "b"] and prefixes == ["folder/"]
+    assert sorted(keys) == ["a", "b", "c"] and prefixes == ["folder/"]
     page = await store.list(prefix="folder/", recursive=True, detail="basic", limit=2)
     assert sorted(item.key for item in page.items) == ["folder/c", "folder/deep/d"]
     assert all(getattr(item, "size_bytes", None) is None for item in page.items)
     assert page.common_prefixes == ()
 
-
-async def test_listing_scope_and_cursor_binding(
-    local: tuple[LocalProvider, Grant],
-) -> None:
-    provider, grant = local
-    store = provider.bind(grant)
-    for key in ["a", "b", "c"]:
-        await store.write(key, b"fabricated")
     grant.hidden.add("b")
     page = await store.list(limit=1)
     assert page.next_cursor is not None

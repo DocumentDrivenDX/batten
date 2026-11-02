@@ -24,6 +24,8 @@ def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
             False,
         ),
         ("storage/a.py", "import databricks.sdk\n__all__ = []\n", False),
+        ("runtime/a.py", "import psycopg\n__all__ = []\n", False),
+        ("tables/a.py", "import umf_access\n__all__ = []\n", False),
         ("storage/a.py", "__all__ = ['unexpected']\n", False),
         ("storage/a.py", "import praxis.database\n__all__ = []\n", False),
         (

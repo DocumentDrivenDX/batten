@@ -1,6 +1,8 @@
+import tsParser from "@typescript-eslint/parser";
+
 export default [{
-  files: ["**/*.js", "**/*.mjs"],
-  languageOptions: { ecmaVersion: "latest", sourceType: "module" },
+  files: ["**/*.js", "**/*.mjs", "**/*.ts"],
+  languageOptions: { parser: tsParser, ecmaVersion: "latest", sourceType: "module" },
   rules: {
     complexity: ["error", 10],
     "max-lines-per-function": ["error", { max: 60, skipBlankLines: true, skipComments: true }],

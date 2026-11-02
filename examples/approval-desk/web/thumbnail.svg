@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+<rect width="640" height="360" fill="#edf1e7"/>
+<rect x="30" y="28" width="580" height="310" rx="10" fill="#f8f9f4" stroke="#d3ddcc"/>
+<path d="M30 67H610" stroke="#dce4d5"/>
+<text x="48" y="53" font-family="Arial,sans-serif" font-size="14" fill="#315e45" font-weight="700">▥ batten</text>
+<text x="116" y="53" font-family="Arial,sans-serif" font-size="10" fill="#617158">/ Approval desk</text>
+<circle cx="551" cy="48" r="4" fill="#315e45"/><text x="563" y="52" font-family="Arial,sans-serif" font-size="9" fill="#617158">Local</text>
+<text x="49" y="101" font-family="Georgia,serif" font-size="23" fill="#26392e">A clear path to a decision.</text>
+<text x="49" y="120" font-family="Arial,sans-serif" font-size="9" fill="#617158">Submit a request. Review the current record.</text>
+<rect x="49" y="140" width="154" height="176" rx="7" fill="#fff" stroke="#d7e1cf"/>
+<text x="62" y="162" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#315e45">Make a request</text>
+<text x="62" y="184" font-family="Arial,sans-serif" font-size="8" fill="#617158">Request summary</text>
+<rect x="62" y="193" width="128" height="63" rx="4" fill="#fafcf8" stroke="#acbba4"/>
+<path d="M72 207H164M72 218H152M72 229H134" stroke="#c3cebb" stroke-width="3" stroke-linecap="round"/>
+<rect x="62" y="271" width="128" height="27" rx="4" fill="#315e45"/>
+<text x="77" y="288" font-family="Arial,sans-serif" font-size="9" fill="#fff">Submit for review →</text>
+<rect x="216" y="140" width="374" height="176" rx="7" fill="#fff" stroke="#d7e1cf"/>
+<text x="230" y="161" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#315e45">Requests</text>
+<path d="M216 175H590M375 175V316" stroke="#e1e8da"/>
+<rect x="217" y="177" width="157" height="61" fill="#f0f5e9"/>
+<path d="M218 179V235" stroke="#315e45" stroke-width="3"/>
+<text x="230" y="196" font-family="Arial,sans-serif" font-size="9" fill="#315e45">Research workspace access</text>
+<rect x="230" y="208" width="64" height="15" rx="3" fill="#f3eddb"/>
+<text x="237" y="219" font-family="Arial,sans-serif" font-size="7" fill="#776225">Pending review</text>
+<text x="230" y="258" font-family="Arial,sans-serif" font-size="9" fill="#315e45">Equipment request</text>
+<rect x="230" y="270" width="47" height="15" rx="3" fill="#e9f1e1"/>
+<text x="237" y="281" font-family="Arial,sans-serif" font-size="7" fill="#4d6b36">Approved</text>
+<rect x="390" y="189" width="65" height="15" rx="3" fill="#f3eddb"/>
+<text x="397" y="200" font-family="Arial,sans-serif" font-size="7" fill="#776225">Pending review</text>
+<text x="390" y="228" font-family="Georgia,serif" font-size="16" fill="#26392e">Research workspace</text>
+<text x="390" y="246" font-family="Georgia,serif" font-size="16" fill="#26392e">access</text>
+<path d="M390 261H514" stroke="#dce5d4" stroke-width="3" stroke-linecap="round"/>
+<rect x="390" y="278" width="85" height="23" rx="4" fill="#315e45"/>
+<text x="412" y="293" font-family="Arial,sans-serif" font-size="8" fill="#fff">Approve</text>
+<rect x="483" y="278" width="90" height="23" rx="4" fill="#fff" stroke="#d5bfb0"/>
+<text x="513" y="293" font-family="Arial,sans-serif" font-size="8" fill="#8c513f">Reject</text>
+</svg>
