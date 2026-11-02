@@ -1,9 +1,11 @@
-<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/d02609340a7aa763 -->
+<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_reader_review/50aeb3c589c8d7e5 -->
 <!-- helix:source docs/helix/00-discover/product-vision.md sha256:7a27692a25188d22 -->
-<!-- helix:source docs/helix/01-frame/prd.md sha256:e3d11b5c3fe76599 -->
+<!-- helix:source docs/helix/01-frame/prd.md sha256:e50a20aa72953aa2 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 
 <!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
+
+<!-- helix:source docs/helix/04-build/batten-app-workflow.md sha256:4d56d64a8364c75c -->
 
 # Batten
 
@@ -47,6 +49,8 @@ A provider must satisfy the required interface and exact compatibility checks. A
 
 
 ## Explore the design
+
+Enterprise reference apps have independent HELIX specification scopes and shared conformance obligations. The initial UI path is a TypeScript app. Inventory validation checks the specs; complete app support requires actual client, host and provider evidence.
 
 The repository contains requirements, contracts and a proposed architecture. The first source implementation supplies optional local object storage; its package is built and installed in isolated tests. The complete application runtime remains in design. The interactive explorer illustrates those contracts; it does not run or deploy an application.
 

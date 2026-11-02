@@ -1,11 +1,11 @@
-<!-- helix:publish audience=developer page=hosting kind=explanation voice=onboarding budget=800 reviewed=2026-10-29/microsite_reader_review/fda22f74ac68bf22 -->
+<!-- helix:publish audience=developer page=hosting kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_reader_review/fda22f74ac68bf22 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-004-host-profiles.md sha256:4f792bde222396d6 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-008-independent-composition-axes.md sha256:55626555379d1780 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-001-public-host-api.md sha256:496f18dd0d526258 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-004-public-async-host-api.md sha256:7e563f0b689d1140 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-006-typed-file-configuration.md sha256:d693d339350ec93e -->
 
-<!-- helix:source docs/helix/01-frame/prd.md sha256:e3d11b5c3fe76599 -->
+<!-- helix:source docs/helix/01-frame/prd.md sha256:e50a20aa72953aa2 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 
 # Choose a host

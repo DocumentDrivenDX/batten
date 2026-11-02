@@ -13,6 +13,7 @@ def main() -> None:
     args = parser.parse_args()
     commands = [
         [sys.executable, "scripts/check_boundaries.py", "--base", "HEAD"],
+        [sys.executable, "scripts/check_micro_apps.py"],
         ["ruff", "check", "."],
         ["ruff", "format", "--check", "."],
         ["pyright"],

@@ -16,6 +16,37 @@ ddx:
 
 # Batten test strategy: composition and first-host slice
 
+## Enterprise reference-app corpus
+
+FR-48 and FEAT-007 add the independently scoped corpus in
+`../reference-apps/catalog.json`, governed by CONTRACT-011 and ADR-014/015.
+Each app owns its PRD, feature, story, fabricated fixtures and project test plan.
+The app build handoff adds exact native models, technical design and per-criterion
+story test plans before executable app work. The SDK does not duplicate their
+business acceptance matrices here.
+
+| Criterion class | Primary evidence | Required distinction |
+| --- | --- | --- |
+| US-007 scope/inventory integrity | Shared inventory gate and catalog artifact validation | Metadata integrity only, no app execution |
+| US-007 corrupt roots/identity/obligations | Existing quality-gate negative controls | Actual checker rejects bad input |
+| US-007 unavailable execution qualification | Existing quality-gate strict-mode observation | Nonzero refusal; no passing skip |
+| App domain outcomes and current authority | Public client/host/native provider journey | Independent expectations, real PostgreSQL 18/Truss where selected |
+| Native model/action behavior | Existing UMF/provider conformance plus Batten binding proof | No new ORM, graph engine or action language |
+| Authored TypeScript UI | Actual browser journey | Explicit accessibility/state/outcome tests; not automatic declarative UI coverage |
+| Agent/model behavior | Scripted repeatable API and separate exact model API evidence | Fixtures cannot establish live model integration or accuracy |
+| Candidate host/cohort | Replay original app intent and native recovery constraints | No global portability or cross-service transaction inference |
+
+`scripts/check_micro_apps.py` runs in the common quality recipe, hook path and CI.
+The existing `test_import_cycle_private_and_inventory_controls` behavior exercises
+duplicate identity, escaped root and missing obligation cases plus strict-mode
+refusal, without increasing the measured function ceiling. Root and app-local
+artifact validation use the installed HELIX catalog. Other lifecycle, authority,
+observation and platform tests remain required; a catalog pass cannot replace them.
+
+The integration queue is `../04-build/integration-gaps.md`. Complete-app execution
+remains unqualified until its trusted runner and public integration closure exist.
+Missing required positive paths fail qualification; they are not accepted skips.
+
 ## Strategy
 
 Prove the first P0 composition/hosting/UI boundary through public behavior before

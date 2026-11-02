@@ -1,5 +1,21 @@
 # Batten review packet
 
+## Enterprise micro-apps and authoring workflow
+
+The [scope evaluation](01-frame/feasibility-study.md) distinguishes design fit,
+current component evidence and capabilities needing another qualified platform.
+The [reference-app library](reference-apps/README.md) supplies independent HELIX
+specification roots, fabricated data and business invariants for twelve patterns.
+Use the [Batten app workflow](04-build/batten-app-workflow.md) within a selected
+app directory. Installed HELIX owns templates and prompts; no catalog is vendored.
+
+The [integration queue](04-build/integration-gaps.md) prioritizes existing platform
+projects: UMF/PostgreSQL tables, UMF/Truss graphs and the other public capabilities.
+Initial UI delivery is an authored TypeScript app, with room for ux-builder,
+under [ADR-015](02-design/adr/ADR-015-typescript-app-ui-delivery.md).
+Inventory checks are included in the quality gate; complete app execution is a
+separate qualification obligation under CONTRACT-011.
+
 ## Fleet operating goal
 
 Batten targets hundreds of integrated applications sharing a complete qualified

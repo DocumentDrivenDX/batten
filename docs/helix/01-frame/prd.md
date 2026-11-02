@@ -293,6 +293,14 @@ No additional capability is assigned this priority by the owner.
 
 ### Subsystem: Author tooling and qualification
 
+- **FR-48** — A maintained enterprise micro-app library must qualify representative
+  user journeys, permission boundaries and failure recovery across selected module
+  combinations. Each app has an independently scoped HELIX specification tree,
+  fabricated fixtures and traceable conformance obligations. Shared test machinery
+  must preserve each app's distinct business invariants. Specification checks do
+  not establish running-app support. Initial browser apps use application-authored
+  TypeScript; declarative UI generation remains a separate capability to qualify.
+
 - **FR-29** — Shared conformance checks validate declarations, gates, resources,
   artifacts, platform boundaries, compatibility, and documentation against observable behavior.
   Hosts require application assertions and test evidence covering declared behavior,

@@ -23,6 +23,12 @@ ddx:
 
 ## Overview
 
+The initial reference-app delivery uses application-authored TypeScript browser
+apps through the public client and host context. ux-builder can supply supported
+design assets and tooling. This delivery decision does not claim that Batten has
+a declarative UI compiler or renderer; those remain the required future state
+below. ADR-015 governs this staged delivery boundary.
+
 Applications must expose declared operations through host-contained UI and other
 surfaces. The ux-builder integration must reuse its design workflow, components,
 themes and audit tools while binding to native UMF meaning and Batten's public client.
