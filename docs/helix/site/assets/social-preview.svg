@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#f7f6f0"/>
+<path d="M0 568h1200" stroke="#d6d9ce"/>
+<rect x="840" width="360" height="630" fill="#183a3a"/>
+<g stroke="#e1edcf" fill="none" stroke-width="9"><path d="M910 155h220M910 260h220M910 365h220M955 115v290M1085 115v290"/></g>
+<g font-family="Arial, sans-serif" fill="#183a3a">
+<text x="64" y="110" font-size="52" font-weight="700">batten.</text>
+<text x="66" y="172" font-size="16" letter-spacing="3">A NOVIRHYZA APPLICATION SDK</text>
+<text x="60" y="285" font-size="74" font-weight="700">Declare the app.</text>
+<text x="60" y="375" font-size="74" font-weight="700">Govern the fleet.</text>
+<text x="66" y="447" font-size="24">Native models. Explicit bindings. Deliberate choices.</text>
+<rect x="66" y="487" width="305" height="43" rx="21" fill="#dfe8d6"/>
+<text x="86" y="515" font-size="18" font-weight="700">LOCAL RUNTIME PREVIEW</text>
+<text x="66" y="607" font-size="17">documentdrivendx.github.io/batten</text>
+</g>
+<g font-family="Arial, sans-serif" fill="#e1edcf" text-anchor="middle">
+<text x="1020" y="475" font-size="18" letter-spacing="2">COMPOSE</text>
+<text x="1020" y="513" font-size="18" letter-spacing="2">BIND</text>
+<text x="1020" y="551" font-size="18" letter-spacing="2">ASSESS</text>
+</g></svg>
