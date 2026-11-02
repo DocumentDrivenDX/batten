@@ -7,7 +7,7 @@
 
 <!-- helix:source docs/helix/04-build/batten-app-workflow.md sha256:4d56d64a8364c75c -->
 
-<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a1.md sha256:53f6ddbbc552d684 -->
+<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a1.md sha256:05463eb9e1a57115 -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-012-local-operation-host.md sha256:7107fb4919ade466 -->
 
