@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import tomllib
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 REQUIRED = {
     "E4",
@@ -47,3 +48,26 @@ def policy(root: Path) -> None:
         raise ValueError("shape ceiling increased")
     if config["tool"]["pyright"]["typeCheckingMode"] != "strict":
         raise ValueError("strict typing disabled")
+    browser_policy(root)
+
+
+def browser_policy(root: Path) -> None:
+    config = json.loads((root / ".oxlintrc.json").read_text())
+    if config.get("overrides") or config.get("ignorePatterns"):
+        raise ValueError("browser lint exceptions are forbidden")
+    for name, maximum in {
+        "complexity": 10,
+        "max-lines-per-function": 60,
+        "max-depth": 4,
+        "max-classes-per-file": 1,
+    }.items():
+        severity, options = config["rules"][name]
+        limit = (
+            cast(dict[str, Any], options).get("max")
+            if isinstance(options, dict)
+            else options
+        )
+        if severity != "error" or type(limit) is not int or limit > maximum:
+            raise ValueError("browser shape ceiling increased or rule disabled")
+    if config["rules"]["complexity"][1].get("variant") != "classic":
+        raise ValueError("browser complexity semantics changed")

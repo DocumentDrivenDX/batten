@@ -3,6 +3,7 @@ lint:
 
 test:
     uv run pytest
+    bun run test:native
 
 check:
     uv run python scripts/quality.py
@@ -19,7 +20,7 @@ approval:
     .cache/approval-runtime/bin/python -I -m approval_desk.cli serve
 
 approval-test:
-    uv run pytest -m integration tests/apps -q
+    bun run test:native
 
 # Rebuild only the app against the already prepared platform cohort.
 approval-refresh:

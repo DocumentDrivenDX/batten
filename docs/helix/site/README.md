@@ -3,11 +3,11 @@
 The microsite projects the vision, requirements and design into source-stamped
 reader explanations. The local runtime preview has separate release assets and bounded native/browser evidence.
 
-Build from the repository root with Python's standard library:
+Build from the repository root with Python 3.13 and its standard library:
 
 ```sh
-python3 docs/helix/site/build.py
-python3 -m http.server 8814 --bind 127.0.0.1 --directory docs/helix/site/dist
+python3.13 docs/helix/site/build.py
+python3.13 -m http.server 8814 --bind 127.0.0.1 --directory docs/helix/site/dist
 ```
 
 Open `http://127.0.0.1:8814/`. Generated output lives in `dist/`, which Git ignores.
@@ -34,7 +34,7 @@ The site's module/host controls illustrate the design and make no service calls.
 The public site is https://documentdrivendx.github.io/batten/. The repository
 uses GitHub Actions as its Pages publishing source.
 
-The Pages workflow builds with Python 3.12 and verifies generated routes, local
+The Pages workflow builds with Python 3.13 and verifies generated routes, local
 assets, fragments and project-prefix-safe links. Official actions are pinned by
 commit SHA. Pull requests build without deploying; successful pushes to `main`
 publish through the `github-pages` environment using the job-scoped Pages/OIDC
@@ -43,7 +43,7 @@ permissions. No deployment credential is stored in the repository.
 Run the publication check locally after building:
 
 ```sh
-python3 docs/helix/site/verify.py
+python3.13 docs/helix/site/verify.py
 ```
 
 To retry publication, rerun the Pages workflow for the reviewed `main` revision.

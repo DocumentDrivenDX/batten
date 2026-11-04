@@ -1,4 +1,4 @@
-<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_release_reader/3d34ba8a375671a4 -->
+<!-- helix:publish audience=developer page=index kind=explanation voice=onboarding budget=800 reviewed=2026-11-03/microsite_dependency_reader/c69015c5ee888052 -->
 <!-- helix:source docs/helix/00-discover/product-vision.md sha256:7a27692a25188d22 -->
 <!-- helix:source docs/helix/01-frame/prd.md sha256:e50a20aa72953aa2 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
@@ -7,7 +7,7 @@
 
 <!-- helix:source docs/helix/04-build/batten-app-workflow.md sha256:4d56d64a8364c75c -->
 
-<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a1.md sha256:05463eb9e1a57115 -->
+<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a2.md sha256:1eee1d738284dd8a -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-012-local-operation-host.md sha256:7107fb4919ade466 -->
 
@@ -58,7 +58,7 @@ Enterprise reference apps have independent HELIX specification scopes and shared
 
 The local runtime preview delivers an approval desk and a visual application registry, with native UMF/Weft persistence on PostgreSQL 18. Separate wheels package the contracts, runtime, table port, native adapter, ASGI transport, local host and app. Qualification is bounded to the recorded cohort and local development identities; the complete fleet remains a design goal. Optional local object storage has its own release. The interactive explorer illustrates the broader contracts and makes no service calls.
 
-[Get the runtime preview](https://github.com/DocumentDrivenDX/batten/releases/tag/runtime-v0.1.0a1) or [read the run instructions](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
+[Get the runtime preview](https://github.com/DocumentDrivenDX/batten/releases/tag/runtime-v0.1.0a2) or [read the run instructions](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
 
 [Compose an application](composition.md), [choose a host](hosting.md), or read the [architecture](architecture.md).
 

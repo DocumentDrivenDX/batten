@@ -30,9 +30,14 @@ upstream behavior. Use pgserver-pg18 only for explicit local maintenance/testing
 Keep generic host contracts/runtime stdlib-only. Optional table integration owns
 UMF/psycopg dependencies; optional ASGI integration owns Starlette/Uvicorn. The
 app supplies TypeScript DOM code and uses Bun for build-time transpilation, with
-no new frontend framework. Playwright is a development-only real-browser proof.
+no new frontend framework. JavaScript Playwright is a development-only real-browser proof.
 OpenTelemetry SDK instrumentation and safe durable local audit are host services;
 local capture and actual OTLP receiver evidence remain distinguishable.
+
+Use Python 3.13 for the upgraded local qualification environment: the current
+PostgreSQL 18 helper publishes matching native wheels, and UMF Core/Codegen
+support the interpreter. Portable library metadata retains its Python 3.11 floor;
+qualification claims remain tied to their actually exercised interpreter.
 
 Pin the assembled dependency cohort in the build lock and preserve original UMF
 source digests. Local source dependencies may be used for candidate qualification;

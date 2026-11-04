@@ -82,9 +82,7 @@ def owner(name: str) -> str:
     if name == "approval_desk" or name.startswith("approval_desk."):
         return "app.approval"
     if not name.startswith("batten."):
-        if name.startswith(("scripts.", "tests.", "docs.helix.site.")) or name in {
-            "eslint.config"
-        }:
+        if name.startswith(("scripts.", "tests.", "docs.helix.site.")):
             return "tools"
         raise ValueError(f"unclassified source: {name}")
     candidates = [
