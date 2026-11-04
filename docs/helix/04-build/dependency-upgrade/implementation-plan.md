@@ -69,7 +69,8 @@ The final upgraded browser run passes both scenarios with zero retries, adds
 fresh registry viewport captures and records nine exact controller/cohort hashes.
 A readiness overlap found during capture was fixed before the passing run.
 All 18 Python cases pass. The final registry audit checks 110 locked entries and
-finds zero older published versions. D-004 review, CI and publication remain open.
+finds zero older published versions. Independent review has passed; D-004 CI and
+publication remain open at this local qualification checkpoint.
 
 ## Validation Plan
 
