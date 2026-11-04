@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "off"
+  },
+  "rules": {
+    "complexity": [
+      "error",
+      {
+        "max": 10,
+        "variant": "classic"
+      }
+    ],
+    "max-lines-per-function": [
+      "error",
+      {
+        "max": 60,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "max-depth": [
+      "error",
+      4
+    ],
+    "max-classes-per-file": [
+      "error",
+      1
+    ]
+  }
+}

@@ -1,11 +1,11 @@
-<!-- helix:publish audience=developer page=example-approval-desk kind=how-to voice=onboarding budget=650 reviewed=2026-11-02/microsite_release_reader/01b0a28be3072a1f -->
+<!-- helix:publish audience=developer page=example-approval-desk kind=how-to voice=onboarding budget=650 reviewed=2026-11-03/microsite_dependency_reader/068d12af7a7b54cf -->
 <!-- helix:source docs/helix/reference-apps/approval-desk/specs/01-frame/prd.md sha256:0811410edd777ad4 -->
 <!-- helix:source docs/helix/reference-apps/approval-desk/specs/01-frame/user-stories/US-101-journey.md sha256:f655241ab564f90e -->
 <!-- helix:source docs/helix/reference-apps/catalog.json sha256:3de4ef2805d0566d -->
-<!-- helix:source examples/approval-desk/README.md sha256:a532bd5d7719003f -->
+<!-- helix:source examples/approval-desk/README.md sha256:374ae9808265d4c2 -->
 <!-- helix:source examples/approval-desk/web/index.html sha256:288b5af40a12013e -->
 <!-- helix:source examples/approval-desk/web/app.ts sha256:6c0aff047a0123a8 -->
-<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a1.md sha256:05463eb9e1a57115 -->
+<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a2.md sha256:1eee1d738284dd8a -->
 
 # Approval desk walkthrough
 
@@ -19,7 +19,7 @@ tables, actions. These tags describe requested integration boundaries.
 
 ## 1. Open the local registry
 
-Follow the run instructions to prepare the exact Python 3.11 cohort and explicitly initialize a new fabricated database. Start the host, open its root registry and choose Approval desk.
+Follow the run instructions to prepare the exact Python 3.13 cohort and explicitly initialize a new fabricated database. Start the host, open its root registry and choose Approval desk.
 
 ## 2. Submit as Alex
 

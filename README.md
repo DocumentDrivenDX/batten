@@ -25,7 +25,8 @@ Dual licensed under [MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE).
 Copyright Synaptiq.
 
 
-Development uses the locked uv workspace and Bun lint tooling:
+Development uses Python 3.13, Node 26.13.0, Bun 1.4.4 and the locked uv 0.13.7
+workspace. Oxlint and TypeScript 7 supply the browser quality checks:
 
 ```sh
 uv sync --frozen --all-packages
@@ -33,7 +34,8 @@ bun install --frozen-lockfile
 uv run python scripts/quality.py
 ```
 
-The same command runs in CI; `just check` is an equivalent entry point. `just lint`
+`just test` runs both the Python suite and the two JavaScript Playwright scenarios.
+The same quality command runs in CI; `just check` is an equivalent entry point. `just lint`
 provides the configured local pre-commit check. Product storage has no third-party
 runtime dependencies. Quality tools remain outside its wheel.
 

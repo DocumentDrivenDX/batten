@@ -28,17 +28,19 @@ the complete micro-app corpus, generated semantic suites or an OTLP receiver.
 
 ## Acceptance Criteria Test Mapping
 
-The business rows use `test_approval_desk_native_browser_journey` in
-`tests/apps/test_approval.py`, citing each ID in its docstring.
+The business rows use `approval desk native browser journey` in
+`tests/apps/approval.spec.ts`, citing each ID in its source comment. This table
+allocates required coverage; `local-execution.json` records the exact exercised
+subset and observed results.
 
 | AC ID | Acceptance Criterion | New or Existing Test(s) to Create or Run | Asserted Behavior (what the test verifies) | AC-ID Citation | Test Level | File or Command | Setup / Data | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| US-101-AC1 | Submit, inspect, independently decide | Native browser journey | Blake approves Alex's pending record, current owner/title and attributable decision survive restart | `@covers US-101-AC1` | E2E | `just approval-test` | Dedicated new local cluster; fabricated people | Includes empty view and reject path |
+| US-101-AC1 | Submit, inspect, independently decide | Native browser journey | Blake approves Alex's pending record, current owner/title and attributable decision survive restart | `@covers US-101-AC1` | E2E | `just approval-test` | Dedicated new local cluster; fabricated people | Empty view is exercised; both decision values remain required qualification targets |
 | US-101-AC2 | Inspected revision becomes stale | Same journey | Alex's edit persists; Blake's stale approval returns conflict; refresh permits the current revision; self decision has no effect | `@covers US-101-AC2` | E2E | Same command | Two independent browser sessions | Server/native conditions govern |
 | US-101-AC3 | Foreign, anonymous or revoked access | Same journey | Anonymous and logged-out calls denied; Casey cannot see foreign record; browser-supplied identity and alternate origin/host refused | `@covers US-101-AC3` | E2E | Same command | Actual cookie sessions | No client role authority |
 | US-101-AC4 | Mutation response is lost | Same journey | Browser intercept forwards the real mutation then aborts its response; original key observation confirms the actual receipt with no duplicate record | `@covers US-101-AC4` | E2E | Same command | Real native receipt | Capture loss remains explicit |
 | US-101-AC5 | Another supported surface | Same journey | Installed CLI sees the same decided record under current identity after server restart; unsupported operations refuse | `@covers US-101-AC5` | Integration | Same command | Same dedicated cluster | One exact local cohort only |
-| US-101-AC6 | Discover app and return to registry | `test_registry_lists_visual_apps_and_brand_returns_home` | Card includes description and loaded visual thumbnail; opens its app URL; brand returns to registry; cookies use the app path; unregistered/legacy API routes return 404 | `@covers US-101-AC6` | E2E | `just approval-test` | Same installed local cluster, without new business mutations | Listing grants no authority |
+| US-101-AC6 | Discover app and return to registry | `registry lists visual apps and brand returns home` | Card includes description and loaded visual thumbnail; opens its app URL; brand returns to registry; cookies use the app path; unregistered/legacy API routes return 404 | `@covers US-101-AC6` | E2E | `just approval-test` | Same installed local cluster, without new business mutations | Listing grants no authority |
 
 ## Executable Proof
 
@@ -52,7 +54,7 @@ just check
 
 ### Planned Test Files
 
-`tests/apps/test_approval.py` owns the business journey; its fixture owns only
+`tests/apps/approval.spec.ts` owns both canonical scenarios; its fixtures own only
 process setup/cleanup. Shared storage range/integrity coverage consolidates real
 read setup without removing assertions, keeping the function ceiling unchanged. Registry coverage also consolidates the
 shared listing setup for projection, progress and cursor scope without dropping

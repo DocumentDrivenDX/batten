@@ -5,7 +5,7 @@ revision, and let a different person approve or reject it. Alex and Casey are
 requesters; Blake is an independent reviewer who can also submit requests.
 All identities and data are fabricated.
 
-From the repository root, with Python 3.11, uv, Bun 1.4.4 and Just installed:
+From the repository root, with Python 3.13, uv 0.13.7, Node 26.13.0, Bun 1.4.4 and Just installed:
 
 ```sh
 uv sync --frozen --all-packages
@@ -31,8 +31,10 @@ migrates tables. Restarting preserves requests and native receipts; local login
 sessions must be established again. `local.toml` supplies typed limits and port.
 No application environment variables or cloud credentials are needed.
 
-The assembler downloads UMF's original `umf-v0.5.8` access and codegen wheels
-from the public UMF release and verifies their pinned SHA-256 digests. Batten
+The assembler downloads the original access dev8 wheel from `umf-v0.5.8` and
+Codegen 0.10.8 from `umf-v0.10.8`, verifying each original SHA-256 digest.
+Codegen selects exactly Core 0.10.8 through normal dependency resolution.
+The SQL compiler is `umf-weft==0.4.57`. Batten
 packages are built from this checkout. Dependencies are installed once at
 composition time into `.cache/approval-runtime`; serving and calling the app do
 not install Python or npm dependencies. Cohort and wheel hashes are recorded in
@@ -55,10 +57,14 @@ application; it does not claim a declarative UI engine or ux-builder integration
 Verify the installed native path separately from the fast gate:
 
 ```sh
-uv run playwright install chromium
+node node_modules/playwright/cli.js install chromium
 just approval-test
 just check
 ```
+
+The two browser scenarios are JavaScript Playwright tests; Python Playwright,
+pyee and the V8 compiler dependency are absent from this cohort. Oxlint enforces
+the same four shape limits alongside TypeScript 7 compilation.
 
 This preview selects one record table, bounded queries (up to the model's declared
 page size), one local host and this exact original platform cohort. Loopback stub

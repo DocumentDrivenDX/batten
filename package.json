@@ -2,12 +2,19 @@
   "name": "batten-quality-tools",
   "private": true,
   "scripts": {
-    "lint": "eslint docs/helix/site/assets/site.js eslint.config.mjs examples/approval-desk/web",
-    "typecheck": "tsc --project examples/approval-desk/tsconfig.json"
+    "lint": "oxlint --deny-warnings .",
+    "typecheck": "tsc --project examples/approval-desk/tsconfig.json && tsc --project tests/apps/tsconfig.json",
+    "test:native": "playwright test"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "8.72.1",
-    "eslint": "10.14.0",
-    "typescript": "6.0.3"
+    "oxlint": "1.91.0",
+    "typescript": "7.0.2",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.6",
+    "oxc-parser": "0.157.0"
+  },
+  "type": "module",
+  "overrides": {
+    "undici-types": "8.12.3"
   }
 }

@@ -1,11 +1,11 @@
-<!-- helix:publish audience=developer page=architecture kind=explanation voice=onboarding budget=800 reviewed=2026-11-02/microsite_reader_review/4a346c747c170527 -->
+<!-- helix:publish audience=developer page=architecture kind=explanation voice=onboarding budget=800 reviewed=2026-11-03/microsite_dependency_reader/77ef52896340b661 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-001-public-host-api.md sha256:496f18dd0d526258 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-001-platform-modules-and-neutral-core.md sha256:f845d229ffe50254 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:1dff431ab73dd907 -->
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:4b3b0e0324fa4e84 -->
 <!-- helix:source docs/helix/03-test/test-plan.md sha256:1b2adb5d813ddb9a -->
-<!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:abdbdc7e0dc65782 -->
+<!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:ad3a4a26249b5fa2 -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-012-generic-platform-assets.md sha256:1c38e89475ee2c90 -->
@@ -25,6 +25,13 @@ Native UMF validation belongs in its adapter. The core receives validated metada
 Separate wheels follow platform responsibilities. Tables, PostgreSQL, Lakebase, Databricks, gateway, ontology and agent integration have their own dependency boundaries.
 
 The browser client is independent of Python host objects. Its optional ux-builder adapter owns its upstream UI dependencies.
+
+## Browser quality and qualification
+
+Oxlint enforces the same shape limits alongside strict TypeScript compilation.
+JavaScript Playwright exercises the installed local host in Chromium. The common
+quality gate counts Python and JavaScript behaviors together; moving a test to
+another language does not create room to hide its assertions.
 
 ## Package and qualify the runtime
 

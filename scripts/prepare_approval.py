@@ -10,10 +10,15 @@ import sys
 import tomllib
 from pathlib import Path
 
-UMF_RELEASE = "umf-v0.5.8"
 UMF_WHEELS = {
-    "umf_access-0.1.0.dev8-py3-none-any.whl": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
-    "umf_codegen-0.1.0a5-py3-none-any.whl": "36a6f7e0ab92feb9cb20ed8842cc3c1f073cdd3ff2c4edff137c1fcbc3ace158",
+    "umf_access-0.1.0.dev8-py3-none-any.whl": {
+        "release": "umf-v0.5.8",
+        "sha256": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
+    },
+    "umf_codegen-0.10.8-py3-none-any.whl": {
+        "release": "umf-v0.10.8",
+        "sha256": "0d21acef3171442b818a4ad1dfdbaf99cc0f0f5557e5c670d5ce56243235dbc5",
+    },
 }
 
 
@@ -24,18 +29,18 @@ def run(args: list[str], cwd: Path) -> None:
 def upstream_wheels(wheels: Path) -> list[str]:
     wheels.mkdir(parents=True, exist_ok=True)
     urls = {
-        name: f"https://github.com/DocumentDrivenDX/umf/releases/download/{UMF_RELEASE}/{name}"
-        for name in UMF_WHEELS
+        name: f"https://github.com/DocumentDrivenDX/umf/releases/download/{source['release']}/{name}"
+        for name, source in UMF_WHEELS.items()
     }
     result: list[str] = []
-    for name, digest in UMF_WHEELS.items():
+    for name, source in UMF_WHEELS.items():
         path = wheels / name
         if not path.exists():
             from urllib.request import urlopen
 
             with urlopen(urls[name], timeout=60) as response:
                 path.write_bytes(response.read())
-        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+        if hashlib.sha256(path.read_bytes()).hexdigest() != source["sha256"]:
             raise ValueError(f"upstream wheel digest mismatch: {name}")
         result.append(str(path))
     return result
@@ -82,7 +87,13 @@ def refresh_app(root: Path) -> None:
         ],
         root,
     )
-    wheel = next(wheels.glob("novirhyza_batten_approval_desk-*.whl"))
+    metadata = tomllib.loads(
+        (root / "examples/approval-desk/pyproject.toml").read_text()
+    )["project"]
+    wheel = (
+        wheels
+        / f"novirhyza_batten_approval_desk-{metadata['version']}-py3-none-any.whl"
+    )
     run(
         [
             "uv",
@@ -207,8 +218,8 @@ def main() -> None:
         root,
     )
     receipt = {
-        "umf_release": UMF_RELEASE,
-        "python": "3.11",
+        "umf_artifacts": UMF_WHEELS,
+        "python": ".".join(str(part) for part in sys.version_info[:3]),
         "wheels": {
             Path(p).name: hashlib.sha256(Path(p).read_bytes()).hexdigest()
             for p in built

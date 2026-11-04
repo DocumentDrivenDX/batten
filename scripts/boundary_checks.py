@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import ast
 import io
+import json
+import subprocess
 import sys
 import tokenize
 from pathlib import Path
@@ -142,5 +144,28 @@ def inspect(root: Path, paths: list[Path], inventory: dict[str, list[str]]) -> i
             and n.name.startswith("test_")
             for n in ast.walk(tree)
         )
+    count += browser_count(paths)
     cycles(graph)
     return count
+
+
+def browser_count(paths: list[Path]) -> int:
+    browser = [p for p in paths if p.suffix in {".js", ".mjs", ".ts"}]
+    if browser:
+        result = subprocess.run(
+            [
+                "node",
+                str(Path(__file__).with_name("browser_census.mjs")),
+                *map(str, browser),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode:
+            raise ValueError(result.stderr)
+        registered = json.loads(result.stdout)["count"]
+        if type(registered) is not int:
+            raise ValueError("invalid browser census")
+        return registered
+    return 0

@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "novirhyza-batten-asgi"
-version = "0.1.0a1"
+version = "0.1.0a2"
 requires-python = ">=3.11"
 license = "MIT OR Apache-2.0"
 license-files = ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]
-dependencies = ["novirhyza-batten-runtime==0.1.0a1", "starlette==1.10.0", "uvicorn==0.54.0"]
+dependencies = ["novirhyza-batten-runtime==0.1.0a2", "starlette==1.10.0", "uvicorn==0.54.0"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/batten"]

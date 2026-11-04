@@ -1,0 +1,801 @@
+{
+  "checks": {
+    "consumer_install": {
+      "location": "outside source checkout",
+      "packages": 36,
+      "result": "passed",
+      "validation": "normal resolver, pip check and python -I installed CLI help"
+    },
+    "dependency_audit": {
+      "locked_entries": 110,
+      "older_published_versions": 0
+    },
+    "dependency_metadata": {
+      "development": "pip check passed",
+      "installed_runtime": "pip check passed"
+    },
+    "fast_quality": {
+      "command": "uv run --frozen python scripts/quality.py",
+      "passed": 18,
+      "warnings": "Two Python 3.13 multiprocessing fork deprecation warnings in storage concurrency checks; all 18 cases pass."
+    },
+    "independent_reader": {
+      "identity": "microsite_dependency_reader",
+      "result": "passed; final controller/cohort hashes, evidence and four changed guide pages reviewed"
+    },
+    "native_browser": {
+      "command": "bun run test:native",
+      "passed": 2,
+      "prior_failure": "Final capture first exposed an initial identity-load overlap in the migrated fixture. Waiting for #actor:enabled after identity selection resolves readiness before the scenario refresh. No retry or business assertion change was used.",
+      "runner_stats": {
+        "duration": 392065.85699999996,
+        "expected": 2,
+        "flaky": 0,
+        "skipped": 0,
+        "startTime": "2026-11-04T04:34:35.874Z",
+        "unexpected": 0
+      },
+      "source_hashes": {
+        ".cache/approval-cohort.json": "4d73fff69136bae575f4dd5f6ab3520053029fda7a2c148a5ca96eb268d069ac",
+        "bun.lock": "56403d4919f1e81ad31c45880f6c0eed818564cbf119b108e14dc64560bc315b",
+        "package.json": "1330e7c176fabc9d108151a8592e4388db1013ba43dd8bd8efa2621e8a38a1a3",
+        "playwright.config.ts": "a1a8a7cc7a6ec71842239dc18e9efd5f0b84f2ff7a5204a0615ea8f92fa46f58",
+        "tests/apps/approval.spec.ts": "af62c7c788ee425ec1f5fd46e184c54612405f7bb29ca366c2594460d63691c7",
+        "tests/apps/fixtures.ts": "eb2bd93ed38077b1bfbaddc364d7e775d92bd7b6e57befbf7c0d547f8fc17729",
+        "tests/apps/host.ts": "02cad565752c7ec9c6ade51321755f7f087277bd3c082ea42ae99ac5acfffb34",
+        "tests/apps/native_probe.py": "686b8c64bd8186d0fb8248f009a0e1f94c8c5f6a5c053b3350515144d6d4a900",
+        "uv.lock": "bc0af722f98bffbfccfb8add02cddfa6009c6a35ee3acff62630b1dcbdf1b41e"
+      }
+    },
+    "test_census": {
+      "ceiling": 17,
+      "javascript": 2,
+      "python": 15
+    }
+  },
+  "cohort": {
+    "model_sha256": "8c13d687fa44837aee3137c33b3a3a61966a002bd69ab2ea4f2a59f21857749f",
+    "packages": {
+      "annotated-types": "0.8.0",
+      "anyio": "4.16.0",
+      "click": "8.5.0",
+      "fasteners": "0.20",
+      "h11": "0.16.0",
+      "idna": "3.20",
+      "novirhyza-batten-approval-desk": "0.1.0a2",
+      "novirhyza-batten-asgi": "0.1.0a2",
+      "novirhyza-batten-contracts": "0.1.0a2",
+      "novirhyza-batten-local": "0.1.0a2",
+      "novirhyza-batten-runtime": "0.1.0a2",
+      "novirhyza-batten-tables": "0.1.0a2",
+      "novirhyza-batten-umf-postgres": "0.1.0a2",
+      "opentelemetry-api": "1.45.2",
+      "opentelemetry-instrumentation": "0.66b2",
+      "opentelemetry-instrumentation-dbapi": "0.66b2",
+      "opentelemetry-instrumentation-psycopg": "0.66b2",
+      "opentelemetry-sdk": "1.45.2",
+      "opentelemetry-semantic-conventions": "0.66b2",
+      "packaging": "26.3",
+      "pgserver-pg18": "18.6.1",
+      "platformdirs": "4.14.3",
+      "psutil": "7.2.2",
+      "psycopg": "3.3.7",
+      "psycopg-binary": "3.3.7",
+      "pydantic": "2.14.2",
+      "pydantic_core": "2.50.2",
+      "starlette": "1.10.0",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "umf-codegen": "0.10.8",
+      "umf-core": "0.10.8",
+      "umf-weft": "0.4.57",
+      "umf_access": "0.1.0.dev8",
+      "uvicorn": "0.54.0",
+      "wrapt": "2.5.2"
+    },
+    "python": "3.13.16",
+    "umf_artifacts": {
+      "umf_access-0.1.0.dev8-py3-none-any.whl": {
+        "release": "umf-v0.5.8",
+        "sha256": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23"
+      },
+      "umf_codegen-0.10.8-py3-none-any.whl": {
+        "release": "umf-v0.10.8",
+        "sha256": "0d21acef3171442b818a4ad1dfdbaf99cc0f0f5557e5c670d5ce56243235dbc5"
+      }
+    },
+    "wheels": {
+      "novirhyza_batten_approval_desk-0.1.0a2-py3-none-any.whl": "bf5185d5dd51ecf9d843afe027f9e6cc257cdb3aab8febb10260a1a31a9da46b",
+      "novirhyza_batten_asgi-0.1.0a2-py3-none-any.whl": "895e4760f55bba1858ab2301e1782bfda799d42b7772521f9d78fcef26eb69d4",
+      "novirhyza_batten_contracts-0.1.0a2-py3-none-any.whl": "cf20c473161a0a7bc3a30b7dcffe8727ce0460b9c574dd71539f18ed51911cc3",
+      "novirhyza_batten_local-0.1.0a2-py3-none-any.whl": "3f180b774d0342cfcd0961df5695f45965ee2c2bac2f8c6cb5bd4d29e76806cd",
+      "novirhyza_batten_runtime-0.1.0a2-py3-none-any.whl": "500c7f0f4465b21a6a95924f9fa5379f44e827bcc315fef8d4a3a887716bb27d",
+      "novirhyza_batten_tables-0.1.0a2-py3-none-any.whl": "45598cd5dda3c1ad7deb8039d66b42c9ddd78b08b90bc7614d3ac35f941d9bee",
+      "novirhyza_batten_umf_postgres-0.1.0a2-py3-none-any.whl": "5a96922b7c1d6898af4d3eef87a5e6904dad70c77cc7b2816f1fefbb71c629b9",
+      "umf_access-0.1.0.dev8-py3-none-any.whl": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
+      "umf_codegen-0.10.8-py3-none-any.whl": "0d21acef3171442b818a4ad1dfdbaf99cc0f0f5557e5c670d5ce56243235dbc5"
+    }
+  },
+  "date": "2026-11-03",
+  "kind": "dependency-upgrade-evidence",
+  "limits": [
+    "Local PostgreSQL18 approval-desk profile only.",
+    "The complete reference-app conformance gate remains separate.",
+    "No production identity, hostile-code, or OTLP receiver qualification."
+  ],
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "registry_audit": [
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-android-arm-eabi"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-android-arm64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-darwin-arm64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-darwin-x64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-freebsd-x64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-arm-gnueabihf"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-arm-musleabihf"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-arm64-gnu"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-arm64-musl"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-ppc64-gnu"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-riscv64-gnu"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-riscv64-musl"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-s390x-gnu"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-x64-gnu"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-linux-x64-musl"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-openharmony-arm64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-win32-arm64-msvc"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-win32-ia32-msvc"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-parser/binding-win32-x64-msvc"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "@oxc-project/types"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-android-arm-eabi"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-android-arm64"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-darwin-arm64"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-darwin-x64"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-freebsd-x64"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-arm-gnueabihf"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-arm-musleabihf"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-arm64-gnu"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-arm64-musl"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-ppc64-gnu"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-riscv64-gnu"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-riscv64-musl"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-s390x-gnu"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-x64-gnu"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-linux-x64-musl"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-openharmony-arm64"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-win32-arm64-msvc"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-win32-ia32-msvc"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "@oxlint/binding-win32-x64-msvc"
+    },
+    {
+      "current": "1.64.1",
+      "ecosystem": "npm",
+      "latest": "1.64.1",
+      "name": "@playwright/test"
+    },
+    {
+      "current": "26.6.6",
+      "ecosystem": "npm",
+      "latest": "26.6.6",
+      "name": "@types/node"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-aix-ppc64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-darwin-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-darwin-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-freebsd-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-freebsd-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-arm"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-loong64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-mips64el"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-ppc64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-riscv64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-s390x"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-linux-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-netbsd-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-netbsd-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-openbsd-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-openbsd-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-sunos-x64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-win32-arm64"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "@typescript/typescript-win32-x64"
+    },
+    {
+      "current": "0.157.0",
+      "ecosystem": "npm",
+      "latest": "0.157.0",
+      "name": "oxc-parser"
+    },
+    {
+      "current": "1.91.0",
+      "ecosystem": "npm",
+      "latest": "1.91.0",
+      "name": "oxlint"
+    },
+    {
+      "current": "1.64.1",
+      "ecosystem": "npm",
+      "latest": "1.64.1",
+      "name": "playwright"
+    },
+    {
+      "current": "1.64.1",
+      "ecosystem": "npm",
+      "latest": "1.64.1",
+      "name": "playwright-core"
+    },
+    {
+      "current": "7.0.2",
+      "ecosystem": "npm",
+      "latest": "7.0.2",
+      "name": "typescript"
+    },
+    {
+      "current": "8.12.3",
+      "ecosystem": "npm",
+      "latest": "8.12.3",
+      "name": "undici-types"
+    },
+    {
+      "current": "0.8.0",
+      "ecosystem": "python",
+      "latest": "0.8.0",
+      "name": "annotated-types"
+    },
+    {
+      "current": "4.16.0",
+      "ecosystem": "python",
+      "latest": "4.16.0",
+      "name": "anyio"
+    },
+    {
+      "current": "1.6.1",
+      "ecosystem": "python",
+      "latest": "1.6.1",
+      "name": "build"
+    },
+    {
+      "current": "8.5.0",
+      "ecosystem": "python",
+      "latest": "8.5.0",
+      "name": "click"
+    },
+    {
+      "current": "0.4.6",
+      "ecosystem": "python",
+      "latest": "0.4.6",
+      "name": "colorama"
+    },
+    {
+      "current": "0.20",
+      "ecosystem": "python",
+      "latest": "0.20",
+      "name": "fasteners"
+    },
+    {
+      "current": "0.16.0",
+      "ecosystem": "python",
+      "latest": "0.16.0",
+      "name": "h11"
+    },
+    {
+      "current": "1.33.0",
+      "ecosystem": "python",
+      "latest": "1.33.0",
+      "name": "hatchling"
+    },
+    {
+      "current": "3.20",
+      "ecosystem": "python",
+      "latest": "3.20",
+      "name": "idna"
+    },
+    {
+      "current": "2.3.1",
+      "ecosystem": "python",
+      "latest": "2.3.1",
+      "name": "iniconfig"
+    },
+    {
+      "current": "1.12.0",
+      "ecosystem": "python",
+      "latest": "1.12.0",
+      "name": "nodeenv"
+    },
+    {
+      "current": "1.45.2",
+      "ecosystem": "python",
+      "latest": "1.45.2",
+      "name": "opentelemetry-api"
+    },
+    {
+      "current": "0.66b2",
+      "ecosystem": "python",
+      "latest": "0.66b2",
+      "name": "opentelemetry-instrumentation"
+    },
+    {
+      "current": "0.66b2",
+      "ecosystem": "python",
+      "latest": "0.66b2",
+      "name": "opentelemetry-instrumentation-dbapi"
+    },
+    {
+      "current": "0.66b2",
+      "ecosystem": "python",
+      "latest": "0.66b2",
+      "name": "opentelemetry-instrumentation-psycopg"
+    },
+    {
+      "current": "1.45.2",
+      "ecosystem": "python",
+      "latest": "1.45.2",
+      "name": "opentelemetry-sdk"
+    },
+    {
+      "current": "0.66b2",
+      "ecosystem": "python",
+      "latest": "0.66b2",
+      "name": "opentelemetry-semantic-conventions"
+    },
+    {
+      "current": "26.3",
+      "ecosystem": "python",
+      "latest": "26.3",
+      "name": "packaging"
+    },
+    {
+      "current": "1.1.1",
+      "ecosystem": "python",
+      "latest": "1.1.1",
+      "name": "pathspec"
+    },
+    {
+      "current": "18.6.1",
+      "ecosystem": "python",
+      "latest": "18.6.1",
+      "name": "pgserver-pg18",
+      "source": "https://github.com/DocumentDrivenDX/pgserver/releases/tag/pg18.6-pgv0.8.6-r2"
+    },
+    {
+      "current": "4.14.3",
+      "ecosystem": "python",
+      "latest": "4.14.3",
+      "name": "platformdirs"
+    },
+    {
+      "current": "1.7.0",
+      "ecosystem": "python",
+      "latest": "1.7.0",
+      "name": "pluggy"
+    },
+    {
+      "current": "7.2.2",
+      "ecosystem": "python",
+      "latest": "7.2.2",
+      "name": "psutil"
+    },
+    {
+      "current": "3.3.7",
+      "ecosystem": "python",
+      "latest": "3.3.7",
+      "name": "psycopg"
+    },
+    {
+      "current": "3.3.7",
+      "ecosystem": "python",
+      "latest": "3.3.7",
+      "name": "psycopg-binary"
+    },
+    {
+      "current": "2.14.2",
+      "ecosystem": "python",
+      "latest": "2.14.2",
+      "name": "pydantic"
+    },
+    {
+      "current": "2.50.2",
+      "ecosystem": "python",
+      "latest": "2.50.2",
+      "name": "pydantic-core"
+    },
+    {
+      "current": "2.21.0",
+      "ecosystem": "python",
+      "latest": "2.21.0",
+      "name": "pygments"
+    },
+    {
+      "current": "1.3.3",
+      "ecosystem": "python",
+      "latest": "1.3.3",
+      "name": "pyproject-hooks"
+    },
+    {
+      "current": "1.1.414",
+      "ecosystem": "python",
+      "latest": "1.1.414",
+      "name": "pyright"
+    },
+    {
+      "current": "9.2.0",
+      "ecosystem": "python",
+      "latest": "9.2.0",
+      "name": "pytest"
+    },
+    {
+      "current": "1.4.1.post1",
+      "ecosystem": "python",
+      "latest": "1.4.1.post1",
+      "name": "pytest-asyncio"
+    },
+    {
+      "current": "0.17.3",
+      "ecosystem": "python",
+      "latest": "0.17.3",
+      "name": "ruff"
+    },
+    {
+      "current": "1.10.0",
+      "ecosystem": "python",
+      "latest": "1.10.0",
+      "name": "starlette"
+    },
+    {
+      "current": "0.15.2",
+      "ecosystem": "python",
+      "latest": "0.15.2",
+      "name": "tomlkit"
+    },
+    {
+      "current": "2026.9.21.13",
+      "ecosystem": "python",
+      "latest": "2026.9.21.13",
+      "name": "trove-classifiers"
+    },
+    {
+      "current": "4.16.0",
+      "ecosystem": "python",
+      "latest": "4.16.0",
+      "name": "typing-extensions"
+    },
+    {
+      "current": "0.4.4",
+      "ecosystem": "python",
+      "latest": "0.4.4",
+      "name": "typing-inspection"
+    },
+    {
+      "current": "2026.6",
+      "ecosystem": "python",
+      "latest": "2026.6",
+      "name": "tzdata"
+    },
+    {
+      "current": "0.10.8",
+      "ecosystem": "python",
+      "latest": "0.10.8",
+      "name": "umf-core"
+    },
+    {
+      "current": "0.4.57",
+      "ecosystem": "python",
+      "latest": "0.4.57",
+      "name": "umf-weft"
+    },
+    {
+      "current": "0.54.0",
+      "ecosystem": "python",
+      "latest": "0.54.0",
+      "name": "uvicorn"
+    },
+    {
+      "current": "2.5.2",
+      "ecosystem": "python",
+      "latest": "2.5.2",
+      "name": "wrapt"
+    }
+  ],
+  "release": "runtime-v0.1.0a2",
+  "state": "local qualification and independent review passed; GitHub CI and publication pending",
+  "tools": {
+    "bun": "1.4.4",
+    "node": "26.13.0",
+    "oxlint": "1.91.0",
+    "playwright": "1.64.1",
+    "python": "3.13.16",
+    "typescript": "7.0.2",
+    "uv": "0.13.7"
+  }
+}

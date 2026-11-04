@@ -16,41 +16,77 @@ from check_micro_apps import inventory
 def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
     """@covers US-007-AC3 @covers US-007-AC4"""
     fixtures = [
-        ("contracts/a.py", "__all__ = []\n", True),
-        ("runtime/a.py", "import batten.databricks\n__all__ = []\n", False),
+        ("contracts/a.py", "__all__ = []\n", 0),
+        ("runtime/a.py", "import batten.databricks\n__all__ = []\n", None),
         (
             "databricks/a.py",
             "from batten.storage._values import Hidden\n__all__ = []\n",
-            False,
+            None,
         ),
-        ("storage/a.py", "import databricks.sdk\n__all__ = []\n", False),
-        ("runtime/a.py", "import psycopg\n__all__ = []\n", False),
-        ("tables/a.py", "import umf_access\n__all__ = []\n", False),
-        ("storage/a.py", "__all__ = ['unexpected']\n", False),
-        ("storage/a.py", "import praxis.database\n__all__ = []\n", False),
+        ("storage/a.py", "import databricks.sdk\n__all__ = []\n", None),
+        ("runtime/a.py", "import psycopg\n__all__ = []\n", None),
+        ("tables/a.py", "import umf_access\n__all__ = []\n", None),
+        ("storage/a.py", "__all__ = ['unexpected']\n", None),
+        ("storage/a.py", "import praxis.database\n__all__ = []\n", None),
         (
             "storage/a.py",
             "from os import getenv as read_setting\nread_setting('X')\n__all__ = []\n",
-            False,
+            None,
         ),
         (
             "storage/a.py",
             "import importlib as loader\nloader.import_module('unknown')\n__all__ = []\n",
-            False,
+            None,
         ),
         (
             "databricks/a.py",
             "from databricks.sdk._internal import hidden\n__all__ = []\n",
-            False,
+            None,
         ),
+        (
+            "runtime/browser.ts",
+            "import {test} from '@playwright/test'; test('one', () => {});",
+            1,
+        ),
+        (
+            "runtime/alias.ts",
+            "import {test as scenario} from '@playwright/test'; scenario('one', () => {});",
+            1,
+        ),
+        (
+            "runtime/reassigned.ts",
+            "import {test} from '@playwright/test'; const scenario = test; scenario('one', () => {});",
+            1,
+        ),
+        (
+            "runtime/hidden.ts",
+            "import {test, expect as check} from '@playwright/test'; function hidden() {check(1).toBe(1)} test('one', () => hidden());",
+            2,
+        ),
+        (
+            "runtime/skipped.ts",
+            "import {test} from '@playwright/test'; test.skip('one', () => {});",
+            None,
+        ),
+        (
+            "runtime/namespace.ts",
+            "import * as suite from '@playwright/test'; suite.test('one', () => {});",
+            1,
+        ),
+        (
+            "runtime/namespace-skip.ts",
+            "import * as suite from '@playwright/test'; suite.test.skip('one', () => {});",
+            None,
+        ),
+        ("runtime/suppressed.ts", "// oxlint-disable\nexport const fixture = 1;", None),
     ]
     for i, (relative, text, allowed) in enumerate(fixtures):
         root = tmp_path / str(i)
         path = root / "packages/example/src/batten" / relative
         path.parent.mkdir(parents=True)
         path.write_text(text)
-        if allowed:
-            assert inspect(root, [path], {"batten.contracts.a": []}) == 0
+        if allowed is not None:
+            assert inspect(root, [path], {"batten.contracts.a": []}) == allowed
         else:
             with pytest.raises(ValueError):
                 inspect(root, [path], {})
@@ -58,7 +94,7 @@ def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="cycle"):
         inspect(root, paths, {"batten.storage.a": [], "batten.storage.b": []})
 
-    repository, baseline = baseline_fixture(tmp_path)
+    repository, baseline, project = baseline_fixture(tmp_path)
     with pytest.raises(ValueError, match="missing accepted baseline"):
         check(repository, "HEAD")
     subprocess.run(["git", "-C", str(repository), "add", "."], check=True)
@@ -81,7 +117,6 @@ def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="ceiling increased"):
         check(repository, "HEAD")
 
-    project = Path(__file__).resolve().parents[2]
     assert inventory(project) > 0
     strict = subprocess.run(
         [
@@ -97,6 +132,36 @@ def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
         and "inventory only" in strict.stdout
         and "unqualified" in strict.stderr
     )
+    for label, text, expected in [
+        ("valid", "function valid(value) { return value; }", True),
+        (
+            "complexity",
+            "function complex(value) { return "
+            + " || ".join(f"value === {i}" for i in range(11))
+            + "; }",
+            False,
+        ),
+        ("lines", "function long() {\n" + "value();\n" * 59 + "}\n", False),
+        (
+            "depth",
+            "function nested(a) { if(a) { if(a) { if(a) { if(a) { if(a) { call(); } } } } } }",
+            False,
+        ),
+        ("classes", "class First {}\nclass Second {}", False),
+    ]:
+        fixture = tmp_path / (label + ".js")
+        fixture.write_text(text)
+        result = subprocess.run(
+            [
+                str(project / "node_modules/.bin/oxlint"),
+                "--config",
+                str(project / ".oxlintrc.json"),
+                str(fixture),
+            ],
+            capture_output=True,
+            text=True,
+        )
+        assert (result.returncode == 0) is expected, result.stdout + result.stderr
     copied, catalog_path, original = corpus_fixture(tmp_path, project)
     for change in ["identity", "scope", "obligation"]:
         catalog = json.loads(original)
@@ -111,7 +176,7 @@ def test_import_cycle_private_and_inventory_controls(tmp_path: Path) -> None:
             inventory(copied)
 
 
-def baseline_fixture(tmp_path: Path) -> tuple[Path, Path]:
+def baseline_fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
     repository = tmp_path / "baseline"
     repository.mkdir()
     subprocess.run(["git", "init", "-q", str(repository)], check=True)
@@ -133,13 +198,13 @@ def baseline_fixture(tmp_path: Path) -> tuple[Path, Path]:
     )
     scripts = repository / "scripts"
     scripts.mkdir()
-    (repository / "pyproject.toml").write_text(
-        (Path(__file__).resolve().parents[2] / "pyproject.toml").read_text()
-    )
+    project = Path(__file__).resolve().parents[2]
+    for name in ("pyproject.toml", ".oxlintrc.json"):
+        (repository / name).write_text((project / name).read_text())
     (scripts / "public-api.json").write_text("{}")
     baseline = scripts / "quality-baseline.json"
     baseline.write_text(json.dumps({"initial_base": "wrong", "test_functions": 0}))
-    return repository, baseline
+    return repository, baseline, project
 
 
 def corpus_fixture(tmp_path: Path, project: Path) -> tuple[Path, Path, str]:

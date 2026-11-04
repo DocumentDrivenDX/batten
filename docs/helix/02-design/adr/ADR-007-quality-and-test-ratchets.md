@@ -44,6 +44,24 @@ ceilings and the installed greenfield defaults, as recorded in CONTRACT-002.
 No numeric test budget, coverage floor, latency target, or claimed platform
 capacity is invented. Numeric policy values and measured outcomes are distinct.
 
+## Browser tooling
+
+Use Oxlint's ESLint-compatible complexity, function-line, nesting and class-count
+rules with the exact CONTRACT-002 ceilings. TypeScript compilation remains a
+separate strict check. This removes the lint parser's TypeScript-version peer
+constraint and its legacy dependency tree while preserving the selected gates.
+The common quality recipe must prove each rule with passing and failing controls.
+
+Run browser tooling on the pinned Node 26 LTS interpreter. Browser acceptance
+tests use JavaScript Playwright against the installed Python
+host. Python Playwright and its pyee dependency leave the development cohort.
+The same two canonical scenarios and every authorization, lifecycle, receipt and
+telemetry assertion remain visible in their registered test bodies. The Node declaration cohort uses the latest undici-types minor through an
+explicit root override, qualified with strict declaration checking and the same
+browser scenarios. It introduces no HTTP runtime implementation. Browser test
+registrations and assertion-bearing helpers participate in the global census;
+a language migration cannot reduce the measured count by hiding test code.
+
 ## Application evidence and upgrade gates
 
 PRD FR-27/29/42 require host-enforced telemetry, application assertions and test
