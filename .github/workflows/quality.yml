@@ -1,9 +1,27 @@
 name: SDK quality
-on: [push, pull_request]
+# PR tier: install + prepare + quality.py (fast smoke, one runner).
+# Native browser approval-app test (heavy) runs on tags, dispatch, weekly,
+# or on a PR labelled `ci:full`.
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+env:
+  FULL: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 jobs:
   check:
+    # a bare `labeled` event for an unrelated label should not run anything
+    if: github.event.action != 'labeled' || github.event.label.name == 'ci:full'
+    timeout-minutes: 30
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -29,6 +47,8 @@ jobs:
         run: |
           uv run python scripts/quality.py
       - name: Install native browser
+        if: env.FULL == 'true'
         run: node node_modules/playwright/cli.js install --with-deps chromium
       - name: Exercise installed native approval app
+        if: env.FULL == 'true'
         run: bun run test:native
