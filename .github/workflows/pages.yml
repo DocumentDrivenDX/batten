@@ -4,17 +4,24 @@ on:
   push:
     branches: [main]
   pull_request:
+    # guide sources may reference other repo files; keep push-to-main unfiltered
+    # so the deployed site never goes stale.
+    paths:
+      - 'docs/helix/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# Pages group never cancels a running deploy; PR builds get their own group.
 concurrency:
-  group: batten-pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('batten-pages-pr-{0}', github.event.pull_request.number) || 'batten-pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
+    timeout-minutes: 10
     permissions:
       contents: read
       pages: read
@@ -40,6 +47,7 @@ jobs:
           path: docs/helix/site/dist
 
   deploy:
+    timeout-minutes: 10
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-24.04
