@@ -3,9 +3,6 @@
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-001-platform-modules-and-neutral-core.md sha256:f845d229ffe50254 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-003-platform-wheel-distribution.md sha256:1dff431ab73dd907 -->
-<!-- helix:source docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md sha256:4b3b0e0324fa4e84 -->
-<!-- helix:source docs/helix/03-test/test-plan.md sha256:1b2adb5d813ddb9a -->
-<!-- helix:source docs/helix/02-design/adr/ADR-007-quality-and-test-ratchets.md sha256:ad3a4a26249b5fa2 -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-010-platform-assets.md sha256:37a6ebc7946ae5b4 -->
 <!-- helix:source docs/helix/02-design/adr/ADR-012-generic-platform-assets.md sha256:1c38e89475ee2c90 -->
@@ -73,7 +70,7 @@ An admitted operation arrives through a route, tool or UI binding. The host reso
 
 The provider retains its native result or safe refusal. The host records the authorized outcome; an uncertain effect remains uncertain until its owner resolves it.
 
-[Read the architecture record](https://github.com/DocumentDrivenDX/batten/blob/main/docs/helix/02-design/architecture.md) or inspect the [quality contract](https://github.com/DocumentDrivenDX/batten/blob/main/docs/helix/02-design/contracts/CONTRACT-002-boundaries-and-quality.md).
+[Read the architecture record](https://github.com/DocumentDrivenDX/batten/blob/main/docs/helix/02-design/architecture.md) or inspect the quality contract.
 
 ## Test the declared behavior
 

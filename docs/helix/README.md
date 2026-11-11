@@ -1,180 +1,19 @@
-# Batten review packet
+# Batten design documents
 
-## First local reference application
+Design records for the Batten application SDK. For what ships today read the
+[README](../../README.md); for what is not built read the [roadmap](../../ROADMAP.md).
 
-The owner authorized building the approval desk after the enterprise app packet
-was pushed as `27f0876`. Its [run instructions](../../examples/approval-desk/README.md)
-use original UMF/Weft tables on PostgreSQL 18 and an authored TypeScript UI.
-[ADR-016](02-design/adr/ADR-016-local-approval-stack.md),
-[CONTRACT-012](02-design/contracts/CONTRACT-012-local-operation-host.md), and
-[TD-101](reference-apps/approval-desk/specs/02-design/technical-designs/TD-101-approval-desk.md)
-bound this authorized implementation. Historical review holds below concern
-other slices; this app does not qualify the complete fleet or reference corpus.
+- [Product vision](00-discover/product-vision.md), [PRD](01-frame/prd.md),
+  [concerns](01-frame/concerns.md), [feature specs](01-frame/features/) and
+  [user stories](01-frame/user-stories/).
+- [Architecture](02-design/architecture.md), [ADRs](02-design/adr/),
+  [contracts](02-design/contracts/), [schemas](02-design/schemas/) and
+  [technical designs](02-design/technical-designs/).
+- [Developer guide](guide/developer/index.md) (source of the microsite) and the
+  [microsite build](site/README.md).
 
-## Enterprise micro-apps and authoring workflow
-
-The [scope evaluation](01-frame/feasibility-study.md) distinguishes design fit,
-current component evidence and capabilities needing another qualified platform.
-The [reference-app library](reference-apps/README.md) supplies independent HELIX
-specification roots, fabricated data and business invariants for twelve patterns.
-Use the [Batten app workflow](04-build/batten-app-workflow.md) within a selected
-app directory. Installed HELIX owns templates and prompts; no catalog is vendored.
-
-The [integration queue](04-build/integration-gaps.md) prioritizes existing platform
-projects: UMF/PostgreSQL tables, UMF/Truss graphs and the other public capabilities.
-Initial UI delivery is an authored TypeScript app, with room for ux-builder,
-under [ADR-015](02-design/adr/ADR-015-typescript-app-ui-delivery.md).
-Inventory checks are included in the quality gate; complete app execution is a
-separate qualification obligation under CONTRACT-011.
-
-## Lintel GraphQL and Relay integration
-
-Owner direction selects a separate Python/FastAPI [Lintel runtime](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/README.md)
-for inclusion in Batten, with GraphQL + Relay and TypeScript operation/fragment
-builds from the same API. REST/OpenAPI product API generation is outside its MVP.
-[SD-002](02-design/solution-designs/SD-002-lintel-graphql-relay.md) records public
-host composition, authority/custody boundaries and required upstream changes.
-This is a planning addition; no Lintel implementation or cohort acceptance is claimed.
-
-## Fleet operating goal
-
-Batten targets hundreds of integrated applications sharing a complete qualified
-runtime and deep declarative services. Platform-owned dependency upgrades use
-required application assertions, behavioral coverage and host-enforced telemetry.
-Applications need no pip/npm installation and integrate through governed graph
-API capabilities and future defined mechanisms. See the [vision](00-discover/product-vision.md),
-[PRD fleet requirements](01-frame/prd.md), [cohort decision](02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md)
-and [verification allocation](03-test/test-plan.md). Capacity and upgrade safety
-require qualification; this alignment does not authorize product code or rollout.
-
-## Composition and hosting packet
-
-The owner-selected next design slice treats Batten as a core-and-extensions SDK
-for declarative AI applications. UMF owns saga semantics; ux-builder owns UX
-artifacts and design tooling. This packet prepares source work without authorizing
-implementation, migration or deployment.
-
-1. [FEAT-009: composition and hosting](01-frame/features/FEAT-009-composition-and-hosting.md).
-2. [FEAT-002: operations and ux-builder](01-frame/features/FEAT-002-operations-and-interfaces.md).
-3. [CONTRACT-003: module/application composition](02-design/contracts/CONTRACT-003-composition.md).
-4. [CONTRACT-004: host profiles](02-design/contracts/CONTRACT-004-host-profiles.md).
-5. [CONTRACT-005: semantic controls, local implementations and renderer binding](02-design/contracts/CONTRACT-005-ux-builder-binding.md).
-6. [ADR-008: independent axes](02-design/adr/ADR-008-independent-composition-axes.md) and
-   [ADR-009: UX ownership](02-design/adr/ADR-009-ux-builder-ownership.md).
-7. [Verification allocation](03-test/test-plan.md) and [work items](01-frame/work-items.jsonl).
-
-US-001 through US-004 in `01-frame/user-stories/` define the fabricated review
-queue across local and embedded hosts. The structural payload schema is an
-authoring artifact; registered UMF packages, runtime validators and real service
-behavior require implementation and qualification.
-
-
-Batten is an independently implemented application SDK with native platform
-dependencies and a public host API. This packet is ready for scope and boundary
-review; the owner review gate precedes migration planning and product code.
-
-## Read in this order
-
-1. [Product vision](00-discover/product-vision.md) and
-   [intent](00-discover/intent-and-intake.md).
-2. [PRD](01-frame/prd.md): complete specified scope, grouped into stable requirements.
-3. [Boundary audit](00-discover/current-state-inventory-boundaries.md): classifications,
-   import graph, observed coupling, and evidence limits.
-4. [Proposed architecture and module split](02-design/architecture.md): purpose,
-   public API, platform dependencies, and permitted/forbidden imports for each module.
-5. [Feature registry](01-frame/feature-registry.md) and [concerns](01-frame/concerns.md).
-6. [Decision points](01-frame/decision-points.md): questions needing the owner's judgment.
-
-## Public contracts
-
-- [CONTRACT-001: host API](02-design/contracts/CONTRACT-001-public-host-api.md).
-- [CONTRACT-002: boundary and quality gates](02-design/contracts/CONTRACT-002-boundaries-and-quality.md).
-
-## Decisions
-
-- [ADR-001: platform modules and neutral core](02-design/adr/ADR-001-platform-modules-and-neutral-core.md).
-- [ADR-002: native UMF](02-design/adr/ADR-002-native-umf-platform-dependency.md).
-- [ADR-003: distributions](02-design/adr/ADR-003-platform-wheel-distribution.md).
-- [ADR-004: public asynchronous host](02-design/adr/ADR-004-public-async-host-api.md).
-- [ADR-005: SDK series/cohorts](02-design/adr/ADR-005-sdk-series-and-cohort-compatibility.md).
-- [ADR-006: typed files](02-design/adr/ADR-006-typed-file-configuration.md).
-- [ADR-007: quality/test ratchets](02-design/adr/ADR-007-quality-and-test-ratchets.md).
-
-## Audit and provenance
-
-The public census contains anonymous module IDs. The source-specific graph,
-line locations, read-only source receipt, consumer census, and requirement
-crosswalk are delivered separately as a private local audit packet. They are
-excluded from this repository; public Batten documents carry their own identities
-and no dependency on the reference application.
-
-Prior-art research remains in `00-discover/research/`. It informs direction;
-the current owner rulings and PRD govern scope. The installed HELIX plugin owns
-the methodology catalog; `.helix.yml` scopes artifacts to `docs/helix/`.
-
-## Work and review
-
-Work items are project-scoped ddx beads; the installed CLI keeps its canonical
-store outside Git. The [review export](01-frame/work-items.jsonl) contains the
-owner review gate, original scope epics and the composition/hosting work items,
-all with execution authorization off. Feature scope is recorded without an implementation sequence; dependent
-implementation work requires the owner review.
-The current owner instruction authorizes the composition/hosting specification
-packet and tracking. Migration remains separate. Before source work, review the
-contracts and dependency proofs, establish the real quality scaffold, then build
-the assessor, host binding and UX slice. No existing open policy is silently settled.
-
-## Platform assets
-
-[CONTRACT-010](02-design/contracts/CONTRACT-010-platform-assets.md) and
-[ADR-012](02-design/adr/ADR-012-generic-platform-assets.md) define a generic optional
-platform wrapper for app-managed native packages and externally managed resource
-contracts. Databricks bundle syntax and Unity Catalog bindings stay in the provider.
-Deployment planning/apply is separate from runtime startup; current contract,
-grant and output readiness checks gate use. Persistent assets survive shutdown.
-[Verification allocation](03-test/test-plan.md#platform-asset-acceptance-allocation)
-covers partial effects, drift, ownership and native qualification. This evolves
-the specification without authorizing implementation or live applies.
-
-## Storage interface
-
-[CONTRACT-006](02-design/contracts/CONTRACT-006-object-storage.md) defines scoped
-object storage, initially local filesystem and Databricks Volumes.
-[ADR-010](02-design/adr/ADR-010-scoped-object-storage.md) records the optional module
-boundary. The interface and value schema do not authorize runtime implementation.
-
-## Messaging interface
-
-[CONTRACT-007](02-design/contracts/CONTRACT-007-messaging.md) defines channels,
-durable subscriptions, payload profiles, settlement and recovery.
-[ADR-011](02-design/adr/ADR-011-postgres-first-messaging.md) selects PostgreSQL 18
-first, with explicitly qualified future broker adapters. Existing UMF schemas
-define business payloads; no new UMF messaging vocabulary is selected. TP-001's
-MSG allocation covers the design without claiming runtime or codec qualification.
-
-## Application service discovery
-
-[ADR-013](02-design/adr/ADR-013-platform-ontology-for-service-discovery.md) and
-[CONTRACT-009](02-design/contracts/CONTRACT-009-service-discovery-and-binding.md)
-define Batten's native five-type platform ontology, shared semantic identities,
-permission-filtered discovery and exact host-approved service bindings.
-[US-005](01-frame/user-stories/US-005-discover-and-bind-services.md) and
-[verification allocation](03-test/test-plan.md#service-discovery-and-binding-allocation)
-cover graph, governed table/view, API and messaging profiles. The core remains
-ontology-neutral. Native registry/transport behavior requires cohort qualification.
-
-## Authorized local storage build
-
-The owner approved main integration of the evolved specifications and the local
-filesystem implementation under [TD-006](02-design/technical-designs/TD-006-local-object-storage.md),
-[CONTRACT-100](02-design/contracts/CONTRACT-100-storage-provider-host.md) and the
-[implementation plan](04-build/implementation-plan.md). Earlier review holds
-continue to apply to unrelated migration and platform implementations.
-
-## Automatic semantic testing
-
-Author intent and explicit refinements must drive complete CLI functionality and
-automatically generated property-based end-to-end suites for every fully declarative
-UI-and-hook composition. [FR-47](01-frame/prd.md) and the [SEM allocation](03-test/test-plan.md)
-make a decisive semantic conformance result a prerequisite for platform migration.
-Unsupported required meaning or missing coverage cannot pass qualification.
+The contracts and the PRD describe the intended design and are broader than the
+shipped packages. Some prose cites ADR-005, ADR-007, ADR-014, CONTRACT-002 and
+CONTRACT-011, which were removed with the 0.1.0a3 reset; they remain in git
+history. The approval desk model lives with the example at
+`examples/approval-desk/model/approval.umf.json`.

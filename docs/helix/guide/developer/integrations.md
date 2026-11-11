@@ -12,7 +12,6 @@
 <!-- helix:source docs/helix/02-design/adr/ADR-012-generic-platform-assets.md sha256:1c38e89475ee2c90 -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-100-storage-provider-host.md sha256:e2825ccf8e5b413e -->
-<!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
 
 <!-- helix:source docs/helix/02-design/adr/ADR-015-typescript-app-ui-delivery.md sha256:5e7b255d041b71c3 -->
 

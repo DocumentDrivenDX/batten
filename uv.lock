@@ -52,6 +52,8 @@ dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
+    { name = "umf-access" },
+    { name = "umf-codegen" },
     { name = "umf-core" },
     { name = "umf-weft" },
 ]
@@ -71,6 +73,8 @@ dev = [
     { name = "pytest", specifier = "==9.2.0" },
     { name = "pytest-asyncio", specifier = "==1.4.1.post1" },
     { name = "ruff", specifier = "==0.17.3" },
+    { name = "umf-access", specifier = "==0.1.0.dev8" },
+    { name = "umf-codegen", specifier = "==0.10.8" },
     { name = "umf-core", specifier = "==0.10.8" },
     { name = "umf-weft", specifier = "==0.4.57" },
 ]
@@ -591,6 +595,30 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/7a/29/6a1391d31cd00ff9e927215a224a880e1e84e826b64ba80a499e51c074d8/tzdata-2026.6.tar.gz", hash = "sha256:85d2cd9c09f81f0bb29db27759fc83af4f1e620efb814f8c5bf8b4cc4feece6d", size = 201017, upload-time = "2026-10-28T09:57:09.137Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0a/66/9a06c2227fedfd4919f0eaaa8b94377d9730882a7e4f95823c9a331ab5e1/tzdata-2026.6-py2.py3-none-any.whl", hash = "sha256:0a10eec6e13ef16b627fabed9a5f2ba61a62b1c67f327305f4e7e412a70b4aec", size = 348210, upload-time = "2026-10-28T09:57:07.276Z" },
+]
+
+[[package]]
+name = "umf-access"
+version = "0.1.0.dev8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "typing-extensions" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/df/a2/253e6ae631c8acc7954d5d0d82a96c4d079466361b3f8f5e85dab33723bb/umf_access-0.1.0.dev8-py3-none-any.whl", hash = "sha256:1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23", size = 580062, upload-time = "2026-10-30T00:25:00.251Z" },
+]
+
+[[package]]
+name = "umf-codegen"
+version = "0.10.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "umf-core" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0d/fa/ee03bffb19ab1d3e5b7e97117603bced108f0cc5b5abcc99c6faf4e411f6/umf_codegen-0.10.8.tar.gz", hash = "sha256:f094d73900004debf70516ab5f7e18fb84c564ba5861e305ae29fe021464c52d", size = 53112, upload-time = "2026-11-04T04:23:50.637Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/67/80/42c92c17e5365f6a9c74489eed9fed52b3a31513d1cf90940a0bf05ef947/umf_codegen-0.10.8-py3-none-any.whl", hash = "sha256:0d21acef3171442b818a4ad1dfdbaf99cc0f0f5557e5c670d5ce56243235dbc5", size = 66201, upload-time = "2026-11-04T04:23:49.377Z" },
 ]
 
 [[package]]

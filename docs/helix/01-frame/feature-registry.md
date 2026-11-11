@@ -47,7 +47,7 @@ follow the owner's scope review rather than empty placeholder files.
 
 ## Relevant References
 
-[PRD](prd.md), [concerns](concerns.md), [boundary audit](../00-discover/current-state-inventory-boundaries.md),
+[PRD](prd.md), [concerns](concerns.md), boundary audit,
 [architecture](../02-design/architecture.md), and
 [open decisions](decision-points.md). Feature dependencies describe capability
 relationships, not an implementation or migration sequence.

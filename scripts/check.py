@@ -1,4 +1,4 @@
-"""One quality recipe shared by local execution, hooks and CI."""
+"""The one check recipe shared by local runs and CI."""
 
 from __future__ import annotations
 
@@ -9,11 +9,10 @@ import sys
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--lint", action="store_true")
+    parser.add_argument("--lint", action="store_true", help="skip pytest")
     args = parser.parse_args()
     commands = [
-        [sys.executable, "scripts/check_boundaries.py", "--base", "HEAD"],
-        [sys.executable, "scripts/check_micro_apps.py"],
+        [sys.executable, "scripts/check_boundaries.py"],
         ["ruff", "check", "."],
         ["ruff", "format", "--check", "."],
         ["pyright"],

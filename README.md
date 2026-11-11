@@ -17,10 +17,6 @@ The microsite explains the design. The first source implementation is the option
 [local object-storage package](packages/batten-storage/README.md); the complete
 application runtime remains in design.
 
-Start with the [review packet](docs/helix/README.md), including the product
-requirements, boundary audit, and proposed module/distribution split. The owner has authorized the local storage implementation. Broader runtime
-implementation follows its governed contracts.
-
 Dual licensed under [MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE).
 Copyright Synaptiq.
 
@@ -31,7 +27,7 @@ workspace. Oxlint and TypeScript 7 supply the browser quality checks:
 ```sh
 uv sync --frozen --all-packages
 bun install --frozen-lockfile
-uv run python scripts/quality.py
+uv run python scripts/check.py
 ```
 
 `just test` runs both the Python suite and the two JavaScript Playwright scenarios.
@@ -40,13 +36,7 @@ provides the configured local pre-commit check. Product storage has no third-par
 runtime dependencies. Quality tools remain outside its wheel.
 
 
-The [enterprise micro-app library](docs/helix/reference-apps/README.md) contains
-independently HELIX-scoped app specifications and fabricated conformance fixtures.
-Use the [Batten app workflow](docs/helix/04-build/batten-app-workflow.md) and
-[integration queue](docs/helix/04-build/integration-gaps.md). Initial UI delivery
-uses authored TypeScript apps; table and graph persistence integrate existing
-UMF/PostgreSQL and UMF/Truss capabilities. These specs are qualification targets,
-not twelve implemented apps.
+What is not built is listed in the [roadmap](ROADMAP.md).
 
 ## Run the first reference application
 
@@ -54,5 +44,5 @@ The [approval desk](examples/approval-desk/README.md) uses original UMF tables a
 Weft on a dedicated PostgreSQL 18 pgserver, a modular local Batten host and an
 authored TypeScript UI. Start with `just approval-prepare`, explicitly initialize
 with `just approval-init`, then run `just approval`. The installed app opens at
-<http://127.0.0.1:8820/>. Native/browser qualification is `just approval-test`;
+<http://127.0.0.1:8820/>. Browser tests run with `just approval-test`;
 `just check` stays independent of database processes.
