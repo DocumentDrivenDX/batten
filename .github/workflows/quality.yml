@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: DocumentDrivenDX/umf
-          ref: 6126e6235a73ccd008183e5121bd29447210b075
+          ref: d67da43671047fc14f745ee2cbc6d3cfb28e7943
           path: .cache/quality-umf
           persist-credentials: false
       - name: Check out the qualified Lintel source

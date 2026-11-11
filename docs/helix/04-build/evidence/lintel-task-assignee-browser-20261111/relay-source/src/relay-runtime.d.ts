@@ -4,8 +4,10 @@ declare module "relay-runtime" {
   }
   export interface OperationDescriptor {}
   export interface NetworkLayer {}
-  export class RecordSource {}
-  export class Store { constructor(source: RecordSource); }
+  interface RecordSource {}
+  interface Store {}
+  export const RecordSource: { new(): RecordSource };
+  export const Store: { new(source: RecordSource): Store };
   export const Network: {
     create(fetch: (params: ConcreteRequest["params"], variables: object) => Promise<object>): NetworkLayer;
   };
