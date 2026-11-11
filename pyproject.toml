@@ -1,7 +1,7 @@
 [project]
 name = "batten-development"
-version = "0.1.0a2"
-requires-python = ">=3.13,<3.14"
+version = "0.1.0a3"
+requires-python = ">=3.11,<3.14"
 dependencies = []
 
 [dependency-groups]
@@ -12,13 +12,8 @@ package = false
 find-links = ["https://github.com/DocumentDrivenDX/pgserver/releases/expanded_assets/pg18.6-pgv0.8.6-r2"]
 
 [tool.uv.workspace]
-exclude = ["packages/batten-umf-postgres", "packages/batten-local", "examples/approval-desk"]
-members = ["packages/batten-storage", "packages/batten-contracts", "packages/batten-runtime", "packages/batten-tables", "packages/batten-asgi"]
-
-[tool.uv.sources]
-novirhyza-batten-contracts = { workspace = true }
-novirhyza-batten-runtime = { workspace = true }
-novirhyza-batten-tables = { workspace = true }
+exclude = ["packages/batten-local", "examples/approval-desk"]
+members = ["packages/batten", "packages/batten-storage"]
 
 [tool.ruff]
 target-version = "py311"
@@ -43,11 +38,11 @@ typeCheckingMode = "strict"
 include = ["packages", "scripts", "tests", "docs/helix/site", "examples/approval-desk/src"]
 venvPath = "."
 venv = ".venv"
-extraPaths = ["packages/batten-storage/src", "packages/batten-contracts/src", "packages/batten-runtime/src", "packages/batten-tables/src", "packages/batten-asgi/src", "packages/batten-umf-postgres/src", "packages/batten-local/src", "scripts", "docs/helix/site", "examples/approval-desk/src"]
+extraPaths = ["packages/batten-storage/src", "packages/batten/src", "packages/batten-local/src", "scripts", "docs/helix/site", "examples/approval-desk/src"]
 
 [tool.pytest.ini_options]
 markers = ["integration: requires actual native services and installed browser artifacts"]
-pythonpath = ["packages/batten-storage/src", "packages/batten-contracts/src", "packages/batten-runtime/src", "packages/batten-tables/src", "packages/batten-asgi/src", "packages/batten-umf-postgres/src", "packages/batten-local/src", "scripts", "docs/helix/site", "examples/approval-desk/src"]
+pythonpath = ["packages/batten-storage/src", "packages/batten/src", "packages/batten-local/src", "scripts", "docs/helix/site", "examples/approval-desk/src"]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
