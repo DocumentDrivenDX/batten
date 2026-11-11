@@ -33,9 +33,8 @@ jobs:
       - name: Tree size guard
         run: python3 scripts/check_tree_size.py
 
-  # Native PostgreSQL (pgserver) and browser tests; slower, so not on pull requests.
+  # Native PostgreSQL (pgserver) and browser tests; runs on every PR so the stack is exercised before merge.
   native:
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
