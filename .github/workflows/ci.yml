@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: uv sync --frozen --all-packages --python 3.13
+      - run: bun install --frozen-lockfile
+      - name: Boundaries, lint, types and unit tests
+        run: uv run python scripts/check.py
+      - name: Tree size guard
+        run: python3 scripts/check_tree_size.py
+
+  # Native PostgreSQL (pgserver) and browser tests; slower, so not on pull requests.
+  native:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: uv sync --frozen --all-packages --python 3.13
+      - run: bun install --frozen-lockfile
+      - name: Build and install the approval desk
+        run: uv run python scripts/prepare_approval.py
+      - name: Integration tests
+        run: uv run pytest -m integration
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26.13.0'
+      - run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Browser scenarios
+        run: bun run test:native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: .cache/browser-results.json
+          retention-days: 14
+          if-no-files-found: ignore
