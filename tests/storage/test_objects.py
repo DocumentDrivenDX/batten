@@ -28,7 +28,9 @@ async def test_roundtrip_borrower_close_and_reload(
         assert b"".join([chunk async for chunk in stream]) == body
     await store.aclose()
     other = provider.bind(grant)
-    assert (await other.stat(written.info.key)).version == written.info.version
+    borrowed = await other.stat(written.info.key)
+    assert borrowed.version == written.info.version
+    assert borrowed.size_bytes == len(body)
     with pytest.raises(StorageError, match="denied"):
         await store.stat(written.info.key)
     session = await other.begin_upload("reviews/unpublished")
