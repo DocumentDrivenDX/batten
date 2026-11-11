@@ -13,7 +13,7 @@ dependencies = ["novirhyza-batten-tables==0.1.0a5", "umf-access>=0.1.0.dev20,<=0
 [project.optional-dependencies]
 postgresql = ["psycopg[binary]==3.3.6"]
 postgresql-writes = ["psycopg[binary]==3.3.6", "umf-access==0.1.0.dev21"]
-local = ["umf-access-build==0.1.0.dev30", "umf-codegen==0.1.0a8", "weft-sql==0.4.67.dev1", "psycopg[binary]==3.3.6", "pgserver-pg18==18.6.1", "opentelemetry-instrumentation-psycopg==0.66b2"]
+local = ["umf-access-build==0.1.0.dev31", "umf-codegen==0.1.0a8", "weft-sql==0.4.67.dev1", "psycopg[binary]==3.3.6", "pgserver-pg18==18.6.1", "opentelemetry-instrumentation-psycopg==0.66b2"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/batten"]

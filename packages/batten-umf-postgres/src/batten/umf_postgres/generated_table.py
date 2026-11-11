@@ -7,7 +7,7 @@ from collections.abc import AsyncGenerator, Awaitable, Callable, Mapping
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
 from itertools import combinations
 from types import MappingProxyType
-from typing import Protocol, cast
+from typing import cast
 
 import umf_access.generated as generated_api
 from batten.contracts import (
@@ -24,8 +24,6 @@ from umf_access.unified import AsyncSession, SessionIdentity
 from umf_access_generated_executor import ExecutionScope as GeneratedScope
 from umf_access_generated_executor import (
     GeneratedExecutor,
-    GeneratedOrdinaryPageCall,
-    GeneratedOrdinaryPageRoot,
 )
 
 from ._generated_batch_routes import RecordRoot
@@ -43,6 +41,7 @@ from ._generated_connection import (
 )
 from ._generated_join import GeneratedJoinBinding, GeneratedJoinExecution
 from ._generated_page import GeneratedPageBinding, GeneratedPageExecution
+from ._generated_table_binding import GeneratedTableBinding
 from ._generated_table_routes import ConnectionRoute as _ConnectionRoute
 from ._read_binding import ReadBindingMetadata
 from .generated_batch import GeneratedBatchBinding, GeneratedBatchExecution
@@ -55,65 +54,6 @@ _PROFILE5 = "weft.generated-read-algebra/5"
 _PROFILE7 = "weft.generated-read-algebra/7"
 _PROFILE8 = "weft.generated-read-algebra/8"
 _MAX_PLANNED_CALLS = 256
-
-
-class _GeneratedTableRequest(Protocol):
-    async def execute_get_many(self, call: object) -> dict[str, object]: ...
-    async def execute_forward_connection(
-        self, prepared: object
-    ) -> dict[str, object]: ...
-
-
-class GeneratedTableBinding(Protocol):
-    """One source/profile-bound native table adapter for all generated routes."""
-
-    @property
-    def connection_routes(self) -> Mapping[str, _ConnectionRoute]: ...
-    @property
-    def schema(self) -> str: ...
-    @property
-    def module(self) -> str: ...
-    @property
-    def target_binding_digest(self) -> str: ...
-    @property
-    def artifact_digest(self) -> str: ...
-    @property
-    def receipt_digest(self) -> str: ...
-    @property
-    def algebra_json(self) -> bytes: ...
-    @property
-    def read_profile(self) -> str | None: ...
-
-    def open_request(
-        self,
-        identity: SessionIdentity,
-        scope: GeneratedScope,
-        *,
-        data_session: AsyncSession,
-    ) -> AbstractAsyncContextManager[_GeneratedTableRequest]: ...
-
-    def prepare_forward_connection(
-        self,
-        request: object,
-        *,
-        identity: SessionIdentity,
-        scope: GeneratedScope,
-    ) -> object: ...
-
-    @property
-    def ordinary_page_roots(self) -> tuple[GeneratedOrdinaryPageRoot, ...]: ...
-
-    def ordinary_page_identity(self, call: GeneratedOrdinaryPageCall) -> bytes: ...
-    def validate_ordinary_page_result(
-        self, result: object, call: GeneratedOrdinaryPageCall
-    ) -> bool: ...
-    async def execute_ordinary_page(
-        self,
-        call: GeneratedOrdinaryPageCall,
-        *,
-        identity: SessionIdentity,
-        scope: GeneratedScope,
-    ) -> dict[str, object]: ...
 
 
 class GeneratedTableExecution:
