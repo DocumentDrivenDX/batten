@@ -17,10 +17,6 @@ from ._identities import LocalIdentities
 from ._ports import LocalSessions
 from ._registry import AppListing, registry_app
 from ._routes import Routes
-from .new_operations import (
-    OperationIngress,
-    operation_route,
-)
 
 
 def create_app(
@@ -31,11 +27,10 @@ def create_app(
     origin: str,
     max_body_bytes: int,
     additional_routes: tuple[BaseRoute, ...] = (),
-    api_digest: str | None = None,
 ) -> Starlette:
     if not origin.startswith("http://127.0.0.1:") or max_body_bytes < 1:
         raise ValueError("explicit loopback origin and request bound required")
-    routes = Routes(host, sessions, assets, max_body_bytes, api_digest=api_digest)
+    routes = Routes(host, sessions, assets, max_body_bytes)
     app = Starlette(
         lifespan=routes.lifetime,
         routes=[
@@ -88,8 +83,6 @@ __all__ = [
     "AppListing",
     "LocalIdentities",
     "LocalSessions",
-    "OperationIngress",
     "create_app",
     "create_registry",
-    "operation_route",
 ]
