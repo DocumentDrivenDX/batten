@@ -43,9 +43,28 @@ jobs:
           bun install --frozen-lockfile
       - name: Assemble pinned optional SDK and application artifacts
         run: uv run python scripts/prepare_approval.py
-      - name: Run common quality recipe and behaviors
+      - name: Check out the qualified generated Access source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: DocumentDrivenDX/umf
+          ref: 6126e6235a73ccd008183e5121bd29447210b075
+          path: .cache/quality-umf
+          persist-credentials: false
+      - name: Check out the qualified Lintel source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: DocumentDrivenDX/lintel
+          ref: cabd408d776e49c6330239e750c2f1ddef5a99c7
+          path: .cache/quality-lintel
+          persist-credentials: false
+      - name: Install generated-provider test wheels
         run: |
-          uv run python scripts/quality.py
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-umf/python/umf_access_generated_executor
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-umf/python/umf_access
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-lintel
+          uv pip install --python .venv/bin/python --find-links https://github.com/DocumentDrivenDX/umf/releases/expanded_assets/umf-v0.10.10 .cache/generated-wheels/*.whl
+      - name: Run common quality recipe and behaviors
+        run: uv run --no-sync python scripts/quality.py
       - name: Install native browser
         if: env.FULL == 'true'
         run: node node_modules/playwright/cli.js install --with-deps chromium

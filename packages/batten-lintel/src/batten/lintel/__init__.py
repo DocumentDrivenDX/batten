@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import AsyncGenerator, Mapping
 from contextlib import asynccontextmanager, nullcontext
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Protocol, cast
+from typing import TYPE_CHECKING, Protocol
 
 from batten.contracts import (
     ExecutionScope,
@@ -82,7 +82,7 @@ def _native_inputs(
             )
     elif connection_admission is not None:
         raise ValueError("API connections require explicit Record roots")
-    admission = cast(ConnectionAdmission | None, connection_admission)
+    admission = connection_admission
     check_prepared_command_routes(
         host,
         config,
