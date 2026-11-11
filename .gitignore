@@ -13,3 +13,9 @@ build/
 
 .cache/
 .local/
+
+# generated test output
+test-results/
+playwright-report/
+**/evidence/
+*verification.json

@@ -21,7 +21,7 @@ ddx:
 Batten has a platform-neutral application core and independently installed
 platform modules. This is the proposal for the owner's first review. It covers
 PRD FR-1–44 and FR-46. The composition/hosting packet elaborates the owner-selected
-next design slice; migration and product code still require build authorization. The [boundary audit](../00-discover/current-state-inventory-boundaries.md)
+next design slice; migration and product code still require build authorization. The boundary audit
 precedes this target model.
 
 **Pure core has zero ontology-specific capabilities.** Its capabilities are:
@@ -206,7 +206,7 @@ Application declarations cannot install or replace a privileged platform provide
 admission, permissions, or dispatch as a second test-only host.
 
 **Boundary Check**: the specified entry point is
-`uv run python scripts/check_boundaries.py --base HEAD`, with CONTRACT-002's
+`uv run python scripts/check_boundaries.py`, with CONTRACT-002's
 per-module allowlists, public-export checks, and negative controls. It will be
 implemented only after this review. Documentation validation is not evidence
 that an import gate already executes; dependent source work requires that gate.

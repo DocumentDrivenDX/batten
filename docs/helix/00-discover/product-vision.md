@@ -121,7 +121,7 @@ These learning indicators establish no customer-adoption gate.
 
 ## Why Now
 
-The [boundary survey](current-state-inventory-boundaries.md) identifies concrete
+The boundary survey identifies concrete
 coupling between an existing development host and its application, alongside
 compiler, worker, testing, and packaging responsibilities in one SDK. The owner
 has chosen a cleanroom implementation with native platform dependencies. That
