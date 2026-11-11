@@ -12,9 +12,11 @@ from batten.storage import Absent, Any, Digest, Matches, StorageError
 from batten.storage.local import LocalProvider, create_store, initialize
 from conftest import Grant, process_results
 
+WRONG_DIGEST = Digest("sha256", hashlib.sha256(b"wrong").hexdigest())
+
 
 @pytest.mark.parametrize("body", [b"", b"Fabricated review", b"fabricated" * 1000])
-async def test_roundtrip_and_reload(
+async def test_roundtrip_borrower_close_and_reload(
     local: tuple[LocalProvider, Grant], body: bytes
 ) -> None:
     provider, grant = local
@@ -27,6 +29,24 @@ async def test_roundtrip_and_reload(
     await store.aclose()
     other = provider.bind(grant)
     assert (await other.stat(written.info.key)).version == written.info.version
+    with pytest.raises(StorageError, match="denied"):
+        await store.stat(written.info.key)
+    session = await other.begin_upload("reviews/unpublished")
+    await other.write_part(session.upload, 1, b"private")
+    assert [
+        item.key for item in (await other.list(prefix="reviews/", limit=2)).items
+    ] == [written.info.key]
+    await other.abort_upload(session.upload)
+    assert (await other.upload_status(session.upload)).state == "aborted"
+    original_features = grant.features
+    grant.features = {"multipart_upload", "create_only"}
+    transient = await other.begin_upload("transient")
+    await other.write_part(transient.upload, 1, b"temporary")
+    await other.aclose()
+    assert len(list((provider.root / "blobs").iterdir())) == 1
+    with pytest.raises(StorageError, match="denied"):
+        await provider.bind(grant).upload_status(transient.upload)
+    grant.features = original_features
     await provider.aclose()
     reloaded = create_store(provider.root, provider.limits)
     await reloaded.prepare()
@@ -102,7 +122,7 @@ async def test_key_and_root_containment(
 
 
 @pytest.mark.parametrize("processes", [False, True])
-async def test_conditional_competing_publication(
+async def test_conditional_publication_and_observation_failure(
     local: tuple[LocalProvider, Grant], processes: bool
 ) -> None:
     provider, grant = local
@@ -137,9 +157,15 @@ async def test_conditional_competing_publication(
     with pytest.raises(StorageError, match="precondition_failed"):
         await stores[0].delete("review", condition=condition)
     await stores[0].write("review", b"explicit", condition=Any())
+    grant.sink_fails = True
+    with pytest.raises(StorageError, match="unavailable") as failure:
+        await stores[0].write("observed", b"published")
+    assert failure.value.effect == "unknown"
+    grant.sink_fails = False
+    assert (await stores[0].stat("observed")).size_bytes == 9
 
 
-async def test_pinned_read_ranges_integrity_and_partial_close(
+async def test_transfer_verification_ranges_and_limits(
     local: tuple[LocalProvider, Grant],
 ) -> None:
     provider, grant = local
@@ -147,7 +173,6 @@ async def test_pinned_read_ranges_integrity_and_partial_close(
     body = b"0123456789" * 8
     digest = Digest("sha256", hashlib.sha256(body).hexdigest())
     receipt = await store.write("verified", body, expected_digest=digest)
-    info = receipt.info
     assert receipt.verification is not None and receipt.verification.scope == "source"
     async with store.open_read("verified", expected_digest=digest) as stream:
         assert b"".join([part async for part in stream]) == body
@@ -155,7 +180,7 @@ async def test_pinned_read_ranges_integrity_and_partial_close(
             stream.verification is not None and stream.verification.scope == "delivered"
         )
     async with store.open_read(
-        "verified", offset=2, length=4, condition=Matches(info.version)
+        "verified", offset=2, length=4, condition=Matches(receipt.info.version)
     ) as stream:
         assert b"".join([part async for part in stream]) == b"2345"
         assert stream.selection.length == 4
@@ -167,24 +192,17 @@ async def test_pinned_read_ranges_integrity_and_partial_close(
     async with store.open_read("verified", expected_digest=digest) as stream:
         await anext(stream.__aiter__())
     assert stream.verification is None
-    wrong = Digest("sha256", hashlib.sha256(b"wrong").hexdigest())
     with pytest.raises(StorageError, match="integrity_mismatch"):
-        await store.write("bad", body, expected_digest=wrong)
+        await store.write("bad", body, expected_digest=WRONG_DIGEST)
     with pytest.raises(StorageError, match="not_found"):
         await store.stat("bad")
     with pytest.raises(StorageError, match="integrity_mismatch"):
-        async with store.open_read("verified", expected_digest=wrong) as stream:
+        async with store.open_read("verified", expected_digest=WRONG_DIGEST) as stream:
             [part async for part in stream]
     await store.write("verified", b"changed", condition=Any())
     with pytest.raises(StorageError, match="precondition_failed"):
-        async with store.open_read("verified", condition=Matches(info.version)):
+        async with store.open_read("verified", condition=Matches(receipt.info.version)):
             pass
-
-
-async def test_transfer_limits_preserve_destination(
-    local: tuple[LocalProvider, Grant],
-) -> None:
-    provider, grant = local
     bounded = create_store(provider.root, replace(provider.limits, max_object_bytes=3))
     await bounded.prepare()
     store = bounded.bind(grant)
@@ -194,16 +212,3 @@ async def test_transfer_limits_preserve_destination(
     async with store.open_read("small") as stream:
         assert b"".join([part async for part in stream]) == b"old"
     await bounded.aclose()
-
-
-async def test_observation_failure_retains_possible_effect(
-    local: tuple[LocalProvider, Grant],
-) -> None:
-    provider, grant = local
-    store = provider.bind(grant)
-    grant.sink_fails = True
-    with pytest.raises(StorageError, match="unavailable") as failure:
-        await store.write("observed", b"published")
-    assert failure.value.effect == "unknown"
-    grant.sink_fails = False
-    assert (await store.stat("observed")).size_bytes == 9

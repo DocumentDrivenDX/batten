@@ -3,19 +3,48 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable, Mapping
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from batten.contracts import Actor, Identity
 from umf_access.unified import SessionIdentity
 
-from .generated_batch import (
-    GeneratedBatchBinding,
-    GeneratedBatchExecution,
-    GeneratedBatchRequest,
-)
-from .generated_command import GeneratedCommandExecution, GeneratedCommandRoute
-from .generated_relationship import GeneratedRelationshipRoute, GeneratedRelationships
-from .generated_table import GeneratedTableBinding, GeneratedTableExecution
+if TYPE_CHECKING:
+    from .generated_batch import (
+        GeneratedBatchBinding,
+        GeneratedBatchExecution,
+        GeneratedBatchRequest,
+    )
+    from .generated_command import GeneratedCommandExecution, GeneratedCommandRoute
+    from .generated_relationship import (
+        GeneratedRelationshipRoute,
+        GeneratedRelationships,
+    )
+    from .generated_table import GeneratedTableBinding, GeneratedTableExecution
+
+
+def __getattr__(name: str) -> object:
+    """Resolve generated exports only when the generated provider is selected."""
+    if name in {
+        "GeneratedBatchBinding",
+        "GeneratedBatchExecution",
+        "GeneratedBatchRequest",
+    }:
+        from . import generated_batch
+
+        return getattr(generated_batch, name)
+    if name in {"GeneratedCommandExecution", "GeneratedCommandRoute"}:
+        from . import generated_command
+
+        return getattr(generated_command, name)
+    if name in {"GeneratedRelationshipRoute", "GeneratedRelationships"}:
+        from . import generated_relationship
+
+        return getattr(generated_relationship, name)
+    if name in {"GeneratedTableBinding", "GeneratedTableExecution"}:
+        from . import generated_table
+
+        return getattr(generated_table, name)
+    raise AttributeError(name)
 
 
 class AuthenticatedTransport(Protocol):
