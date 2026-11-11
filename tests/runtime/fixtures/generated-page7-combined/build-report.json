@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "scope": "UMF source deployment verification + genuine Weft66 /7 issuance; task-local receipt only; no native authority",
+  "python": "3.11.17 (main, Oct  3 2026, 00:54:14) [Clang 22.1.3 ]",
+  "codegenVersion": "0.1.0a8",
+  "codegenModule": "/private/tmp/umf-build-v6-dev-20261105/lib/python3.11/site-packages/umf_codegen/__init__.py",
+  "weftVersion": "0.4.66.dev1",
+  "weftModule": "/private/tmp/umf-page7-weft66-review-import-20261105/weft/__init__.py",
+  "weftWheelSha256": "1214a26beb73b351dcf7c684baf0465562e512798afe5138dce39d5ac1588660",
+  "inputRequestSha256": "9a785d95a9243c69a3fe85e4fcf974862fb33976c06cd22bd1b8716235c241da",
+  "sourceDigest": "0a508516d89051e3d34d0203db278c6ad1f5a5b7651a04ffc8cfeaa76aed686f",
+  "bundleDigest": "4788ddf2c6b796a5e6fc375a173aff1ad84c2e5f01af3ba1451668f14b3f61fe",
+  "configurationDigest": "8f4193509162607f8a69627f6f86038ad22806b7d8e76f9db98287b409225496",
+  "targetBindingDigest": "3dc296a0e8c4b4243d4427dc8971a89fc3c3895fe11a10ab128ae5a269b9f740",
+  "artifactDigest": "bd6a87dd7dcff4c35467f402ae5d4a79c736b64a642a7b3060798050895e259f",
+  "receiptDigest": "55fb4d4d5bf10ea173ed21b5e094578c425183b18d518c697f734ad3ba679d3e",
+  "payloadDigest": "16830430280c929dff84b954e0307d9aed215fedaa2498efe6f3fb5d9f1f5490",
+  "algebraDigest": "9250d00b34aebc24ed2e2151c2c2279cc423639cc80a8594c797ac3ec0043c3b",
+  "algebraRootIds": [
+    "demo/Note"
+  ],
+  "rootCapabilities": {
+    "demo/Note": {
+      "page": "eligible",
+      "forward": "eligible"
+    }
+  }
+}

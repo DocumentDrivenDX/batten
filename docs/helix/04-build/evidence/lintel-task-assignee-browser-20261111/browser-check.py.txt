@@ -1,0 +1,339 @@
+"""Temporary local test runner for real issued API and compiled Chromium operations."""
+import asyncio
+import base64
+import hashlib
+import json
+import socket
+import subprocess
+import uuid
+from contextlib import asynccontextmanager, contextmanager
+from pathlib import Path
+from types import SimpleNamespace
+
+import psycopg
+import uvicorn
+from batten.asgi import LocalIdentities, create_app
+from batten.contracts import ArtifactRef, HostConfig, HostServices, Operation
+from batten.lintel import ExposureConfig, ExposureOperation, ExposureRecordRoot, LintelExecution
+from batten.lintel.asgi import HostScopeIngress
+from batten.runtime import create_host
+from batten.umf_postgres import GeneratedCommandExecution, GeneratedCommandRoute, GeneratedTableExecution, GeneratedRelationships, GeneratedRelationshipRoute
+from fastapi import FastAPI
+from lintel.graphql import create_router
+from lintel.node_id import StringKeyNodeCodec
+from lintel.ports import ElementRef, OperationRef
+from lintel.projection import TrustedPreparedRef, load_prepared_api
+from lintel_build.prepare_v5 import prepare_api_v5
+from playwright.async_api import async_playwright
+from starlette.routing import Mount
+from umf_access.generated import GeneratedNativeTableBinding
+from umf_access.unified import AsyncSession
+
+from build_check import issue
+from fixture import Fixture, PGSERVER, RUNTIME
+from board_fixture import _install
+from umf_access.build.postgres_writes import prepare_postgres_writes
+
+ROOT = Path(__file__).parent
+BATTEN = Path("/Users/erik/Projects/batten")
+LINTEL = Path("/Users/erik/Projects/lintel")
+RECORD = ElementRef("demo", "Task")
+PERSON = ElementRef("demo", "Note")
+REL = OperationRef("demo", "readAssignees", "table")
+REL_ROUTE = "tasks.assignee"
+PERSON_ROUTE = "records.person"
+KEY = ElementRef("demo", "id")
+TITLE = ElementRef("demo", "title")
+RECORD_ROUTE = "records.task"
+COMMAND_ROUTE = "tasks.complete"
+COMMAND = OperationRef("demo", "completeTask", "table")
+READ = "tasks.read"
+SECRET = b"disposable-task-board-fixture-01234567890"
+
+
+def canonical(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",",":")).encode()
+
+
+def digest(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def prepare(fixture, manifest, files, trust, target):
+    template = json.loads((LINTEL/"tests/fixtures/prepared-api-v3-four-fields-proof.json").read_bytes())
+    exposure = json.loads(base64.b64decode(template["exposureBase64"]))
+    exposure["records"] = [
+        {"record":{"module":"demo","element":"Task"},"key":"primary","typeName":"Task",
+         "lookup":{"module":"demo","id":"Task","kind":"record"},
+         "fields":[{"field":{"module":"demo","element":"taskValue"},"name":"title"},
+                   {"field":{"module":"demo","element":"taskId"},"name":"nativeId"}],
+         "relationships":[{"name":"assignee","relationship":{"module":"demo","id":"TaskNote","direction":"forward"},
+                           "target":{"module":"demo","element":"Note"},"operation":REL._asdict()}]},
+        {"record":{"module":"demo","element":"Note"},"key":"primary","typeName":"Person",
+         "lookup":{"module":"demo","id":"Note","kind":"record"},
+         "fields":[{"field":{"module":"demo","element":"payload"},"name":"displayName"}],
+         "relationships":[]},
+    ]
+    exposure["connections"] = [{"name":"tasks","record":{"module":"demo","element":"Task"}}]
+    exposure["mutations"] = [{"name":"completeTask","operation":COMMAND._asdict()}]
+    caps = dict(template["capabilities"])
+
+    caps.update({
+        "relationship.batch":"to-one-1","relationship.batch.binding.profile":"pg18/1",
+        "command.outcome":"1","command.outcome.binding.profile":"pg18/1",
+        "command.observe":"1","command.observe.binding.profile":"pg18/1",
+    })
+    host = dict(template["hostProfile"], format="lintel.host/1")
+    host["limits"] = {name:int(value) for name,value in host["limits"]}
+    raw = prepare_api_v5(
+        fixture.bundle["source"]["utf8"].encode(), (), canonical(exposure), caps, host,
+        template["scalarCodecProfile"], manifest, files, trust, target,
+    )
+    d = json.loads(raw)
+    pin = TrustedPreparedRef(
+        digest(raw),d["artifactDigest"],d["application"],d["apiDigest"],d["exposureSha256"],
+        tuple((row["identity"],row["sha256"]) for row in d["sources"]),
+        tuple(map(tuple,d["capabilities"])),d["bindingProfile"],d["scalarCodecProfile"],
+        tuple(map(tuple,d["hostProfile"]["limits"])),
+        digest(canonical(d["generatedRoots"])),digest(canonical(d["generatedConnections"])),
+    )
+    (ROOT/"prepared-api.json").write_bytes(raw)
+    return load_prepared_api(raw,pin)
+
+
+def compile_client(prepared):
+    client = ROOT/"client"
+    assets = ROOT/"assets"
+    (client/"schema.graphql").write_text(prepared.sdl)
+    binaries = BATTEN/"node_modules/.bin"
+    subprocess.run([str(binaries/"relay-compiler"),"relay.config.json","--noWatchman"],cwd=client,check=True)
+    subprocess.run([str(binaries/"tsc"),"--project","tsconfig.json"],cwd=client,check=True)
+    subprocess.run(["bun","build","--target","browser","src/main.ts","--outfile",str(assets/"main.js")],
+                   cwd=client,check=True)
+    (assets/"index.html").write_text(f'<!doctype html><meta name="lintel-api" content="{prepared.api_digest}">'
+                                    '<title>Task board command verification</title><script src="/assets/main.js"></script>')
+
+
+class Observations:
+    def __init__(self):
+        self.events=[]
+    @asynccontextmanager
+    async def scope(self,*args):
+        yield
+    async def capture(self,*args):
+        self.events.append(args)
+
+
+async def compose(fixture, executor, target, prepared, origin, writes):
+    identities = LocalIdentities(
+        {actor: {"profile":{"id":actor},"operations":[READ,RECORD_ROUTE,COMMAND_ROUTE,REL_ROUTE,PERSON_ROUTE]}
+         for actor in ("alice","bob")},
+        max_sessions=8, ttl_seconds=300,
+    )
+    @asynccontextmanager
+    async def lease(_identity):
+        fixture.counts.leases += 1
+        try:
+            async with await psycopg.AsyncConnection.connect(fixture.dsn, autocommit=True) as connection:
+                yield connection
+        finally:
+            fixture.counts.releases += 1
+
+    control = AsyncSession(lease, fixture.policy)
+    data = AsyncSession(lease, fixture.policy, transaction_owner="adapter")
+    native = executor.native_table
+    trust = executor.trusted_artifact
+    roots = {
+        (RECORD_ROUTE if record.source == RECORD else PERSON_ROUTE): ExposureRecordRoot(
+            record.lookup, (RECORD_ROUTE if record.source == RECORD else PERSON_ROUTE),
+            native.source_digest, trust.artifact_digest, trust.receipt_digest,
+            executor.target.binding_digest, digest(executor.read_algebra_json),
+            record.key_id, tuple(f.source for f in record.fields), ("string",),
+            tuple((f.source,"string") for f in record.fields),
+        ) for record in prepared.records
+    }
+    command = ExposureOperation(COMMAND,COMMAND_ROUTE,(),RECORD,"primary",(),("string",),())
+    name = ElementRef("demo","payload")
+    relationship = ExposureOperation(
+        REL,REL_ROUTE,("related_many",),PERSON,"primary",(name,),("string",),((name,"string"),),
+        related_target=PERSON,parent_record=RECORD,parent_key_id="primary",parent_key_wrappers=("string",),
+    )
+    artifact = ArtifactRef(prepared.application,prepared.artifact_digest)
+    config = ExposureConfig(artifact,prepared.api_digest,native.source_digest,(command,relationship),
+                            dict(prepared.capabilities),tuple(roots.values()))
+    admission = LintelExecution.prepare_connections(config,prepared,native,executor)
+    binding = GeneratedNativeTableBinding.from_generated(
+        control,native,fixture.reference,executor,cursor_secret=SECRET,outcome_secret=SECRET,
+        target=target,connection_routes=admission.native_routes,
+    )
+    async def factory():
+        return binding
+    confirmations=[]
+    async def confirm(call):
+        confirmations.append(call.key)
+        return call.confirmation == "fixture-approved"
+    commands = GeneratedCommandExecution(
+        executor,data,fixture.bundle,fixture.reference,writes,
+        prepared_sha256=digest(writes),
+        routes={COMMAND_ROUTE:GeneratedCommandRoute("completeTask",("demo","Task"),"primary","taskId")},
+        authority=identities,confirm=confirm,outcome_secret=SECRET,
+    )
+    relationships = GeneratedRelationships(executor,roots,{REL_ROUTE:GeneratedRelationshipRoute(("demo","TaskNote"),RECORD_ROUTE,PERSON_ROUTE)},identities)
+    provider = GeneratedTableExecution(
+        executor,factory,data_session=data,authority=identities,
+        read_routes={READ:("demo","Note")},record_routes=roots,
+        connection_routes=admission.native_routes,commands=commands,relationships=relationships,
+    )
+    await provider.prepare()
+    observations=Observations()
+    host=create_host(
+        HostConfig(artifact,(Operation(READ,False),Operation(RECORD_ROUTE,False,("get_many","connection")),
+                             Operation(COMMAND_ROUTE,True),Operation(REL_ROUTE,False,("related_many",)),
+                             Operation(PERSON_ROUTE,False,("get_many",))),32,30.0,provider.capabilities()),
+        HostServices(identities,observations,provider,ownership="owned"),
+    )
+    execution=LintelExecution(host,config,native,generated=executor,connection_admission=admission)
+    async def actor(request):
+        return identities.resolve(request.cookies.get("batten_local"))
+    ingress=HostScopeIngress(host,api_digest=prepared.api_digest,resolve_actor=actor,max_response_bytes=8388608)
+    gql=FastAPI()
+    codec=StringKeyNodeCodec.for_prepared_api(
+        prepared,{(record.source,record.key_id):executor.validate_get_many_key for record in prepared.records},
+    )
+    gql.include_router(create_router(prepared,execution,codec,ingress.resolve_context))
+    app=create_app(host,identities,ROOT/"assets",origin=origin,max_body_bytes=1048576,
+                   additional_routes=(Mount("/api",ingress.wrap(gql)),))
+    return SimpleNamespace(app=app,host=host,confirmations=confirmations,observations=observations)
+
+
+async def exercise(browser, origin, runtime, fixture):
+    page=await browser.new_page()
+    await page.goto(origin)
+    await page.wait_for_function("window.client !== undefined")
+    await page.evaluate("window.client.login('alice')")
+    first=(await page.evaluate("window.client.list({first: 1})"))["tasks"]
+    assert first["pageInfo"]["hasNextPage"], first
+    task=first["edges"][0]["node"]
+    assert task["assignee"]["displayName"] == "Visible assignee",task
+    batches = lambda: sum(
+        event[1] == REL_ROUTE and event[3] == "started" for event in runtime.observations.events
+    )
+    before_second = batches()
+    second=(await page.evaluate("c => window.client.list({first: 2, after: c})",first["pageInfo"]["endCursor"]))["tasks"]
+    assert len(second["edges"]) == 2 and all(edge["node"]["id"] != task["id"] for edge in second["edges"]), second
+    assert batches() - before_second == 1, runtime.observations.events
+    assert second["edges"][0]["node"]["assignee"] is None, second
+    assert second["edges"][1]["node"]["assignee"]["displayName"] == "Another assignee",second
+    initial=(await page.evaluate("id => window.client.refetch({id})",task["id"]))["node"]
+    assert initial is not None and (initial["id"],initial["title"]) == (task["id"],task["title"]), (initial,task)
+    assert initial["assignee"]["id"] == task["assignee"]["id"], initial
+    args={"task":"a","invocationKey":uuid.uuid4().hex}
+    refused=await page.evaluate("input => window.client.complete({input})",args)
+    assert refused["completeTask"]["code"] == "CONFIRMATION_REQUIRED",refused
+    dropped=[]
+    async def drop(route):
+        payload=route.request.post_data_json
+        if payload["operationName"]!="CommandCompleteMutation":
+            await route.continue_()
+            return
+        response=await route.fetch()
+        value=await response.json()
+        dropped.append(value)
+        await route.abort("failed")
+    await page.route("**/api/graphql",drop)
+    lost=await page.evaluate("""async input => {
+        try { await window.client.complete({input}); return false; }
+        catch (_) { return true; }
+    }""",dict(args,confirmation="fixture-approved"))
+    assert lost and len(dropped)==1,dropped
+    applied=dropped[0]["data"]["completeTask"]
+    assert applied["__typename"]=="CommandApplied" and applied["durability"]=="COMMITTED",applied
+    await page.unroute("**/api/graphql",drop)
+    recovered=(await page.evaluate("input => window.client.observe({input})",args))["observeCompleteTask"]
+    assert recovered["__typename"]=="CommandRecovered" and recovered["receipt"]==applied["receipt"],recovered
+    refetched=(await page.evaluate("id => window.client.refetch({id})",task["id"]))["node"]
+    assert refetched is not None and (refetched["id"],refetched["title"]) == (task["id"],"Completed"),refetched
+    await page.evaluate("window.client.login('bob')")
+    hidden=(await page.evaluate("input => window.client.observe({input})",args))["observeCompleteTask"]
+    assert hidden["__typename"]=="CommandNotObserved",hidden
+    assert (await page.evaluate("id => window.client.refetch({id})",task["id"]))["node"] is None
+    assert runtime.confirmations == [args["invocationKey"]]*2
+    assert fixture.counts.leases == fixture.counts.releases
+    print(json.dumps({"chromium":browser.version,"native":fixture.database_facts,
+                      "relationshipBatchPerTwoTaskPage":1,"relayRuntime":"21.0.1","assigneeVisible":True,"policyHiddenAssigneeNull":True,"pagination":True,"refetch":True,"confirmationRequired":True,
+                      "lostHTTPResponse":True,"recoveredSameReceipt":True,
+                      "committedMutationRequests":len(dropped),"otherPrincipalCannotObserve":True,
+                      "leases":fixture.counts.leases,"releases":fixture.counts.releases}),flush=True)
+
+
+async def run(fixture, executor,target,prepared,writes):
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1",0))
+        port=sock.getsockname()[1]
+        origin=f"http://127.0.0.1:{port}"
+        runtime=await compose(fixture,executor,target,prepared,origin,writes)
+        server=uvicorn.Server(uvicorn.Config(runtime.app,log_level="warning"))
+        service=asyncio.create_task(server.serve(sockets=[sock]))
+        try:
+            async with asyncio.timeout(30):
+                while not server.started:
+                    if service.done():
+                        service.result()
+                        raise RuntimeError("server did not start")
+                    await asyncio.sleep(0.025)
+            async with async_playwright() as playwright:
+                browser=await playwright.chromium.launch(
+                    executable_path="/Users/erik/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+                )
+                try:
+                    await exercise(browser,origin,runtime,fixture)
+                finally:
+                    await browser.close()
+        finally:
+            server.should_exit=True
+            await service
+
+
+
+@contextmanager
+def provision():
+    pgdata = ROOT / "browser-pgdata"
+    metadata = ROOT / "browser-fixture.json"
+    if not pgdata.exists():
+        print("Initializing disposable PostgreSQL", flush=True)
+        PGSERVER.initdb(
+            ["--no-sync", "--auth=trust", "--auth-local=trust", "--encoding=utf8", "-U", "postgres"],
+            pgdata=pgdata,
+        )
+    server = PGSERVER.get_server(pgdata, cleanup_mode="stop")
+    try:
+        dsn = server.get_uri()
+        if not metadata.exists():
+            fixture = _install(dsn)
+            metadata.write_bytes(canonical({
+                "bundle":fixture.bundle,"binding":fixture.binding,"reference":fixture.reference,
+                "schema":fixture.schema,"database_facts":fixture.database_facts,
+            }))
+        else:
+            data = json.loads(metadata.read_bytes())
+            fixture = Fixture(
+                dsn, data["bundle"],data["reference"],data["binding"],
+                RUNTIME.SessionPolicy({"alice":"lintel_alice","bob":"lintel_bob"}, {},
+                                      data["schema"],catalog_only=True),
+                data["schema"],RUNTIME.SessionIdentity("person","alice"),
+                RUNTIME.SessionIdentity("person","bob"),data["database_facts"],
+            )
+            with psycopg.connect(dsn,autocommit=True) as admin:
+                admin.execute("UPDATE lintel_relations.tasks SET task_value = %s WHERE task_id = %s",("Open","a"))
+        yield fixture
+    finally:
+        server.cleanup()
+
+
+if __name__=="__main__":
+    with provision() as fixture:
+        executor,manifest,files,trust,target=issue(fixture)
+        prepared=prepare(fixture,manifest,files,trust,target)
+        compile_client(prepared)
+        writes = prepare_postgres_writes(fixture.bundle, fixture.binding, ("completeTask",))
+        asyncio.run(run(fixture,executor,target,prepared,writes))

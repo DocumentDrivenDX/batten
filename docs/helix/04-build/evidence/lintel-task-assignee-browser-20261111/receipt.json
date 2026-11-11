@@ -1,0 +1,28 @@
+{
+  "chromium": "153.0.8010.12",
+  "postgresqlServerVersionNum": 180006,
+  "relayCompiler": "21.0.1",
+  "relayRuntime": "21.0.1",
+  "typescriptStrictCheck": "passed",
+  "preparedApi": "lintel.prepared-api/5",
+  "apiDigest": "0fceb25ef8a8806af3789791b58f44fc3440223a813ec6da4163ed7960c64125",
+  "readProfile": "weft.generated-read-algebra/8",
+  "relationshipBatchesForTwoTaskPage": 1,
+  "assigneeVisible": true,
+  "policyHiddenAssigneeNull": true,
+  "pagination": true,
+  "nodeRefetch": true,
+  "confirmationRequired": true,
+  "lostSuccessfulHttpResponse": true,
+  "recoveredSameCommittedReceipt": true,
+  "committedMutationRequests": 1,
+  "otherPrincipalCannotObserve": true,
+  "leasesAcquired": 21,
+  "leasesReturned": 21,
+  "artifactSha256": {
+    "fixture.umf.json": "42fa92fb40cafd56ce6fdf16e0c3cdfd6224a7efff360843f5efac7fa4061146",
+    "prepared-api.json": "fa5e4ec70d0a86d345906d5f109d5e6236d0ccdcfea5a3cb634dcfa723b51bab",
+    "relay-source/schema.graphql": "fb455ab5e2491daed2178a0605aac35d84873475597514e3990475b7e9f835ed"
+  },
+  "scope": "Local source composition. Two fabricated records with an admitted required PostgreSQL foreign key, nullable GraphQL relationship under row policy, and a required-string single-row command."
+}

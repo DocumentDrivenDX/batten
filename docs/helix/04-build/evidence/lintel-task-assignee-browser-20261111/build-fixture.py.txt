@@ -1,0 +1,129 @@
+import asyncio
+import hashlib
+import json
+from contextlib import asynccontextmanager
+from pathlib import Path
+
+import psycopg
+import umf_codegen
+import weft
+from batten.contracts import Actor, ArtifactRef, ExecutionScope, OperationCall
+from batten.umf_postgres.generated_command import GeneratedCommandExecution, GeneratedCommandRoute
+from umf_access.build.generated_native import (
+    GeneratedArtifactContext,
+    GeneratorBuildFacts,
+    VerifiedBuildReceipt,
+    finalize_generated_table_build,
+    prepare_generated_table_build,
+)
+from umf_access.unified import AsyncSession
+from umf_access_generated_executor import (
+    GeneratedFiles,
+    GeneratedManifest,
+    TargetBinding,
+    TrustedArtifactRef,
+    prepare_generated,
+)
+
+from fixture import provision
+from umf_access.build.postgres_writes import prepare_postgres_writes
+
+ROOT = Path(__file__).parent
+
+
+def issue(fixture):
+    bundle, binding = fixture.bundle, fixture.binding
+    canonical = json.dumps(binding, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    target = TargetBinding("postgresql18", "pg18/1", "18", hashlib.sha256(canonical).hexdigest())
+    context = GeneratedArtifactContext(
+        "command-fixture",
+        GeneratorBuildFacts("umf-codegen", "0.1.0a8",
+                            hashlib.sha256(Path(umf_codegen.__file__).read_bytes()).hexdigest(),
+                            "weft-sql", weft.__version__,
+                            hashlib.sha256(Path(weft.__file__).read_bytes()).hexdigest()),
+        target,
+    )
+    unsigned = prepare_generated_table_build(bundle, binding, context, profile="v8")
+    receipt = VerifiedBuildReceipt(
+        "b" * 64, "isolated-local-fixture", "command-fixture",
+        unsigned.payload_digest, unsigned.inventory,
+    )
+    final = finalize_generated_table_build(unsigned, receipt)
+    manifest = GeneratedManifest.from_json(final.manifest_json)
+    files = GeneratedFiles.from_mapping(dict(final.files))
+    trust = TrustedArtifactRef(
+        manifest.value["artifactId"], manifest.value["artifactDigest"],
+        receipt.receipt_digest, unsigned.payload_digest,
+        bundle["sourceDigest"], target.binding_digest,
+        unsigned.inventory, receipt.issuer, receipt.build_id,
+    )
+    return prepare_generated(manifest, files, trust, target), manifest, files, trust, target
+
+
+class Authority:
+    async def check(self, actor, operation):
+        return actor.subject in {"alice", "bob"} and operation == "complete"
+
+
+async def check(fixture, executor, writes):
+
+    @asynccontextmanager
+    async def factory(_identity):
+        fixture.counts.leases += 1
+        try:
+            async with await psycopg.AsyncConnection.connect(fixture.dsn, autocommit=True) as conn:
+                yield conn
+        finally:
+            fixture.counts.releases += 1
+
+    async def confirm(call):
+        return call.confirmation == "fabricated-approved"
+
+    provider = GeneratedCommandExecution(
+        executor, AsyncSession(factory, fixture.policy, transaction_owner="adapter"),
+        fixture.bundle, fixture.reference, writes,
+        prepared_sha256=hashlib.sha256(writes).hexdigest(),
+        routes={"complete": GeneratedCommandRoute("completeTask", ("demo", "Note"), "primary", "id")},
+        authority=Authority(), confirm=confirm, outcome_secret=b"fabricated-command-fixture-01234567890",
+    )
+
+    if __import__("os").environ.get("PRINT_NATIVE_COMMAND"):
+        native = provider._native
+        class Diagnostic:
+            async def execute(self, request, *, identity):
+                response = await native.execute(request, identity=identity)
+                print(response, flush=True)
+                return response
+        provider._native = Diagnostic()
+
+    def call(phase, subject="alice", confirmation=None, digest="a"*64):
+        actor = Actor(subject)
+        scope = ExecutionScope(ArtifactRef("demo-app","fixture-digest"),actor,"test",1e15,"lease",digest)
+        return OperationCall("complete",{"task":{"string":"t-001"}},actor,"1"*32,phase,scope,confirmation)
+
+    denied = await provider.invoke(call("invoke"))
+    assert denied.result["code"] == "CONFIRMATION_REQUIRED" and fixture.counts.leases == 0
+    before = await provider.invoke(call("observe"))
+    assert before.result["status"] == "not-observed", before
+    applied = await provider.invoke(call("invoke", confirmation="fabricated-approved"))
+    assert applied.result.get("status") == "applied", applied
+    assert applied.result["affected"] == [
+        {"record": ("demo","Note"),"keyId":"primary","components":[{"string":"t-001"}]}
+    ], applied
+    recovered = await provider.invoke(call("observe"))
+    assert recovered.result["status"] == "recovered", recovered
+    assert recovered.result["receipt"] == applied.result["receipt"] and recovered.result["affected"] == []
+    for variant in [call("observe", subject="bob"), call("observe", digest="b"*64)]:
+        absent = await provider.invoke(variant)
+        assert absent.result["status"] == "not-observed", absent
+    assert fixture.counts.leases == fixture.counts.releases == 5
+    print(json.dumps({"postgresql":fixture.database_facts, "confirmationRefusedBeforeLease":True,
+                      "commandsInvoked":1,"recoveredSameReceipt":True,
+                      "crossPrincipalAndApiObservation":"not-observed","balancedLeases":5}))
+
+
+if __name__ == "__main__":
+    with provision() as fixture:
+        executor, *_ = issue(fixture)
+        writes = prepare_postgres_writes(fixture.bundle, fixture.binding, ("completeTask",))
+        asyncio.run(check(fixture, executor, writes))

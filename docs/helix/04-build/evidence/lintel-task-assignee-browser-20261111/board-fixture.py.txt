@@ -1,0 +1,78 @@
+import json
+from pathlib import Path
+
+import psycopg
+from psycopg import sql
+
+from fixture import CODEGEN, Fixture, LIFECYCLE, RUNTIME
+
+INPUTS = Path("/private/tmp/umf-join8-package20-candidate-20261110/fixtures/root-positive")
+ROOT = Path(__file__).parent
+
+def _install(dsn):
+    model = json.loads((INPUTS/"source.umf.json").read_bytes())
+    ext = model["modules"][0]["extensions"]["umf.tables"]
+    def ref(name): return {"module":"demo","element":name}
+    ext["commands"] += [{
+        "version":"umf.table-operation/0.1","id":"completeTask",
+        "parameters":[{"id":"task","field":ref("taskId")}],
+        "consistency":"transaction","replay":"caller-key-required",
+        "body":{"kind":"update","table":"tasks","maxRows":1,
+                "where":{"op":"eq","field":ref("taskId"),"value":{"kind":"parameter","parameter":"task"}},
+                "values":[{"field":ref("taskValue"),"value":{"kind":"literal","value":{"string":"Completed"}}}],
+                "returning":[ref("taskId")]},
+    },{
+        "version":"umf.table-operation/0.1","id":"readAssignees",
+        "parameters":[],"consistency":"statement","replay":"none",
+        "body":{"kind":"read","table":"notes","fields":[ref("id"),ref("payload")],
+                "where":{"op":"all"},"orderBy":[{"field":ref("id"),"direction":"asc"}],
+                "result":"page","maxRows":100,"cursorKey":"primary"},
+    }]
+    cfg = json.loads((INPUTS/"configuration.json").read_bytes())
+    cfg.update(schema="lintel_relations",ownerRole="lintel_rel_owner",
+               personRole="lintel_rel_person",batchRole="lintel_rel_batch")
+    source = json.dumps(model,ensure_ascii=False,sort_keys=True,separators=(",",":"))
+    compiled = CODEGEN.compile_table_deployment(text=source,configuration=cfg)
+    assert compiled["status"]=="compiled",compiled
+    bundle = compiled["bundle"]
+    migration = CODEGEN.compile_table_migration(
+        migration_id="task-assignee",predecessor=None,previous_bundle=None,next_bundle=bundle,
+    )
+    assert migration["status"]=="compiled",migration
+    alice,bob="lintel_alice","lintel_bob"
+    with psycopg.connect(dsn,autocommit=True) as admin:
+        for role in (cfg["ownerRole"],cfg["personRole"],cfg["batchRole"],alice,bob):
+            admin.execute(sql.SQL("CREATE ROLE {} NOLOGIN NOSUPERUSER NOBYPASSRLS").format(sql.Identifier(role)))
+        for role in (alice,bob):
+            admin.execute(sql.SQL("GRANT {} TO {} WITH INHERIT TRUE, SET FALSE").format(
+                sql.Identifier(cfg["personRole"]),sql.Identifier(role)))
+        admin.execute(sql.SQL("CREATE SCHEMA {} AUTHORIZATION {}").format(
+            sql.Identifier(cfg["schema"]),sql.Identifier(cfg["ownerRole"])))
+        with admin.transaction():
+            admin.execute(sql.SQL("SET LOCAL ROLE {}").format(sql.Identifier(cfg["ownerRole"])))
+            admin.execute("SET LOCAL search_path=pg_catalog")
+            installed=LIFECYCLE.apply_table_migration(
+                admin,migration["plan"],approved_digest=migration["plan"]["digest"],
+                expected_head=None,person_roles=(alice,bob),
+            )
+        for ident, person, task_owner, name, status in (
+            ("a",alice,alice,"Visible assignee","Open"),
+            ("b",bob,alice,"Hidden assignee","Open"),
+            ("e",alice,alice,"Another assignee","Open"),
+            ("f",bob,bob,"Foreign assignee","Open"),
+        ):
+            admin.execute("INSERT INTO lintel_relations.notes (id, owner, enabled, amount, payload) VALUES (%s,%s,true,12.34,%s)",(ident,person,name))
+            admin.execute("INSERT INTO lintel_relations.tasks (task_id, task_owner, task_value) VALUES (%s,%s,%s)",(ident,task_owner,status))
+        version=admin.info.server_version
+    binding = json.loads((INPUTS/"binding.json").read_bytes())
+    binding.update(schema=cfg["schema"],modelJson=source,modelSha256=bundle["sourceDigest"])
+    binding["nativeLifecycle"].update(
+        configurationDigest=bundle["configurationDigest"],deploymentDigest=bundle["bundleDigest"],
+    )
+    (ROOT/"model.umf.json").write_text(source)
+    return Fixture(
+        dsn,bundle,installed["installationReference"],binding,
+        RUNTIME.SessionPolicy({"alice":alice,"bob":bob},{},cfg["schema"],catalog_only=True),
+        cfg["schema"],RUNTIME.SessionIdentity("person","alice"),RUNTIME.SessionIdentity("person","bob"),
+        {"serverVersionNum":version},
+    )

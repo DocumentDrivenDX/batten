@@ -58,6 +58,6 @@ class LocalIdentities:
 
     async def check(self, actor: Actor, operation: str) -> bool:
         resolved = self.resolve(actor.session)
-        if resolved is None or resolved.subject != actor.subject:
+        if resolved is None or resolved != actor:
             return False
         return operation in cast(list[str], self._people[actor.subject]["operations"])

@@ -1,0 +1,107 @@
+enum AccessFailureCode {
+  API_MISMATCH
+  BUSY
+  CONFIRMATION_REQUIRED
+  CONFLICT
+  DENIED
+  INVALID
+  INVALID_CURSOR
+  LIMIT_EXCEEDED
+  NOT_YET_CURRENT
+  PRECONDITION_FAILED
+  TOO_MANY_ROWS
+  UNSUPPORTED
+}
+
+type CommandApplied {
+  affectedIds: [ID!]!
+  durability: CommandDurability!
+  invocationKey: ID!
+  receipt: String!
+}
+
+enum CommandDurability {
+  COMMITTED
+  NONE
+  PENDING_CALLER_COMMIT
+  UNKNOWN
+}
+
+type CommandNotObserved {
+  invocationKey: ID!
+}
+
+union CommandObservation = CommandNotObserved | CommandRecovered | CommandRejected
+
+union CommandOutcome = CommandApplied | CommandRecovered | CommandRejected | CommandUnknown
+
+type CommandRecovered {
+  durability: CommandDurability!
+  invocationKey: ID!
+  receipt: String!
+}
+
+type CommandRejected {
+  code: AccessFailureCode!
+  confirmation: String
+  invocationKey: ID!
+}
+
+type CommandUnknown {
+  invocationKey: ID!
+}
+
+input CompleteTaskInput {
+  confirmation: String
+  invocationKey: ID!
+  task: String!
+}
+
+type Mutation {
+  completeTask(input: CompleteTaskInput!): CommandOutcome!
+}
+
+interface Node {
+  id: ID!
+}
+
+input ObserveCompleteTaskInput {
+  invocationKey: ID!
+  task: String!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Person implements Node {
+  displayName: String!
+  id: ID!
+}
+
+type Query {
+  node(id: ID!): Node
+  nodes(ids: [ID!]!): [Node]!
+  observeCompleteTask(input: ObserveCompleteTaskInput!): CommandObservation!
+  tasks(after: String, first: Int = 25): TaskConnection!
+}
+
+type Task implements Node {
+  assignee: Person
+  id: ID!
+  nativeId: String!
+  title: String!
+}
+
+type TaskConnection {
+  edges: [TaskEdge!]!
+  pageInfo: PageInfo!
+}
+
+type TaskEdge {
+  cursor: String!
+  node: Task!
+}

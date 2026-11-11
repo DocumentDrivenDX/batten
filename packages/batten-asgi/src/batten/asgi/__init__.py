@@ -10,12 +10,17 @@ from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-from starlette.routing import Mount, Route
+from starlette.routing import BaseRoute, Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from ._identities import LocalIdentities
 from ._ports import LocalSessions
 from ._registry import AppListing, registry_app
 from ._routes import Routes
+from .new_operations import (
+    OperationIngress,
+    operation_route,
+)
 
 
 def create_app(
@@ -25,10 +30,12 @@ def create_app(
     *,
     origin: str,
     max_body_bytes: int,
+    additional_routes: tuple[BaseRoute, ...] = (),
+    api_digest: str | None = None,
 ) -> Starlette:
     if not origin.startswith("http://127.0.0.1:") or max_body_bytes < 1:
         raise ValueError("explicit loopback origin and request bound required")
-    routes = Routes(host, sessions, assets, max_body_bytes)
+    routes = Routes(host, sessions, assets, max_body_bytes, api_digest=api_digest)
     app = Starlette(
         lifespan=routes.lifetime,
         routes=[
@@ -37,6 +44,7 @@ def create_app(
             Route("/api/local-session", routes.login, methods=["POST"]),
             Route("/api/logout", routes.logout, methods=["POST"]),
             Route("/api/operations/{operation}", routes.invoke, methods=["POST"]),
+            *additional_routes,
             Mount("/assets", StaticFiles(directory=assets, check_dir=False)),
         ],
     )
@@ -76,4 +84,12 @@ def guarded(app: Starlette, origin: str) -> Starlette:
     return app
 
 
-__all__ = ["AppListing", "LocalSessions", "create_app", "create_registry"]
+__all__ = [
+    "AppListing",
+    "LocalIdentities",
+    "LocalSessions",
+    "OperationIngress",
+    "create_app",
+    "create_registry",
+    "operation_route",
+]
