@@ -7,7 +7,7 @@
 
 Runnable local preview. Follow this journey as a requester and independent approver. Use fabricated data throughout.
 
-[Prepare and start the local app](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md) before following these steps. The preview uses loopback development identities and PostgreSQL 18; production authentication and broader fleet qualification remain separate.
+[Install and start the local app](https://github.com/DocumentDrivenDX/batten/blob/main/README.md#install-and-run-the-example) before following these steps. The preview uses loopback development identities and PostgreSQL 18; production authentication and broader fleet qualification remain separate.
 
 ## Capabilities in this journey
 
@@ -15,7 +15,7 @@ tables, actions. These tags describe requested integration boundaries.
 
 ## 1. Open the local registry
 
-Follow the run instructions to prepare the exact Python 3.13 cohort and explicitly initialize a new fabricated database. Start the host, open its root registry and choose Approval desk.
+Follow the install instructions, then explicitly initialize a new fabricated database with `batten-approval init`. Start the host with `batten-approval serve`, open its root registry and choose Approval desk.
 
 ## 2. Submit as Alex
 

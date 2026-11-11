@@ -14,6 +14,11 @@ ddx:
 
 # ADR-003: Distribute platform modules separately
 
+> As of 0.1.0a3 the contracts, runtime, tables and ASGI modules ship in one wheel
+> (`novirhyza-batten`) and the local host with the UMF/PostgreSQL provider in another
+> (`novirhyza-batten-local`). Import paths are unchanged and the import-boundary check
+> still enforces the separation. The table below is the original plan.
+
 ## Problem
 
 Optional dependencies in one wheel can keep installation light, but the wheel
