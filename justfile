@@ -25,3 +25,8 @@ approval-test:
 # Rebuild only the app against the already prepared platform cohort.
 approval-refresh:
     uv run python scripts/prepare_approval.py --app-only
+
+# Build wheels/sdists into dist/ and run the README quickstart against them.
+dist:
+    uv run python scripts/build_dist.py
+    python3 scripts/smoke_install.py dist

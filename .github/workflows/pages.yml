@@ -9,6 +9,7 @@ on:
     paths:
       - 'docs/helix/**'
       - '.github/workflows/pages.yml'
+      - 'packages/batten/pyproject.toml'
   workflow_dispatch:
 
 permissions:

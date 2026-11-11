@@ -4,11 +4,25 @@ build-backend = "hatchling.build"
 
 [project]
 name = "novirhyza-batten-local"
-version = "0.1.0a2"
-requires-python = ">=3.11,<3.15"
+version = "0.1.0a3"
+description = "Batten local host: UMF/Weft tables on a pgserver PostgreSQL 18 cluster"
+requires-python = ">=3.11,<3.14"
 license = "MIT OR Apache-2.0"
 license-files = ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]
-dependencies = ["novirhyza-batten-asgi==0.1.0a2", "novirhyza-batten-umf-postgres==0.1.0a2", "opentelemetry-sdk==1.45.2", "opentelemetry-instrumentation-psycopg==0.66b2", "pgserver-pg18==18.6.1"]
+authors = [{name = "Synaptiq"}]
+dependencies = [
+  "novirhyza-batten==0.1.0a3",
+  "umf-access>=0.1.0.dev8,<0.2",
+  "umf-codegen>=0.10.8,<0.11",
+  "umf-weft>=0.4.57,<0.5",
+  "psycopg[binary]>=3.3.7,<4",
+  "pgserver-pg18>=18.6.1,<19",
+  "opentelemetry-sdk>=1.45,<2",
+  "opentelemetry-instrumentation-psycopg>=0.66b2",
+]
+
+[project.urls]
+Repository = "https://github.com/DocumentDrivenDX/batten"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/batten"]

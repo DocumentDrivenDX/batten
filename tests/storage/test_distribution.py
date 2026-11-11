@@ -11,7 +11,7 @@ from pathlib import Path
 def test_installed_wheel_has_no_platform_dependencies(tmp_path: Path) -> None:
     root = Path(__file__).resolve().parents[2]
     wheels = tmp_path / "wheels"
-    for name in ("storage", "contracts", "runtime", "tables"):
+    for name in ("batten-storage", "batten"):
         subprocess.run(
             [
                 sys.executable,
@@ -21,7 +21,7 @@ def test_installed_wheel_has_no_platform_dependencies(tmp_path: Path) -> None:
                 "--no-isolation",
                 "--outdir",
                 str(wheels),
-                str(root / "packages" / ("batten-" + name)),
+                str(root / "packages" / name),
             ],
             check=True,
             capture_output=True,

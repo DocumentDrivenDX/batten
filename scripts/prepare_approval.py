@@ -8,7 +8,7 @@ import sys
 import tomllib
 from pathlib import Path
 
-PACKAGES = ("contracts", "runtime", "tables", "asgi", "umf-postgres", "local")
+PACKAGES = ("batten", "batten-local")
 FIND_LINKS = "https://github.com/DocumentDrivenDX/pgserver/releases/expanded_assets/pg18.6-pgv0.8.6-r2"
 
 
@@ -71,6 +71,9 @@ def main() -> None:
     parser.add_argument(
         "--app-only", action="store_true", help="rebuild only the example app"
     )
+    parser.add_argument(
+        "--assets-only", action="store_true", help="only bundle the web assets"
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     cache = root / ".cache"
@@ -78,12 +81,14 @@ def main() -> None:
     runtime = cache / "approval-runtime"
     wheels.mkdir(parents=True, exist_ok=True)
     assets(root)
+    if args.assets_only:
+        return
     app = root / "examples/approval-desk"
     projects = (
         [app]
         if args.app_only
         else [
-            *(root / "packages" / ("batten-" + name) for name in PACKAGES),
+            *(root / "packages" / name for name in PACKAGES),
             app,
         ]
     )

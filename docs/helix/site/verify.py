@@ -5,7 +5,7 @@ import struct
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 
-from build import OUT, PAGES, PUBLIC_URL
+from build import OUT, PAGES, PUBLIC_URL, VERSION
 
 
 class Page(HTMLParser):
@@ -97,6 +97,8 @@ def verify() -> None:
             raise ValueError(f"Missing primary landmark or unique heading: {name}")
         verify_links(name, page, pages)
         verify_social(name, page)
+    if f"ALPHA / {VERSION}" not in (OUT / "index.html").read_text():
+        raise ValueError("Home page is not stamped with the release version")
     if not (OUT / ".nojekyll").is_file():
         raise ValueError("Missing Pages static publication marker")
     if any(p.is_symlink() for p in OUT.rglob("*")):

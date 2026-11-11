@@ -51,9 +51,9 @@ A provider must satisfy the required interface and exact compatibility checks. A
 
 ## Explore the design
 
-The local runtime preview delivers an approval desk and a visual application registry, with native UMF/Weft persistence on PostgreSQL 18. Separate wheels package the contracts, runtime, table port, native adapter, ASGI transport, local host and app. Qualification is bounded to the recorded cohort and local development identities; the complete fleet remains a design goal. Optional local object storage has its own release. The interactive explorer illustrates the broader contracts and makes no service calls.
+The local runtime preview delivers an approval desk and a visual application registry, with native UMF/Weft persistence on PostgreSQL 18. Four wheels package the runtime and ASGI transport, the optional object store, the local UMF/Weft host and the example app; they share one version. Local identities are development stubs, and the complete fleet remains a design goal. The interactive explorer illustrates the broader contracts and makes no service calls.
 
-[Get the runtime preview](https://github.com/DocumentDrivenDX/batten/releases/tag/runtime-v0.1.0a2) or [read the run instructions](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
+[Install the example](https://github.com/DocumentDrivenDX/batten/blob/main/README.md#install-and-run-the-example) or [read the example README](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
 
 [Compose an application](composition.md), [choose a host](hosting.md), or read the [architecture](architecture.md).
 

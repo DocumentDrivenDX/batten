@@ -4,11 +4,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "novirhyza-batten-approval-desk"
-version = "0.1.0a2"
-requires-python = ">=3.11,<3.15"
+version = "0.1.0a3"
+description = "Batten example: a local approval desk on PostgreSQL 18"
+requires-python = ">=3.11,<3.14"
+authors = [{name = "Synaptiq"}]
 license = "MIT OR Apache-2.0"
 license-files = ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]
-dependencies = ["novirhyza-batten-local==0.1.0a2"]
+dependencies = ["novirhyza-batten-local==0.1.0a3"]
+
+[project.urls]
+Repository = "https://github.com/DocumentDrivenDX/batten"
 
 [project.scripts]
 batten-approval = "approval_desk.cli:main"

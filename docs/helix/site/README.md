@@ -1,65 +1,28 @@
 # Batten microsite
 
-The microsite projects the vision, requirements and design into source-stamped
-reader explanations. The local runtime preview has separate release assets and bounded native/browser evidence.
+The microsite turns the design guide pages in `docs/helix/guide/developer/` into a
+static site. The home page is stamped with the package version from
+`packages/batten/pyproject.toml`.
 
-Build from the repository root with Python 3.13 and its standard library:
+From the repository root, with Python 3.11 or later and its standard library:
 
 ```sh
-python3.13 docs/helix/site/build.py
-python3.13 -m http.server 8814 --bind 127.0.0.1 --directory docs/helix/site/dist
+python3 docs/helix/site/build.py
+python3 docs/helix/site/verify.py
+python3 -m http.server 8814 --bind 127.0.0.1 --directory docs/helix/site/dist
 ```
 
 Open `http://127.0.0.1:8814/`. Generated output lives in `dist/`, which Git ignores.
 All links and assets are relative so the output can be served beneath a project
 prefix. No runtime CDN, backend, analytics or external font is required.
+`verify.py` checks generated routes, local assets, fragments, social metadata and
+the version stamp. Do not hand-edit generated HTML.
 
-Written source pages live in `docs/helix/guide/developer/`. Their HELIX provenance
-headers bind them to source content digests. The builder rejects stale sources.
-An independent reader evaluates explanations before documentor records a review.
-
-With HELIX's documentor available, run:
-
-```sh
-documentor check-pages docs/helix/guide --root . --strict-prose
-documentor check --root .
-```
-
-The installed HELIX plugin owns the publishing catalog. No catalog is vendored.
-The custom static assembly uses `build.py`; do not hand-edit generated HTML.
-The site's module/host controls illustrate the design and make no service calls.
+Each guide page lists the design documents it draws on in `helix:source` comments;
+the build fails if a cited file is missing. The module/host controls on the home
+page illustrate the design and make no service calls.
 
 ## GitHub Pages
 
-The public site is https://documentdrivendx.github.io/batten/. The repository
-uses GitHub Actions as its Pages publishing source.
-
-The Pages workflow builds with Python 3.13 and verifies generated routes, local
-assets, fragments and project-prefix-safe links. Official actions are pinned by
-commit SHA. Pull requests build without deploying; successful pushes to `main`
-publish through the `github-pages` environment using the job-scoped Pages/OIDC
-permissions. No deployment credential is stored in the repository.
-
-Run the publication check locally after building:
-
-```sh
-python3.13 docs/helix/site/verify.py
-```
-
-To retry publication, rerun the Pages workflow for the reviewed `main` revision.
-To restore an earlier site, revert the reviewed source change and let the same
-workflow rebuild it. A release archive also preserves its exact static output.
-The standalone build command itself does not modify hosting configuration.
-
-## Slack and social previews
-
-Every route emits static Open Graph and Twitter card metadata, a canonical public
-URL and an absolute HTTPS image URL. Slack can crawl these without JavaScript.
-The branded `assets/social-preview.png` is a 1200 × 630 PNG; its editable artwork
-is `assets/social-preview.svg`. Regenerate the PNG with Chromium at that viewport
-after changing the artwork. The publication checker validates metadata consistency,
-per-route URLs, image signature and dimensions before deployment.
-
-After publication, fetch the page as Slackbot and check that the public PNG returns
-`image/png`. A real Slack workspace render remains separate from crawler checks;
-Slack may cache previews for previously shared URLs.
+The public site is https://documentdrivendx.github.io/batten/. The Pages workflow
+builds and verifies the site on pull requests and publishes it on pushes to `main`.
