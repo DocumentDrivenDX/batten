@@ -23,7 +23,7 @@ from lintel.graphql import create_router
 from lintel.node_id import StringKeyNodeCodec
 from lintel.ports import ElementRef, OperationRef
 from lintel.projection import TrustedPreparedRef, load_prepared_api
-from lintel_build.prepare_v5 import prepare_api_v5
+from lintel.build.prepare_v5 import prepare_api_v5
 from playwright.async_api import async_playwright
 from starlette.routing import Mount
 from umf_access.generated import GeneratedNativeTableBinding

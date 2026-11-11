@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: DocumentDrivenDX/lintel
-          ref: cabd408d776e49c6330239e750c2f1ddef5a99c7
+          ref: c99b86bfb4f1f373277e4b81ac41afe258490482
           path: .cache/quality-lintel
           persist-credentials: false
       - name: Install generated-provider test wheels
