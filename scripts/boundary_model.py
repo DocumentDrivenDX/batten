@@ -27,6 +27,7 @@ ROOTS = {
     "arras": ("contracts",),
     "tether": ("contracts",),
     "asgi": ("contracts", "runtime"),
+    "lintel": ("contracts", "runtime"),
     "umf_postgres": ("contracts", "tables"),
     "umf_postgres.local": ("contracts", "tables", "umf_postgres"),
     "hosting.local": ("contracts", "runtime", "asgi", "tables", "umf_postgres.local"),
@@ -44,7 +45,13 @@ VENDORS = {
     "arras": {"arras", "umf_core", "umf_access"},
     "tether": {"tether"},
     "asgi": {"starlette", "uvicorn"},
-    "umf_postgres": {"umf_access", "umf_codegen", "psycopg"},
+    "lintel": {"lintel", "starlette", "umf_access", "umf_access_generated_executor"},
+    "umf_postgres": {
+        "umf_access",
+        "umf_codegen",
+        "umf_access_generated_executor",
+        "psycopg",
+    },
     "umf_postgres.local": {
         "umf_access",
         "umf_codegen",

@@ -390,3 +390,6 @@ def _text(value: object) -> str:
     if type(value) is not str or not value:
         raise ValueError("expected non-empty text")
     return value
+
+
+__all__ = ["GeneratedCommandExecution", "GeneratedCommandRoute"]

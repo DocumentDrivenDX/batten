@@ -177,3 +177,6 @@ def _result(items: list[object]) -> OperationOutcome:
         "",
         {"version": "batten.selected-result/1", "kind": "related_many", "items": items},
     )
+
+
+__all__ = ["GeneratedRelationshipRoute", "GeneratedRelationships"]
