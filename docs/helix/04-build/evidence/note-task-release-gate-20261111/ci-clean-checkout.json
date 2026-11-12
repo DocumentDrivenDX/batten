@@ -1,0 +1,119 @@
+{
+  "status": "pass",
+  "baseCommit": "4eb7bd067049c6ad141f9d069386a18e0e47f53f",
+  "candidateFiles": {
+    ".github/workflows/note-task-release.yml": "ca8f9431b01aa767e459b8566d22be2abb66fcf0b2fad4f54d24ed4aac266fd0",
+    "scripts/note_task_gate/assemble.py": "7d66e8ea8d0d6d4c729c7c9829caad06f6bb06928f2afd4d82c136cf7e589e8b",
+    "scripts/note_task_gate/ci.sh": "90bf0b57620165d4746c26a560fb1f2a8fad253477706e6b3bf846b7bcf7e05e",
+    "scripts/note_task_gate/cloud.py": "e69cf88a16d4ceeadc9147b83e622a181d2afb1dfb7a058d1cff28ef58ce4222",
+    "scripts/note_task_gate/gate.py": "1761862cf1e953803ccf834d3584f93a450d798fa6458bfd5e45c80b8964c0d5",
+    "scripts/note_task_gate/local.sh": "fddb2c0064dd90c403e4df955359caae7923d9248754f2a0c99bf15080a0a0aa",
+    "scripts/note_task_gate/packet-20261111.json": "e1ad5bcffe403d85278cdd458ba4cb0ed371b081258a8622c876b5ec5ec7b0f6",
+    "scripts/note_task_gate/prepare_ci.py": "30673ccc2ca1dbfff06f8cd951d1288d0563ec88295b4114b26c173c44030d6b",
+    "scripts/note_task_gate/toolchain-20261111.json": "22e848ca4fac64d597d8e244dacddf1ecfff8e54a5e6f8c5ef4e9bb9e4fc0195"
+  },
+  "execution": "CI entry point run locally from a fresh clone with only candidate workflow and gate files applied",
+  "release": "https://github.com/DocumentDrivenDX/batten/releases/tag/note-task-packet-20261111",
+  "archiveSha256": "55860ce18bb43d2567319dd9dcd842debcee76bedcd97e638e19b8d036c72b90",
+  "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087",
+  "verifiedFiles": 962,
+  "localPacketCacheRemoved": true,
+  "targets": {
+    "macos": {
+      "cases": [
+        "local-session",
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write"
+      ],
+      "leases": 12,
+      "compilerModulesAbsent": true,
+      "forwardHead": "87ef8642a0212a4e015f5124cd814ec32003a8000622f2285d2ab0847d8f7ef0",
+      "postgresStopped": true
+    },
+    "linux": {
+      "cases": [
+        "local-session",
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write"
+      ],
+      "leases": 12,
+      "compilerModulesAbsent": true,
+      "forwardHead": "d1719ee45ffb34ca0e43292c09a7cc9816053dd9ea0b60d93877b76dcdab6a59",
+      "postgresStopped": true
+    },
+    "apps": {
+      "cases": [
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write",
+        "forward-migration"
+      ],
+      "leases": 12,
+      "compilerModulesAbsent": true,
+      "forwardHead": "87ef8642a0212a4e015f5124cd814ec32003a8000622f2285d2ab0847d8f7ef0",
+      "computeStopped": true,
+      "workspaceSourceDeleted": true
+    },
+    "workers": {
+      "passed": true,
+      "compilerModulesAbsent": true,
+      "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087",
+      "readSha256": "5dccbd61293ce421ec9836fc8cadd09e95a519b2a1702853fa164e35b4ae3167",
+      "writeSha256": "8272adcc55df6e0ea70dd8a63fc5dc030a859f6c83ea1b378e4025e3ba3e0f3d",
+      "apiDigest": "797579a42be04c597e67a077f11e37d90c125ffa4b3a310865b50167aa9d5a90",
+      "migrationSha256": "742fa52c4e7d3b0ebd39fb1e1365e0954de156568c0a517bffa8eeeace4552d4",
+      "installation": {
+        "head": "50b8332ef6623abbe0a00057b03cceb94e7e8d2fb112b300984bbe94dfbe7bf3",
+        "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087"
+      },
+      "requests": {
+        "joinRows": 1,
+        "relayPages": 2,
+        "relayReadback": true,
+        "writeApplied": true,
+        "observeRecovered": true,
+        "invokeRetry": true,
+        "ownerIsolation": true,
+        "wrongApiRefused": true
+      },
+      "migration": {
+        "head": "3130c2b96584b245627c42163d42d9ba59ed4bd7035a030d468ef6d268867932",
+        "retainedNotes": 3,
+        "retainedTasks": 3,
+        "retainedReceipts": 2,
+        "foreignKeysValid": true,
+        "recoveredLostReply": true,
+        "staleReplayRefused": true
+      },
+      "workflowDeleted": true,
+      "workerDeleted": true,
+      "databaseDeleted": true
+    }
+  }
+}

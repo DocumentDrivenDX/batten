@@ -1,0 +1,149 @@
+{
+  "status": "pass",
+  "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087",
+  "verifiedFiles": 962,
+  "manifestSha256": "e1ad5bcffe403d85278cdd458ba4cb0ed371b081258a8622c876b5ec5ec7b0f6",
+  "archiveSha256": "55860ce18bb43d2567319dd9dcd842debcee76bedcd97e638e19b8d036c72b90",
+  "archiveReassemblyVerified": true,
+  "mutatedSourceRejected": true,
+  "targets": {
+    "macos": {
+      "cases": [
+        "local-session",
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write"
+      ],
+      "leases": 12,
+      "readerFilesVerified": 1967,
+      "adminFilesVerified": 361,
+      "forward": {
+        "status": "pass",
+        "compilerModulesAbsent": true,
+        "artifactSha256": "d8889dba1b3a71c0a8b22fe1baaa59adbb591edb024e1e9649e94db1274e3973",
+        "planDigest": "9b710840ce13e0e5ac7b207f2a152d9e59421e795818de96818d72f1bb5c55b5",
+        "predecessorHead": "f2c668a68dde2d3ee710cc1c9979d18f52256645cbb61f6d2cb1cc71118fbcaa",
+        "head": "87ef8642a0212a4e015f5124cd814ec32003a8000622f2285d2ab0847d8f7ef0",
+        "preservedNotes": 6,
+        "preservedTasks": 6
+      },
+      "postgresStopped": true
+    },
+    "linux": {
+      "cases": [
+        "local-session",
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write"
+      ],
+      "leases": 12,
+      "readerFilesVerified": 1942,
+      "adminFilesVerified": 360,
+      "forward": {
+        "status": "pass",
+        "compilerModulesAbsent": true,
+        "artifactSha256": "d8889dba1b3a71c0a8b22fe1baaa59adbb591edb024e1e9649e94db1274e3973",
+        "planDigest": "9b710840ce13e0e5ac7b207f2a152d9e59421e795818de96818d72f1bb5c55b5",
+        "predecessorHead": "0023d8a5b1ea6280c18c4376745469ff3ea5c3dabe2e843bd0b9e756a6856732",
+        "head": "d1719ee45ffb34ca0e43292c09a7cc9816053dd9ea0b60d93877b76dcdab6a59",
+        "preservedNotes": 6,
+        "preservedTasks": 6
+      },
+      "postgresStopped": true
+    },
+    "apps": {
+      "leases": 12,
+      "installedWheels": {
+        "readerLockSha256": "0e92d7cc5104aeb9e5723e2ede1ff10bf9fdcc0d4ae4e7b22513541777008d50",
+        "adminLockSha256": "8b401f6bbe34524514405807db078888711cdfdaed95fe046728413d438d2061",
+        "wheelFilesVerified": {
+          "novirhyza-batten-asgi": 16,
+          "novirhyza-batten-databricks": 10,
+          "novirhyza-batten-lintel": 20,
+          "novirhyza-batten-umf-postgres": 33,
+          "umf-access": 89
+        },
+        "candidateImportsFromSitePackages": true
+      },
+      "compilerModulesAbsent": true,
+      "inspectedGeneration": 2,
+      "computeStopped": true,
+      "workspaceSourceDeleted": true,
+      "cases": [
+        "join",
+        "relay-first",
+        "relay-next",
+        "wrong-api-pin",
+        "confirmation-required",
+        "observe-before",
+        "apply",
+        "observe-after",
+        "invoke-retry",
+        "cross-owner",
+        "relay-after-write",
+        "forward-migration"
+      ],
+      "forward": {
+        "status": "pass",
+        "compilerModulesAbsent": true,
+        "artifactSha256": "d8889dba1b3a71c0a8b22fe1baaa59adbb591edb024e1e9649e94db1274e3973",
+        "planDigest": "9b710840ce13e0e5ac7b207f2a152d9e59421e795818de96818d72f1bb5c55b5",
+        "predecessorHead": "f2c668a68dde2d3ee710cc1c9979d18f52256645cbb61f6d2cb1cc71118fbcaa",
+        "head": "87ef8642a0212a4e015f5124cd814ec32003a8000622f2285d2ab0847d8f7ef0",
+        "preservedNotes": 6,
+        "preservedTasks": 6
+      }
+    },
+    "workers": {
+      "passed": true,
+      "compilerModulesAbsent": true,
+      "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087",
+      "readSha256": "5dccbd61293ce421ec9836fc8cadd09e95a519b2a1702853fa164e35b4ae3167",
+      "writeSha256": "8272adcc55df6e0ea70dd8a63fc5dc030a859f6c83ea1b378e4025e3ba3e0f3d",
+      "apiDigest": "797579a42be04c597e67a077f11e37d90c125ffa4b3a310865b50167aa9d5a90",
+      "migrationSha256": "742fa52c4e7d3b0ebd39fb1e1365e0954de156568c0a517bffa8eeeace4552d4",
+      "installation": {
+        "head": "50b8332ef6623abbe0a00057b03cceb94e7e8d2fb112b300984bbe94dfbe7bf3",
+        "sourceSha256": "7535ca6ecc10dd439ef48679183d05f3a6d36d5c25f7e5d9514294952d38a087"
+      },
+      "requests": {
+        "joinRows": 1,
+        "relayPages": 2,
+        "relayReadback": true,
+        "writeApplied": true,
+        "observeRecovered": true,
+        "invokeRetry": true,
+        "ownerIsolation": true,
+        "wrongApiRefused": true
+      },
+      "migration": {
+        "head": "3130c2b96584b245627c42163d42d9ba59ed4bd7035a030d468ef6d268867932",
+        "retainedNotes": 3,
+        "retainedTasks": 3,
+        "retainedReceipts": 2,
+        "foreignKeysValid": true,
+        "recoveredLostReply": true,
+        "staleReplayRefused": true
+      },
+      "workflowDeleted": true,
+      "workerDeleted": true,
+      "databaseDeleted": true
+    }
+  }
+}

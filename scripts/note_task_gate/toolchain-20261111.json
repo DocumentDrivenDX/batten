@@ -1,0 +1,12 @@
+{
+  "macos": {
+    "python": "5ebf120b62e8d02ab22485ca328da471db27fd278069df3de01c957cc02d9cd6",
+    "uv": "cd510bf93fddcbf0799eb0b7bd9aae87e850a5596aeb4594c12aba72fd4e388b",
+    "postgres": "99d96184c6675f35caa64761714aeb0c3af5ac61337910b31c36bfb45c75bc33",
+    "initdb": "ac53919b2276c58adeee1561ec91e68d48954406c742ae0bf4867e48221bbac8",
+    "pg_ctl": "3021087af95fd33bfd83106c85de47c4756e44aa7edde78446e7593604d1b451"
+  },
+  "databricksCLI": "Databricks CLI v1.21.0",
+  "node": "v26.12.1",
+  "npm": "11.20.0"
+}
