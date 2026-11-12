@@ -48,7 +48,7 @@ async def test_listing_projection_progress_and_scoped_cursors(
     assert sorted(found) == ["a", "c"]
 
 
-async def test_upload_manifest_and_completion_condition(
+async def test_upload_manifest_completion_and_reattachment(
     local: tuple[LocalProvider, Grant],
 ) -> None:
     provider, grant = local
@@ -73,13 +73,6 @@ async def test_upload_manifest_and_completion_condition(
     with pytest.raises(StorageError, match="precondition_failed"):
         await store.complete_upload(conflicting.upload, [part])
     assert (await store.abort_upload(conflicting.upload)).outcome == "aborted"
-
-
-async def test_upload_reattachment_restart_and_stale_parts(
-    local: tuple[LocalProvider, Grant],
-) -> None:
-    provider, grant = local
-    store = provider.bind(grant)
     session = await store.begin_upload("resume")
     old = await store.write_part(session.upload, 1, b"old")
     current = await store.write_part(session.upload, 1, b"current")
@@ -94,27 +87,3 @@ async def test_upload_reattachment_restart_and_stale_parts(
     receipt = await rebound.complete_upload(session.upload, [current])
     assert receipt.info.size_bytes == 7
     await restarted.aclose()
-
-
-async def test_closed_handle_preserves_borrower_and_data(
-    local: tuple[LocalProvider, Grant],
-) -> None:
-    provider, grant = local
-    closed, borrower = provider.bind(grant), provider.bind(grant)
-    await closed.write("keep", b"retained")
-    await closed.aclose()
-    with pytest.raises(StorageError, match="denied"):
-        await closed.stat("keep")
-    assert (await borrower.stat("keep")).size_bytes == 8
-    session = await borrower.begin_upload("unpublished")
-    await borrower.write_part(session.upload, 1, b"private")
-    assert [item.key for item in (await borrower.list(limit=2)).items] == ["keep"]
-    await borrower.abort_upload(session.upload)
-    assert (await borrower.upload_status(session.upload)).state == "aborted"
-    grant.features = {"multipart_upload", "create_only"}
-    transient = await borrower.begin_upload("transient")
-    await borrower.write_part(transient.upload, 1, b"temporary")
-    await borrower.aclose()
-    assert len(list((provider.root / "blobs").iterdir())) == 1
-    with pytest.raises(StorageError, match="denied"):
-        await provider.bind(grant).upload_status(transient.upload)

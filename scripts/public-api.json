@@ -45,6 +45,15 @@
   ],
   "batten.umf_postgres": [
     "AuthenticatedTransport",
+    "GeneratedBatchBinding",
+    "GeneratedBatchExecution",
+    "GeneratedBatchRequest",
+    "GeneratedCommandExecution",
+    "GeneratedCommandRoute",
+    "GeneratedRelationshipRoute",
+    "GeneratedRelationships",
+    "GeneratedTableBinding",
+    "GeneratedTableExecution",
     "NativeBinding",
     "UmfTableProvider",
     "create_umf_provider"
@@ -56,6 +65,7 @@
   ],
   "batten.asgi": [
     "AppListing",
+    "LocalIdentities",
     "LocalSessions",
     "create_app",
     "create_registry"
@@ -68,6 +78,7 @@
     "Actor",
     "ArtifactRef",
     "Execution",
+    "ExecutionScope",
     "HostConfig",
     "HostServices",
     "Identity",
@@ -75,6 +86,58 @@
     "Operation",
     "OperationCall",
     "OperationOutcome",
+    "PreparedSelectedExecution",
+    "RequestScopedSelectedExecution",
+    "SelectedExecution",
+    "SelectedKey",
+    "SelectedCallSpec",
+    "SelectedRequestError",
+    "connection_routes_digest",
+    "Selection",
     "ShutdownReport"
+  ],
+  "batten.lintel": [
+    "ExposureConfig",
+    "ExposureOperation",
+    "ExposureRecordRoot",
+    "ConnectionAdmission",
+    "LintelExecution",
+    "prepare_connection_admission"
+  ],
+  "batten.lintel.asgi": [
+    "HostScopeIngress"
+  ],
+  "batten.umf_postgres.generated": [
+    "GeneratedNativeBinding",
+    "GeneratedUmfExecution"
+  ],
+  "batten.umf_postgres.generated_batch": [
+    "GeneratedBatchBinding",
+    "GeneratedBatchExecution",
+    "GeneratedBatchRequest"
+  ],
+  "batten.umf_postgres.generated_command": [
+    "GeneratedCommandExecution",
+    "GeneratedCommandRoute"
+  ],
+  "batten.umf_postgres.generated_read": [
+    "GeneratedReadBinding",
+    "GeneratedReadExecution"
+  ],
+  "batten.umf_postgres.generated_read_v2": [
+    "GeneratedReadBindingV2",
+    "GeneratedReadExecutionV2"
+  ],
+  "batten.umf_postgres.generated_read_v3": [
+    "GeneratedReadBindingV3",
+    "GeneratedReadExecutionV3"
+  ],
+  "batten.umf_postgres.generated_relationship": [
+    "GeneratedRelationshipRoute",
+    "GeneratedRelationships"
+  ],
+  "batten.umf_postgres.generated_table": [
+    "GeneratedTableBinding",
+    "GeneratedTableExecution"
   ]
 }

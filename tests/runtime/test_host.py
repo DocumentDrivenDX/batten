@@ -29,11 +29,11 @@ class Identity:
         self.allowed = True
         self.after_run = True
         self.calls = 0
+        self.admission_checks = 1
 
     async def check(self, actor: Actor, operation: str) -> bool:
         self.calls += 1
-        # The first check admits the call; a later one models revocation mid-flight.
-        return self.allowed if self.calls == 1 else self.after_run
+        return self.allowed if self.calls <= self.admission_checks else self.after_run
 
 
 class Observations:
@@ -159,13 +159,21 @@ async def test_unknown_operation_malformed_key_and_denied_actor_are_refused() ->
 
 
 @pytest.mark.parametrize(
-    ("operation", "status"), [("read", "denied"), ("write", "uncertain")]
+    ("operation", "admission_checks", "status", "dispatched"),
+    [("read", 1, "denied", 1), ("write", 1, "denied", 0), ("write", 2, "uncertain", 1)],
 )
-async def test_authority_revoked_during_a_call(operation: str, status: str) -> None:
+async def test_authority_revoked_during_a_call(
+    operation: str, admission_checks: int, status: str, dispatched: int
+) -> None:
     fixture = Fixture()
+    fixture.identity.admission_checks = admission_checks
     fixture.identity.after_run = False
     outcome = await (await fixture.running()).invoke(call(operation))
-    assert (outcome.status, outcome.code) == (status, "authority_revoked")
+    assert (outcome.status, outcome.code, fixture.execution.peak) == (
+        status,
+        "authority_revoked",
+        dispatched,
+    )
 
 
 @pytest.mark.parametrize(
