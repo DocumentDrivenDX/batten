@@ -3,9 +3,9 @@
 All distributions share one version and one `v*` tag. Versions before 0.1.0a3 were
 separate GitHub prereleases (`runtime-v*`, `storage-v*`).
 
-## 0.1.0a3
+## 0.1.0a3 - 2026-11-11
 
-Unreleased. First release from PyPI.
+First release from PyPI.
 
 - One version for every distribution; one `v*` tag; tag-driven release workflow with
   trusted publishing to PyPI, a fresh-venv install smoke test and a GitHub Release.
@@ -22,6 +22,7 @@ Unreleased. First release from PyPI.
 - Removed the unimplemented reference-app specifications, evidence and verification
   files, and the ratchet gates; added unit tests for contracts, runtime, ASGI, the
   UMF provider and the local host; CI runs on Linux for every pull request.
+- Optional `lintel` extra on `novirhyza-batten-local` hosts the Lintel task board (GraphQL) on generated PostgreSQL; it pins `lintel-api==0.1.0a6`.
 - The approval UMF model now lives in `examples/approval-desk/model/`.
 
 ## 0.1.0a2 (runtime-v0.1.0a2, 2026-11-03)
