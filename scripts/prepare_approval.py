@@ -1,52 +1,23 @@
-"""Assemble an isolated pinned platform cohort, original SDK wheels and app assets."""
+"""Build the approval desk web assets and wheels and install them into .cache/approval-runtime."""
 
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import subprocess
 import sys
 import tomllib
 from pathlib import Path
 
-UMF_WHEELS = {
-    "umf_access-0.1.0.dev8-py3-none-any.whl": {
-        "release": "umf-v0.5.8",
-        "sha256": "1a21c1ddd59f6b23e9f0b33228280564af0e96bb4d13699b89616d5143e4fd23",
-    },
-    "umf_codegen-0.10.8-py3-none-any.whl": {
-        "release": "umf-v0.10.8",
-        "sha256": "0d21acef3171442b818a4ad1dfdbaf99cc0f0f5557e5c670d5ce56243235dbc5",
-    },
-}
+PACKAGES = ("batten", "batten-local")
+FIND_LINKS = "https://github.com/DocumentDrivenDX/pgserver/releases/expanded_assets/pg18.6-pgv0.8.6-r2"
 
 
 def run(args: list[str], cwd: Path) -> None:
     subprocess.run(args, cwd=cwd, check=True)
 
 
-def upstream_wheels(wheels: Path) -> list[str]:
-    wheels.mkdir(parents=True, exist_ok=True)
-    urls = {
-        name: f"https://github.com/DocumentDrivenDX/umf/releases/download/{source['release']}/{name}"
-        for name, source in UMF_WHEELS.items()
-    }
-    result: list[str] = []
-    for name, source in UMF_WHEELS.items():
-        path = wheels / name
-        if not path.exists():
-            from urllib.request import urlopen
-
-            with urlopen(urls[name], timeout=60) as response:
-                path.write_bytes(response.read())
-        if hashlib.sha256(path.read_bytes()).hexdigest() != source["sha256"]:
-            raise ValueError(f"upstream wheel digest mismatch: {name}")
-        result.append(str(path))
-    return result
-
-
-def assets(root: Path) -> Path:
+def assets(root: Path) -> None:
+    """Bundle the TypeScript app into .cache/approval-ui, which the app wheel includes."""
     target = root / ".cache/approval-ui"
     target.mkdir(parents=True, exist_ok=True)
     source = root / "examples/approval-desk/web"
@@ -64,125 +35,28 @@ def assets(root: Path) -> Path:
     )
     for name in ("index.html", "style.css", "tokens.css", "thumbnail.svg"):
         (target / name).write_bytes((source / name).read_bytes())
-    return target
 
 
-def refresh_app(root: Path) -> None:
-    runtime = root / ".cache/approval-runtime/bin/python"
-    receipt_path = root / ".cache/approval-cohort.json"
-    if not runtime.exists() or not receipt_path.exists():
-        raise ValueError("prepare the complete platform cohort first")
-    assets(root)
-    wheels = root / ".cache/approval-wheels"
+def build(root: Path, project: Path, wheels: Path) -> Path:
+    metadata = tomllib.loads((project / "pyproject.toml").read_text())["project"]
     run(
         [
-            sys.executable,
-            "-m",
+            "uv",
             "build",
-            "--no-isolation",
             "--wheel",
-            "--outdir",
+            "--out-dir",
             str(wheels),
-            str(root / "examples/approval-desk"),
+            str(project),
         ],
         root,
     )
-    metadata = tomllib.loads(
-        (root / "examples/approval-desk/pyproject.toml").read_text()
-    )["project"]
-    wheel = (
-        wheels
-        / f"novirhyza_batten_approval_desk-{metadata['version']}-py3-none-any.whl"
-    )
-    run(
-        [
-            "uv",
-            "pip",
-            "install",
-            "--python",
-            str(runtime),
-            "--no-deps",
-            "--reinstall",
-            str(wheel),
-        ],
-        root,
-    )
-    receipt = json.loads(receipt_path.read_text())
-    receipt["wheels"][wheel.name] = hashlib.sha256(wheel.read_bytes()).hexdigest()
-    receipt["model_sha256"] = hashlib.sha256(
-        (
-            root
-            / "docs/helix/reference-apps/approval-desk/specs/02-design/models/approval.umf.json"
-        ).read_bytes()
-    ).hexdigest()
-    receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
-    print(
-        "Refreshed installed app; restart the local host to admit its new artifact digest."
-    )
+    name = metadata["name"].replace("-", "_")
+    return wheels / f"{name}-{metadata['version']}-py3-none-any.whl"
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--app-only", action="store_true")
-    args = parser.parse_args()
-    root = Path(__file__).resolve().parents[1]
-    if args.app_only:
-        refresh_app(root)
-        return
-    assets(root)
-    wheels = root / ".cache/approval-wheels"
-    wheels.mkdir(parents=True, exist_ok=True)
-    built = upstream_wheels(wheels)
-    projects = [
-        *[
-            root / "packages" / ("batten-" + name)
-            for name in (
-                "contracts",
-                "runtime",
-                "tables",
-                "asgi",
-                "umf-postgres",
-                "local",
-            )
-        ],
-        root / "examples/approval-desk",
-    ]
-    for project in projects:
-        metadata = tomllib.loads((project / "pyproject.toml").read_text())["project"]
-        name = metadata["name"].replace("-", "_")
-        run(
-            [
-                sys.executable,
-                "-m",
-                "build",
-                "--no-isolation",
-                "--wheel",
-                "--outdir",
-                str(wheels),
-                str(project),
-            ],
-            root,
-        )
-        built.append(str(wheels / f"{name}-{metadata['version']}-py3-none-any.whl"))
-    run(
-        [
-            "uv",
-            "pip",
-            "install",
-            "--python",
-            sys.executable,
-            "--no-deps",
-            "--reinstall",
-            *built[:2],
-        ],
-        root,
-    )
-    runtime = root / ".cache/approval-runtime"
-    if not (runtime / "bin/python").exists():
-        run(["uv", "venv", "--python", sys.executable, str(runtime)], root)
-    constraints = root / ".cache/approval-constraints.txt"
+def constraints(root: Path, path: Path) -> None:
     lock = tomllib.loads((root / "uv.lock").read_text())
-    constraints.write_text(
+    path.write_text(
         "\n".join(
             p["name"] + "==" + p["version"]
             for p in lock["package"]
@@ -190,6 +64,44 @@ def main() -> None:
         )
         + "\n"
     )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--app-only", action="store_true", help="rebuild only the example app"
+    )
+    parser.add_argument(
+        "--assets-only", action="store_true", help="only bundle the web assets"
+    )
+    args = parser.parse_args()
+    root = Path(__file__).resolve().parents[1]
+    cache = root / ".cache"
+    wheels = cache / "approval-wheels"
+    runtime = cache / "approval-runtime"
+    wheels.mkdir(parents=True, exist_ok=True)
+    assets(root)
+    if args.assets_only:
+        return
+    app = root / "examples/approval-desk"
+    projects = (
+        [app]
+        if args.app_only
+        else [
+            *(root / "packages" / name for name in PACKAGES),
+            app,
+        ]
+    )
+    built = [str(build(root, project, wheels)) for project in projects]
+    if not (runtime / "bin/python").exists():
+        run(["uv", "venv", "--python", sys.executable, str(runtime)], root)
+    pins = cache / "approval-constraints.txt"
+    constraints(root, pins)
+    reinstall = [
+        arg
+        for wheel in built
+        for arg in ("--reinstall-package", Path(wheel).name.split("-")[0])
+    ]
     run(
         [
             "uv",
@@ -197,57 +109,19 @@ def main() -> None:
             "install",
             "--python",
             str(runtime / "bin/python"),
+            "--prerelease=allow",
             "--constraint",
-            str(constraints),
+            str(pins),
             "--find-links",
             str(wheels),
             "--find-links",
-            "https://github.com/DocumentDrivenDX/pgserver/releases/expanded_assets/pg18.6-pgv0.8.6-r2",
-            *[
-                argument
-                for project in projects
-                for argument in (
-                    "--reinstall-package",
-                    tomllib.loads((project / "pyproject.toml").read_text())["project"][
-                        "name"
-                    ],
-                )
-            ],
+            FIND_LINKS,
+            *reinstall,
             *built,
         ],
         root,
     )
-    receipt = {
-        "umf_artifacts": UMF_WHEELS,
-        "python": ".".join(str(part) for part in sys.version_info[:3]),
-        "wheels": {
-            Path(p).name: hashlib.sha256(Path(p).read_bytes()).hexdigest()
-            for p in built
-        },
-        "model_sha256": hashlib.sha256(
-            (
-                root
-                / "docs/helix/reference-apps/approval-desk/specs/02-design/models/approval.umf.json"
-            ).read_bytes()
-        ).hexdigest(),
-        "packages": json.loads(
-            subprocess.check_output(
-                [
-                    str(runtime / "bin/python"),
-                    "-I",
-                    "-c",
-                    "import importlib.metadata,json; print(json.dumps({d.metadata['Name']: d.version for d in importlib.metadata.distributions()}))",
-                ],
-                text=True,
-            )
-        ),
-    }
-    (root / ".cache/approval-cohort.json").write_text(
-        json.dumps(receipt, indent=2, sort_keys=True) + "\n"
-    )
-    print(
-        "Prepared original UMF/Weft/PostgreSQL 18 candidate and installed app artifacts; no schema applied."
-    )
+    print("Installed the approval desk into", runtime)
 
 
 if __name__ == "__main__":

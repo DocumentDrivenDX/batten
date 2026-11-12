@@ -1,17 +1,13 @@
 <!-- helix:publish audience=developer page=example-approval-desk kind=how-to voice=onboarding budget=650 reviewed=2026-11-03/microsite_dependency_reader/068d12af7a7b54cf -->
-<!-- helix:source docs/helix/reference-apps/approval-desk/specs/01-frame/prd.md sha256:0811410edd777ad4 -->
-<!-- helix:source docs/helix/reference-apps/approval-desk/specs/01-frame/user-stories/US-101-journey.md sha256:f655241ab564f90e -->
-<!-- helix:source docs/helix/reference-apps/catalog.json sha256:3de4ef2805d0566d -->
 <!-- helix:source examples/approval-desk/README.md sha256:374ae9808265d4c2 -->
 <!-- helix:source examples/approval-desk/web/index.html sha256:288b5af40a12013e -->
 <!-- helix:source examples/approval-desk/web/app.ts sha256:6c0aff047a0123a8 -->
-<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a2.md sha256:1eee1d738284dd8a -->
 
 # Approval desk walkthrough
 
 Runnable local preview. Follow this journey as a requester and independent approver. Use fabricated data throughout.
 
-[Prepare and start the local app](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md) before following these steps. The preview uses loopback development identities and PostgreSQL 18; production authentication and broader fleet qualification remain separate.
+[Install and start the local app](https://github.com/DocumentDrivenDX/batten/blob/main/README.md#install-and-run-the-example) before following these steps. The preview uses loopback development identities and PostgreSQL 18; production authentication and broader fleet qualification remain separate.
 
 ## Capabilities in this journey
 
@@ -19,7 +15,7 @@ tables, actions. These tags describe requested integration boundaries.
 
 ## 1. Open the local registry
 
-Follow the run instructions to prepare the exact Python 3.13 cohort and explicitly initialize a new fabricated database. Start the host, open its root registry and choose Approval desk.
+Follow the install instructions, then explicitly initialize a new fabricated database with `batten-approval init`. Start the host with `batten-approval serve`, open its root registry and choose Approval desk.
 
 ## 2. Submit as Alex
 
@@ -43,4 +39,4 @@ Repeat inspection as an anonymous, foreign or revoked actor. No private result o
 
 ## Continue exploring
 
-[Read the acceptance story](https://github.com/DocumentDrivenDX/batten/blob/main/docs/helix/reference-apps/approval-desk/specs/01-frame/user-stories/US-101-journey.md) or [choose another example](examples.md).
+Read the [example app README](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).

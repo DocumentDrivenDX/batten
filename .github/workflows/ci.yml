@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: uv sync --frozen --all-packages --python ${{ matrix.python }}
+      - run: bun install --frozen-lockfile
+      - name: Check out the qualified generated Access source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: DocumentDrivenDX/umf
+          ref: d67da43671047fc14f745ee2cbc6d3cfb28e7943
+          path: .cache/quality-umf
+          persist-credentials: false
+      - name: Check out the qualified Lintel source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: DocumentDrivenDX/lintel
+          ref: c99b86bfb4f1f373277e4b81ac41afe258490482
+          path: .cache/quality-lintel
+          persist-credentials: false
+      - name: Install generated-provider test wheels
+        run: |
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-umf/python/umf_access_generated_executor
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-umf/python/umf_access
+          uv build --wheel --out-dir .cache/generated-wheels .cache/quality-lintel
+          uv pip install --python .venv/bin/python --find-links https://github.com/DocumentDrivenDX/umf/releases/expanded_assets/umf-v0.10.10 .cache/generated-wheels/*.whl "umf-codegen==0.10.10"
+      - name: Boundaries, lint, types and unit tests
+        run: uv run --no-sync python scripts/check.py
+      - name: Version consistency and tree size guard
+        run: |
+          uv run python scripts/check_versions.py
+          uv run python scripts/check_tree_size.py
+
+  # Native PostgreSQL (pgserver), browser scenarios and the README quickstart.
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: uv sync --frozen --all-packages --python 3.13
+      - run: bun install --frozen-lockfile
+      - name: Build and install the approval desk
+        run: uv run python scripts/prepare_approval.py
+      - name: Integration tests
+        run: uv run pytest tests/local -m integration
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26.13.0'
+      - run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Browser scenarios
+        run: bun run test:native
+      - name: Build wheels and run the README quickstart against them
+        run: |
+          uv run python scripts/build_dist.py
+          python scripts/smoke_install.py dist
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: .cache/browser-results.json
+          retention-days: 14
+          if-no-files-found: ignore

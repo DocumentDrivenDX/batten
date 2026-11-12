@@ -36,7 +36,7 @@ from lintel.ports import (
     OperationRef,
 )
 
-from tests.runtime.test_host import Capture
+from tests.runtime.test_lintel_host import Capture
 
 
 @pytest.mark.parametrize("kind", ["person", "batch"])

@@ -10,8 +10,6 @@ ddx:
       kind: derived_from
     - id: ADR-004
       kind: informed_by
-    - id: ADR-005
-      kind: informed_by
 ---
 
 # Public host API contract

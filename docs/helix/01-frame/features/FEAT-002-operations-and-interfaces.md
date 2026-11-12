@@ -116,7 +116,7 @@ Batten owns the optional adapter implementing Lintel's neutral public execution
 ports; Lintel must not import Batten, and generic Batten core must not import
 Lintel/GraphQL. Host composition supplies the binding and router explicitly.
 REST/OpenAPI product API generation is outside this slice. See
-[SD-002](../../02-design/solution-designs/SD-002-lintel-graphql-relay.md) and Lintel's
+SD-002 and Lintel's
 [US-004 client](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/01-frame/user-stories/US-004-typescript-clients.md)
 and [US-005 embedding](https://github.com/DocumentDrivenDX/lintel/blob/main/docs/helix/01-frame/user-stories/US-005-batten-embedding.md)
 acceptance slices. Batten-specific Technical Designs and contract amendments

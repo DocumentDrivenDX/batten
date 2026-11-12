@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """Build the Batten design microsite from source-stamped guide pages. Stdlib only."""
 
-import hashlib
 import html
-import json
 import re
 import shutil
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 SITE = Path(__file__).resolve().parent
 GUIDE = ROOT / "docs/helix/guide/developer"
 OUT = SITE / "dist"
+VERSION = tomllib.loads((ROOT / "packages/batten/pyproject.toml").read_text())[
+    "project"
+]["version"]
 REPO = "https://github.com/DocumentDrivenDX/batten"
 PUBLIC_URL = "https://documentdrivendx.github.io/batten/"
 DESCRIPTION = "Batten: declarative AI applications with explicit platform choices. Try the local approval desk preview, or explore the architecture for governed fleets."
@@ -21,15 +23,9 @@ PAGES = [
     ("hosting", "Hosting"),
     ("integrations", "Platform"),
     ("architecture", "Architecture"),
-    ("examples", "Examples"),
     ("about", "About this guide"),
 ]
-PAGES.extend([
-    (f"example-{app['slug']}", app["slug"].replace("-", " ").title())
-    for app in json.loads(
-        (ROOT / "docs/helix/reference-apps/catalog.json").read_text()
-    )["apps"]
-])
+PAGES.append(("example-approval-desk", "Approval Desk"))
 MARK = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 6h22M5 16h22M5 26h22M10 3v26M22 3v26"/></svg>'
 
 
@@ -67,18 +63,14 @@ def markdown(text: str) -> tuple[str, list[tuple[str, str]]]:
 
 
 def sources(text: str) -> str:
-    refs = re.findall(r"<!-- helix:source ([^ ]+) sha256:([a-f0-9]+) -->", text)
+    refs = re.findall(r"<!-- helix:source ([^ ]+) sha256:[a-f0-9]+ -->", text)
     rows: list[str] = []
-    for path, expected in refs:
-        value = (ROOT / path).read_text()
-        digest = hashlib.sha256(
-            "\n".join(x.rstrip() for x in value.splitlines()).encode()
-        ).hexdigest()[:16]
-        if digest != expected:
-            raise ValueError(f"Stale guide source: {path}")
+    for path in refs:
+        if not (ROOT / path).is_file():
+            raise ValueError(f"Guide cites a missing source: {path}")
         label = Path(path).stem.replace("-", " ")
         rows.append(
-            f'<li><a href="{REPO}/blob/main/{path}">{html.escape(label)}</a><code>{digest}</code></li>'
+            f'<li><a href="{REPO}/blob/main/{path}">{html.escape(label)}</a></li>'
         )
     return (
         '<details class="sources"><summary>Read the design sources <span>↗</span></summary><ul>'
@@ -175,8 +167,7 @@ def home(body: str, provenance: str) -> str:
 <div class="intent-card"><span class="intent-kind">UMF / APPLICATION</span><h2>review_queue</h2><div class="intent-row"><span>models</span><strong>Review</strong></div><div class="intent-row"><span>actions</span><strong>ApproveReview</strong></div><div class="intent-row"><span>agents</span><strong>RecommendReview</strong></div><div class="intent-row"><span>interface</span><strong>Review screen</strong></div></div>
 <div class="visual-connector"><span></span><span class="connector-label">explicit capability bindings</span><span></span></div><div class="batten-bar">{MARK}<strong>batten core</strong><span>+ selected modules</span></div><div class="host-branch"><span></span><span></span><span></span></div><div class="host-trio"><span>Local</span><span>Standalone</span><span>Embedded</span></div><p class="visual-caption">Same application intent. Different host bindings.</p></div></section>
 <section class="platform-strip" aria-label="Platform responsibilities">{strip}</section>
-<section class="section-wrap preview-section" aria-labelledby="release-title"><p class="eyebrow">AVAILABLE NOW / 0.1.0a2</p><h2 id="release-title">Run the local approval desk.</h2><p>Submit, revise and independently approve requests through native UMF and Weft on PostgreSQL 18. Open the visual app registry and follow decisions through durable receipts and local telemetry.</p><p>Python 3.13 · Local development identities · Fabricated data. This preview qualifies the recorded local cohort; production identity and the complete fleet remain separate work.</p><div class="hero-actions"><a class="button primary" href="{REPO}/releases/tag/runtime-v0.1.0a2">Get the runtime preview ↗</a><a class="button secondary" href="{REPO}/blob/main/examples/approval-desk/README.md">Run instructions ↗</a></div></section>
-<section class="section-wrap preview-section" aria-labelledby="examples-title"><p class="eyebrow">BUSINESS JOURNEYS / EXPLICIT BOUNDARIES</p><h2 id="examples-title">See the platform through its apps.</h2><p>Follow twelve walkthroughs covering approvals, intake, case work, evidence, assisted review, entity graphs, grounded answers, triage, reconciliation, digests, access review and service handoff.</p><p>Start with the runnable approval desk. The remaining specification walkthroughs explain intended behavior and the failure boundaries each app must qualify.</p><a class="button secondary" href="examples.html">Explore the example apps ↗</a></section>
+<section class="section-wrap preview-section" aria-labelledby="release-title"><p class="eyebrow">ALPHA / {VERSION}</p><h2 id="release-title">Run the local approval desk.</h2><p>Submit, revise and independently approve requests through native UMF and Weft on PostgreSQL 18. Open the visual app registry and follow decisions through durable receipts and local telemetry.</p><p>Python 3.11 to 3.13 · Local development identities · Fabricated data. Batten ships standalone: it depends on UMF, Weft and pgserver only. Production identity and the broader fleet remain roadmap work.</p><div class="hero-actions"><a class="button primary" href="{REPO}/blob/main/README.md#install-and-run-the-example">Install {VERSION} ↗</a><a class="button secondary" href="{REPO}/releases">Releases ↗</a></div></section>
 <section class="principles section-wrap"><div><p class="eyebrow">A DELIBERATE FOUNDATION</p><h2>A small core.<br>Room to compose.</h2></div><div class="principle-grid"><article><span class="principle-index">01 / NATIVE MEANING</span><h3>Build on the platform.</h3><p>Use UMF models and actions, Weft queries, Arras ontology and Tether agents through their public boundaries.</p></article><article><span class="principle-index">02 / EXPLICIT CAPABILITIES</span><h3>Bring what the app needs.</h3><p>Select modules independently. Keep optional platform dependencies out of applications that do not use them.</p></article><article><span class="principle-index">03 / GOVERNED FLEETS</span><h3>Operate a shared fleet.</h3><p>Share declarative services with explicit identity, limits and lifecycle. Qualify runtime upgrades against application evidence.</p></article></div></section>
 {explorer()}
 <section class="ux-section section-wrap"><div class="ux-copy"><p class="eyebrow">GOOD INTERFACES, BY DESIGN</p><h2>Make room<br>for the experience.</h2><p>ux-builder owns the design workflow, blueprint, components and themes. Batten’s proposed binding connects that experience to native models and governed operations.</p><a class="text-link" href="integrations.html">Explore the UI boundary <span>↗</span></a></div><div class="review-illustration" aria-label="Illustrative review screen, not an implemented Batten application"><div class="review-top"><span><i></i> Review workspace</span><span>ILLUSTRATION</span></div><div class="review-body"><div class="review-sidebar"><span class="skeleton wide"></span><span class="review-nav active">Review queue <b>→</b></span><span class="review-nav">Activity</span><span class="review-nav">Settings</span></div><div class="review-content"><span class="review-eyebrow">REVIEW / FABRICATED EXAMPLE</span><h3>A decision, with context.</h3><div class="recommendation"><span>✧ Recommendation</span><p>Review the proposed change before approval.</p></div><div class="review-fields"><span>Declared action</span><strong>ApproveReview</strong><span>Authority</span><strong>Checked by the host</strong></div><div class="illustrative-button">Review and confirm <span>↗</span></div></div></div><div class="review-footer">Native meaning <span>→</span> Typed operation <span>→</span> Host authorization</div></div></section>

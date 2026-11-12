@@ -3,11 +3,8 @@
 <!-- helix:source docs/helix/01-frame/prd.md sha256:e50a20aa72953aa2 -->
 <!-- helix:source docs/helix/02-design/architecture.md sha256:0d20e13aee47c983 -->
 
-<!-- helix:source docs/helix/04-build/implementation-plan.md sha256:5a5a5bbe91a6f77c -->
 
-<!-- helix:source docs/helix/04-build/batten-app-workflow.md sha256:4d56d64a8364c75c -->
 
-<!-- helix:source docs/helix/05-deploy/runtime-release-0.1.0a2.md sha256:1eee1d738284dd8a -->
 
 <!-- helix:source docs/helix/02-design/contracts/CONTRACT-012-local-operation-host.md sha256:7107fb4919ade466 -->
 
@@ -54,11 +51,9 @@ A provider must satisfy the required interface and exact compatibility checks. A
 
 ## Explore the design
 
-Enterprise reference apps have independent HELIX specification scopes and shared conformance obligations. The initial UI path is a TypeScript app. Inventory validation checks the specs; complete app support requires actual client, host and provider evidence.
+The local runtime preview delivers an approval desk and a visual application registry, with native UMF/Weft persistence on PostgreSQL 18. Four wheels package the runtime and ASGI transport, the optional object store, the local UMF/Weft host and the example app; they share one version. Local identities are development stubs, and the complete fleet remains a design goal. The interactive explorer illustrates the broader contracts and makes no service calls.
 
-The local runtime preview delivers an approval desk and a visual application registry, with native UMF/Weft persistence on PostgreSQL 18. Separate wheels package the contracts, runtime, table port, native adapter, ASGI transport, local host and app. Qualification is bounded to the recorded cohort and local development identities; the complete fleet remains a design goal. Optional local object storage has its own release. The interactive explorer illustrates the broader contracts and makes no service calls.
-
-[Get the runtime preview](https://github.com/DocumentDrivenDX/batten/releases/tag/runtime-v0.1.0a2) or [read the run instructions](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
+[Install the example](https://github.com/DocumentDrivenDX/batten/blob/main/README.md#install-and-run-the-example) or [read the example README](https://github.com/DocumentDrivenDX/batten/blob/main/examples/approval-desk/README.md).
 
 [Compose an application](composition.md), [choose a host](hosting.md), or read the [architecture](architecture.md).
 
@@ -72,4 +67,4 @@ The same properties must qualify a candidate platform before migration. Results 
 
 ## Follow an example
 
-[Walk through the example apps](examples.md), from the local approval desk to the specification journeys for intake, evidence, agents, graphs and service handoff.
+[Walk through the approval desk](example-approval-desk.md), the example app in this release.

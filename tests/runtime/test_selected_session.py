@@ -25,7 +25,7 @@ from batten.contracts import (
 )
 from batten.runtime import Host, create_host
 
-from tests.runtime.test_host import Authority, Capture, Inspect
+from tests.runtime.test_lintel_host import Authority, Capture, Inspect
 
 PINS = {"read.consistency": "request-snapshot-1", "binding": "fabricated-binding"}
 REFUSALS = {

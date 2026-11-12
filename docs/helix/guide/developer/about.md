@@ -8,21 +8,13 @@ The microsite explains Batten’s intended application model and architecture. I
 
 ## Source-backed explanations
 
-Written guide pages translate the design into explanations for application authors and host integrators. Their source headers retain content digests for the artifacts they use.
-
-The builder checks those digests before generating HTML. A changed source requires the affected explanation to be reconciled and stamped again.
+Written guide pages translate the design into explanations for application authors and host integrators. Each page lists the design sources it draws on, and the build fails if a cited source no longer exists.
 
 ## A standalone site
 
 A Python standard-library builder renders the guide and copies local CSS, JavaScript and artwork. The site needs no application backend or external assets.
 
 The architecture explorer changes an illustration of selected capabilities, hosting and execution placement. It does not assess compatibility, execute operations or deploy resources.
-
-## Reader and browser checks
-
-An independent reader evaluates written pages against their tasks and cited sources. HELIX’s documentor checks source freshness, links and prose; the review stamp records the evaluated body.
-
-Browser verification separately checks rendered navigation, interactions and responsive layout. These checks concern the microsite and establish no SDK runtime or platform qualification.
 
 ## Read the authoritative design
 

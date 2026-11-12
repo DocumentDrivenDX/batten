@@ -1,16 +1,12 @@
-"""Public invocation scopes preserve actor attribution and refuse stale authority."""
+"""Host lifecycle, admission, outcomes and bounded concurrency, with fake services."""
 
 from __future__ import annotations
 
 import asyncio
-from collections.abc import AsyncGenerator, Mapping
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from dataclasses import replace
-from pathlib import Path
-from typing import cast
 
 import pytest
-from batten.asgi import AppListing
 from batten.contracts import (
     Actor,
     ArtifactRef,
@@ -19,417 +15,255 @@ from batten.contracts import (
     Operation,
     OperationCall,
     OperationOutcome,
-    SelectedKey,
-    Selection,
 )
-from batten.hosting.local import LocalApplication, LocalRuntime, LocalSettings
-from batten.lintel import ExposureConfig, ExposureOperation, LintelExecution
 from batten.runtime import Host, create_host
-from lintel.ports import ElementRef, ExecutionError, NodeKey, OperationRef, RequestScope
-from starlette.types import ASGIApp, Message, Scope
 
-from tests.runtime.artifacts import native_fixture
-
-
-async def asgi_post(
-    app: ASGIApp,
-    path: str,
-    body: bytes,
-    *,
-    headers: list[tuple[bytes, bytes]] | None = None,
-    receive_observation: list[int] | None = None,
-) -> tuple[int, bytes]:
-    messages: list[Message] = [
-        {"type": "http.request", "body": body, "more_body": False}
-    ]
-    response: list[Message] = []
-
-    async def receive() -> Message:
-        if receive_observation is not None:
-            receive_observation.append(1)
-        return messages.pop() if messages else {"type": "http.disconnect"}
-
-    async def send(message: Message) -> None:
-        response.append(message)
-
-    scope: Scope = {
-        "type": "http",
-        "asgi": {"version": "3.0", "spec_version": "2.3"},
-        "http_version": "1.1",
-        "method": "POST",
-        "scheme": "http",
-        "path": path,
-        "raw_path": path.encode(),
-        "query_string": b"",
-        "root_path": "",
-        "headers": headers or [(b"content-type", b"application/json")],
-        "client": ("127.0.0.1", 1),
-        "server": ("testserver", 80),
-    }
-    await app(scope, receive, send)
-    status = next(
-        message["status"]
-        for message in response
-        if message["type"] == "http.response.start"
-    )
-    payload = b"".join(
-        cast(bytes, message.get("body", b""))
-        for message in response
-        if message["type"] == "http.response.body"
-    )
-    return cast(int, status), payload
+ARTIFACT = ArtifactRef("app-1", "digest-1")
+ALEX = Actor("alex", "session-1")
+KEY = "0123456789abcdef0123456789abcdef"
+OPERATIONS = (Operation("read", False), Operation("write", True))
 
 
-class Authority:
-    revoked = False
-    inputs: dict[str, object] | None = None
-    wait: asyncio.Event | None = None
+class Identity:
+    def __init__(self) -> None:
+        self.allowed = True
+        self.after_run = True
+        self.calls = 0
+        self.admission_checks = 1
 
     async def check(self, actor: Actor, operation: str) -> bool:
-        if self.inputs is not None:
-            cast(dict[str, object], self.inputs["value"])["nested"] = (
-                "changed during authority"
-            )
-        if self.wait is not None:
-            await self.wait.wait()
-        return not self.revoked and operation == "inspect" and bool(actor.subject)
+        self.calls += 1
+        return self.allowed if self.calls <= self.admission_checks else self.after_run
 
 
-class Capture:
+class Observations:
     def __init__(self) -> None:
-        self.outcomes: list[tuple[str, str, str]] = []
+        self.events: list[tuple[str, str]] = []
+        self.fail = False
 
     @asynccontextmanager
     async def scope(
         self, actor: Actor, operation: str, invocation: str
-    ) -> AsyncGenerator[None]:
+    ) -> AsyncGenerator[None, None]:
         yield
 
     async def capture(
         self, actor: Actor, operation: str, invocation: str, status: str, mutation: bool
     ) -> None:
-        self.outcomes.append((actor.kind, actor.subject, status))
+        if self.fail:
+            raise OSError("sink down")
+        self.events.append((operation, status))
 
 
-class Inspect:
-    calls = 0
-
-    async def prepare(self) -> None:
-        pass
-
-    async def invoke(self, call: OperationCall) -> OperationOutcome:
-        self.calls += 1
-        return OperationOutcome(
-            "succeeded",
-            "",
-            {
-                "inputs": dict(call.inputs),
-                "kind": call.actor.kind,
-                "subject": call.actor.subject,
-                "request": call.scope.request_id if call.scope else None,
-            },
-        )
-
-    async def aclose(self) -> None:
-        pass
-
-
-class NestedInspect:
+class Execution:
     def __init__(self) -> None:
-        self.host: Host | None = None
-        self.inner_started, self.inner_release = asyncio.Event(), asyncio.Event()
-        self.outer_started, self.outer_release = asyncio.Event(), asyncio.Event()
-        self.cancelled = asyncio.Event()
-        self.closes = 0
-        self.received: list[OperationCall] = []
+        self.prepared = 0
+        self.closed = 0
+        self.fail_prepare = False
+        self.error: Exception | None = None
+        self.delay = 0.0
+        self.running = 0
+        self.peak = 0
 
     async def prepare(self) -> None:
-        pass
+        self.prepared += 1
+        if self.fail_prepare:
+            raise RuntimeError("cannot prepare")
 
     async def invoke(self, call: OperationCall) -> OperationOutcome:
-        self.received.append(call)
-        mode = call.inputs.get("mode")
-        if mode == "outer_capacity":
-            await cast(Host, self.host).invoke(
-                OperationCall("inspect", {"mode": "inner"}, call.actor)
-            )
-        elif mode == "inner":
-            self.inner_started.set()
-            await self.inner_release.wait()
-        elif mode == "outer_drain":
-            await cast(Host, self.host).invoke(
-                OperationCall("inspect", {"mode": "inner_done"}, call.actor)
-            )
-            self.outer_started.set()
-            try:
-                await self.outer_release.wait()
-            except asyncio.CancelledError:
-                self.cancelled.set()
-                while not self.outer_release.is_set():
-                    try:
-                        await asyncio.shield(self.outer_release.wait())
-                    except asyncio.CancelledError:
-                        pass
-        return OperationOutcome("succeeded", "", {})
+        self.running += 1
+        self.peak = max(self.peak, self.running)
+        try:
+            await asyncio.sleep(self.delay)
+            if self.error is not None:
+                raise self.error
+            return OperationOutcome("succeeded", "ignored", {"echo": call.operation})
+        finally:
+            self.running -= 1
 
     async def aclose(self) -> None:
-        self.closes += 1
+        self.closed += 1
 
 
-class SelectedInspect(Inspect):
-    def __init__(self, label: str | None = "fabricated") -> None:
-        self.value: Mapping[str, object] | None = (
-            None if label is None else {"string": label}
+class Fixture:
+    def __init__(
+        self,
+        *,
+        max_concurrency: int = 2,
+        timeout: float = 1.0,
+        ownership: str = "owned",
+    ) -> None:
+        self.identity, self.observations = Identity(), Observations()
+        self.execution = Execution()
+        self.host = Host(
+            HostConfig(ARTIFACT, OPERATIONS, max_concurrency, timeout),
+            HostServices(self.identity, self.observations, self.execution, ownership),
         )
 
-    async def invoke_selected(
-        self, call: OperationCall, selection: Selection
-    ) -> OperationOutcome:
-        return OperationOutcome(
-            "succeeded",
-            "",
-            {
-                "version": "batten.selected-result/1",
-                "kind": selection.kind,
-                "items": [
-                    None
-                    if index == 1
-                    else {
-                        "key": {
-                            "record": key.record,
-                            "keyId": key.key_id,
-                            "components": key.components,
-                        },
-                        "fields": [
-                            {"field": field, "value": self.value}
-                            for field in selection.fields
-                        ],
-                    }
-                    for index, key in enumerate(selection.keys)
-                ],
-            },
+    async def running(self) -> Host:
+        await self.host.start()
+        assert await self.host.admit(ARTIFACT)
+        return self.host
+
+
+def call(operation: str, key: str | None = None) -> OperationCall:
+    return OperationCall(operation, {}, ALEX, key)
+
+
+@pytest.mark.parametrize(("concurrency", "timeout"), [(0, 1.0), (1, 0.0), (1, -1.0)])
+def test_non_positive_limits_are_rejected(concurrency: int, timeout: float) -> None:
+    with pytest.raises(ValueError, match="limits"):
+        Fixture(max_concurrency=concurrency, timeout=timeout)
+
+
+def test_duplicate_operations_and_unknown_ownership_are_rejected() -> None:
+    services = HostServices(Identity(), Observations(), Execution())
+    with pytest.raises(ValueError):
+        create_host(
+            HostConfig(ARTIFACT, (*OPERATIONS, OPERATIONS[0]), 1, 1.0), services
         )
+    with pytest.raises(ValueError):
+        Fixture(ownership="shared")
 
 
-@pytest.fixture
-def lintel_exposure() -> ExposureOperation:
-    record, label = (
-        ElementRef("fabricated", "record"),
-        ElementRef("fabricated", "label"),
-    )
-    return ExposureOperation(
-        OperationRef("fabricated", "inspect", "table"),
-        "inspect",
-        ("get_many",),
-        record,
-        "id",
-        (label,),
-        ("string",),
-        ((label, "string"),),
-        nullable_fields=(label,),
-    )
+async def test_invoke_before_admission_is_refused() -> None:
+    fixture = Fixture()
+    await fixture.host.start()
+    outcome = await fixture.host.invoke(call("read"))
+    assert (outcome.status, outcome.code) == ("denied", "not_admitted")
+    assert not await fixture.host.admit(ArtifactRef("app-1", "other"))
+    assert await fixture.host.readiness() == "running"
 
 
-@pytest.fixture
-def lintel_key(lintel_exposure: ExposureOperation) -> NodeKey:
-    return NodeKey(lintel_exposure.record, "id", ({"string": "fabricated-key"},))
+async def test_successful_call_keeps_the_caller_key_and_records_both_phases() -> None:
+    host = await Fixture().running()
+    outcome = await host.invoke(call("read", KEY))
+    assert (outcome.status, outcome.invocation) == ("succeeded", KEY)
+    assert dict(outcome.result) == {"echo": "read"}
+    observations = host.services.observations
+    assert isinstance(observations, Observations)
+    assert observations.events == [("read", "started"), ("read", "succeeded")]
 
 
-@pytest.fixture
-def local_runtime(tmp_path: Path) -> LocalRuntime:
-    application = LocalApplication(
-        AppListing(
-            "fabricated", "Fabricated", "Fabricated authority fixture", "icon.svg"
-        ),
-        ArtifactRef("fabricated-app", "fabricated-digest"),
-        tmp_path / "model.json",
-        tmp_path,
-        (Operation("inspect", False),),
-        {"fabricated-actor": {"profile": {}, "operations": ["inspect"]}},
-        {"fabricated-actor": "fixture_role"},
-        {},
-        {},
-        lambda _tables, _subjects: Inspect(),
-    )
-    return LocalRuntime(application, LocalSettings(tmp_path, 8820, 2, 10, 1024, 4, 60))
+async def test_unknown_operation_malformed_key_and_denied_actor_are_refused() -> None:
+    fixture = Fixture()
+    host = await fixture.running()
+    unknown = await host.invoke(call("delete"))
+    assert (unknown.status, unknown.code) == ("denied", "not_admitted")
+    malformed = await host.invoke(call("read", "NOT A KEY"))
+    assert (malformed.status, malformed.code) == ("invalid", "invalid_key")
+    fixture.identity.allowed = False
+    denied = await host.invoke(call("read"))
+    assert (denied.status, denied.code) == ("denied", "denied")
+    assert fixture.execution.peak == 0
 
 
 @pytest.mark.parametrize(
-    "execution", [Inspect(), SelectedInspect(), SelectedInspect(None)]
+    ("operation", "admission_checks", "status", "dispatched"),
+    [("read", 1, "denied", 1), ("write", 1, "denied", 0), ("write", 2, "uncertain", 1)],
 )
-async def test_invocation_scope_preserves_authority_and_attribution(
-    local_runtime: LocalRuntime,
-    execution: Inspect,
-    lintel_exposure: ExposureOperation,
-    lintel_key: NodeKey,
+async def test_authority_revoked_during_a_call(
+    operation: str, admission_checks: int, status: str, dispatched: int
 ) -> None:
-    """@covers HOST-01 @covers HOST-04 @covers HOST-05"""
-    artifact = ArtifactRef("fabricated-app", "fabricated-digest")
-    authority, capture, clock = Authority(), Capture(), [1000.0]
-    verified = Actor(
-        "fabricated-actor", local_runtime.identities.login("fabricated-actor")
+    fixture = Fixture()
+    fixture.identity.admission_checks = admission_checks
+    fixture.identity.after_run = False
+    outcome = await (await fixture.running()).invoke(call(operation))
+    assert (outcome.status, outcome.code, fixture.execution.peak) == (
+        status,
+        "authority_revoked",
+        dispatched,
     )
-    for candidate in (
-        verified,
-        replace(verified, kind="batch"),
-        replace(verified, kind="service"),
-        replace(verified, delegation="unverified-reference"),
-    ):
-        assert await local_runtime.host.services.identity.check(
-            candidate, "inspect"
-        ) == (candidate == verified)
-    host = create_host(
-        HostConfig(artifact, (Operation("inspect", False, ("get_many",)),), 2, 10),
-        HostServices(authority, capture, execution, monotonic=lambda: clock[0]),
-    )
-    async with host:
-        assert await host.admit(artifact)
-
-        api = LintelExecution(
-            host,
-            ExposureConfig(artifact, "a" * 64, "b" * 64, (lintel_exposure,), {}),
-            native_fixture(),
-        )
-        for kind in ("person", "batch", "service"):
-            actor = Actor("fabricated-actor", kind=kind)
-            scope = await host.open_scope(actor, kind, api_digest="a" * 64)
-            authority.inputs = {
-                "value": {"nested": "original"},
-                "key": SelectedKey(
-                    ("fabricated", "record"), "id", ({"string": "fabricated-key"},)
-                ),
-            }
-            call = OperationCall("inspect", authority.inputs, actor, scope=scope)
-            result = await host.invoke(call)
-            assert result.status == "succeeded" and result.result == {
-                "inputs": {
-                    "value": {"nested": "original"},
-                    "key": SelectedKey(
-                        ("fabricated", "record"), "id", ({"string": "fabricated-key"},)
-                    ),
-                },
-                "kind": kind,
-                "subject": actor.subject,
-                "request": kind,
-            }
-            async with api.session(
-                RequestScope(
-                    artifact.id,
-                    "a" * 64,
-                    "query",
-                    scope,
-                    kind,
-                    scope.deadline_monotonic,
-                )
-            ) as session:
-                if isinstance(execution, SelectedInspect):
-                    rows = await session.get_many(
-                        lintel_exposure.ref,
-                        (lintel_key, lintel_key, lintel_key),
-                        lintel_exposure.fields,
-                    )
-                    assert (
-                        rows[0] == rows[2]
-                        and rows[1] is None
-                        and rows[0] is not None
-                        and rows[0].fields
-                        == {lintel_exposure.fields[0]: execution.value}
-                    )
-                else:
-                    with pytest.raises(ExecutionError, match="UNSUPPORTED"):
-                        await session.get_many(
-                            lintel_exposure.ref, (lintel_key,), lintel_exposure.fields
-                        )
-            assert (
-                await host.invoke(call, selection=Selection("connection", first=0))
-            ).code == "unsupported_selection"
-            invalid = (
-                replace(scope, application=ArtifactRef("foreign", "different")),
-                replace(scope, principal=replace(actor, subject="other")),
-                replace(scope, lease_id=""),
-                replace(scope, deadline_monotonic=float("nan")),
-                replace(scope),
-            )
-            for candidate in invalid:
-                assert not host.scope_active(candidate)
-                outcome = await host.invoke(replace(call, scope=candidate))
-                assert (outcome.status, outcome.code, outcome.result) == (
-                    "denied",
-                    "scope_invalid",
-                    {},
-                )
-            for revoked, advance, status, code in (
-                (True, 0, "denied", "denied"),
-                (False, 11, "unavailable", "deadline_exceeded"),
-            ):
-                authority.revoked = revoked
-                clock[0] += advance
-                denied = await host.invoke(call)
-                assert (denied.status, denied.code, denied.result) == (status, code, {})
-            assert not host.scope_active(scope)
-            assert (await host.close_scope(scope)).state == "closed" and (
-                await host.invoke(call)
-            ).code == "scope_invalid"
-        scope = await host.open_scope(
-            actor, "authority-timeout", deadline_monotonic=clock[0] + 0.01
-        )
-        before, authority.wait = execution.calls, asyncio.Event()
-        outcome = await host.invoke(replace(call, scope=scope))
-        assert (outcome.status, outcome.code, outcome.result, execution.calls) == (
-            "unavailable",
-            "deadline_exceeded",
-            {},
-            before,
-        )
-        assert (await host.close_scope(scope)).state == "closed" and [
-            entry for entry in capture.outcomes if entry[2] == "succeeded"
-        ] == [
-            (kind, "fabricated-actor", "succeeded")
-            for kind in ("person", "batch", "service")
-            for _ in range(2 if isinstance(execution, SelectedInspect) else 1)
-        ]
-    assert (await host.invoke(call)).code == "not_admitted"
 
 
-async def test_nested_invocations_count_and_drain_independently() -> None:
-    artifact = ArtifactRef("nested-app", "nested-digest")
-    executor = NestedInspect()
-    host = create_host(
-        HostConfig(artifact, (Operation("inspect", False),), 2, 1),
-        HostServices(Authority(), Capture(), executor, ownership="owned"),
-    )
-    executor.host = host
-    async with host:
-        assert await host.admit(artifact)
-        actor = Actor("nested-actor")
-        wide_mapping = {"items": tuple(range(5_000))}
-        page_wire_call = OperationCall("inspect", wide_mapping, actor)
-        assert (await host.invoke(page_wire_call)).status == "succeeded"
-        assert executor.received[-1].inputs == {"items": list(range(5_000))}
-        provider_call_count = len(executor.received)
-        oversized_call = OperationCall(
-            "inspect", {"too_many": tuple(range(16_400))}, actor
-        )
-        refused = await host.invoke(oversized_call)
-        assert (refused.status, refused.code) == ("invalid", "invalid_inputs")
-        assert len(executor.received) == provider_call_count
-        outer = asyncio.create_task(
-            host.invoke(OperationCall("inspect", {"mode": "outer_capacity"}, actor))
-        )
-        await executor.inner_started.wait()
-        limited = await host.invoke(OperationCall("inspect", {"mode": "idle"}, actor))
-        assert (limited.status, limited.code) == ("unavailable", "limit_exceeded")
-        executor.inner_release.set()
-        assert (await outer).status == "succeeded"
+@pytest.mark.parametrize(
+    ("operation", "status"), [("read", "unavailable"), ("write", "uncertain")]
+)
+async def test_provider_failure_never_claims_a_mutation_failed(
+    operation: str, status: str
+) -> None:
+    fixture = Fixture()
+    fixture.execution.error = RuntimeError("database gone")
+    outcome = await (await fixture.running()).invoke(call(operation))
+    assert (outcome.status, outcome.code) == (status, "provider_unavailable")
 
-        draining = asyncio.create_task(
-            host.invoke(OperationCall("inspect", {"mode": "outer_drain"}, actor))
-        )
-        await executor.outer_started.wait()
+
+@pytest.mark.parametrize(
+    ("operation", "status"), [("read", "unavailable"), ("write", "uncertain")]
+)
+async def test_timeout(operation: str, status: str) -> None:
+    fixture = Fixture(timeout=0.05)
+    fixture.execution.delay = 1.0
+    outcome = await (await fixture.running()).invoke(call(operation))
+    assert (outcome.status, outcome.code) == (status, "timeout")
+
+
+async def test_unavailable_observation_sink_stops_the_call() -> None:
+    fixture = Fixture()
+    host = await fixture.running()
+    fixture.observations.fail = True
+    outcome = await host.invoke(call("write"))
+    assert (outcome.status, outcome.code) == ("unavailable", "capture_unavailable")
+    assert fixture.execution.peak == 0
+
+
+async def test_concurrency_is_bounded_by_the_configured_limit() -> None:
+    fixture = Fixture(max_concurrency=2)
+    fixture.execution.delay = 0.05
+    fixture.identity.after_run = True
+    host = await fixture.running()
+    outcomes = await asyncio.gather(*(host.invoke(call("read")) for _ in range(5)))
+    statuses = sorted(o.status for o in outcomes)
+    assert statuses == [
+        "succeeded",
+        "succeeded",
+        "unavailable",
+        "unavailable",
+        "unavailable",
+    ]
+    assert {o.code for o in outcomes if o.status == "unavailable"} == {"limit_exceeded"}
+    assert fixture.execution.peak == 2
+
+
+async def test_close_reports_state_refuses_later_calls_and_honours_ownership() -> None:
+    owned, borrowed = Fixture(ownership="owned"), Fixture(ownership="borrowed")
+    for fixture in (owned, borrowed):
+        host = await fixture.running()
         report = await host.aclose()
-        assert report.state == "draining"
-        assert executor.cancelled.is_set() and executor.closes == 0
-        executor.outer_release.set()
-        assert (await draining).status == "denied"
+        assert (report.state, report.retained_resources) == ("closed", ("app-1",))
+        refused = await host.invoke(call("read"))
+        assert (refused.status, refused.code) == ("denied", "not_admitted")
         assert (await host.aclose()).state == "closed"
-        assert executor.closes == 1
+    assert (owned.execution.closed, borrowed.execution.closed) == (1, 0)
+
+
+async def test_async_with_starts_and_closes_and_cannot_restart() -> None:
+    fixture = Fixture()
+    async with fixture.host as host:
+        assert await host.readiness() == "running"
+        await host.start()
+        assert fixture.execution.prepared == 1
+    assert await fixture.host.readiness() == "closed"
+    with pytest.raises(RuntimeError, match="restart"):
+        await fixture.host.start()
+
+
+async def test_failed_prepare_closes_the_host_and_propagates() -> None:
+    fixture = Fixture()
+    fixture.execution.fail_prepare = True
+    with pytest.raises(RuntimeError, match="cannot prepare"):
+        await fixture.host.start()
+    assert await fixture.host.readiness() == "closed"
+    assert fixture.execution.closed == 1
+
+
+async def test_close_cancels_in_flight_calls_and_marks_a_mutation_uncertain() -> None:
+    fixture = Fixture(timeout=5.0)
+    fixture.execution.delay = 5.0
+    host = await fixture.running()
+    task = asyncio.create_task(host.invoke(call("write")))
+    await asyncio.sleep(0.05)
+    assert (await host.aclose()).state == "closed"
+    with pytest.raises(asyncio.CancelledError):
+        await task
+    assert fixture.observations.events[-1] == ("write", "uncertain")
