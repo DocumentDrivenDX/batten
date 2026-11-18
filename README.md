@@ -1,6 +1,6 @@
 # Batten
 
-Batten is a small Python application SDK from Novirhyza. You declare tables and
+Batten is a small Python application SDK from [Novirhyza](https://documentdrivendx.github.io/novirhyza/). You declare tables and
 operations once; Batten hosts them behind a public operation API with identity,
 audit capture, bounded concurrency and an ASGI transport, on top of UMF and Weft
 tables stored in PostgreSQL 18.

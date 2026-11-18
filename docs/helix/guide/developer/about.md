@@ -1,6 +1,6 @@
 <!-- helix:publish audience=developer page=about kind=explanation voice=onboarding budget=600 reviewed=2026-11-03/microsite_dependency_reader/9ee51d5ee1a68955 -->
 <!-- helix:source .helix.yml sha256:6747bb82a643f84b -->
-<!-- helix:source docs/helix/site/build.py sha256:933642f6e4408d89 -->
+<!-- helix:source docs/helix/site/build.py sha256:3ecfac6623144f15 -->
 
 # How this guide is made
 
